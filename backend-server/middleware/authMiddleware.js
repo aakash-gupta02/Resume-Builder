@@ -6,18 +6,25 @@ dotenv.config()
 
 export const protect = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1]; // "Bearer TOKEN"
-
-    if (!token) return res.status(401).json({ message: "Not authorized" });
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, token missing" });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.userId).select("-password");
+    // console.log("Decoded:", decoded);
+
+    const user = await User.findById(decoded.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    req.user = user;
+    // console.log("User attached to req:", req.user);
     next();
-
-    // console.log("Decoded Token: ", decoded);
-
-
   } catch (err) {
+    console.error("Auth error:", err.message);
     res.status(401).json({ message: "Token failed or expired" });
   }
 };
+

@@ -23,9 +23,9 @@ const resumeSchema = new mongoose.Schema(
     },
 
     profileInfo: {
-      fullName: { type: String, required: true },
+      fullName: { type: String},
       title: { type: String }, // e.g., Web Developer
-      email: { type: String, required: true },
+      email: { type: String },
       phone: { type: String },
       address: { type: String },
       summary: { type: String }, // about me
