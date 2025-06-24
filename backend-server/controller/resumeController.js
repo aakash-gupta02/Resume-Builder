@@ -146,6 +146,31 @@ export const updateResume = async (req, res) => {
   }
 };
 
+export const deleteResume = async (req, res)=>{
+  try {
+    const { id } = req.params
+
+    
+    const resume = await Resume1.findById(id);
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    if (resume.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized to update this resume" });
+    }
+
+
+    const deletedResume = await Resume1.findByIdAndDelete(id)
+    res.status(200).json({message:"Deleted Successfully", deletedResume })
+
+
+  } catch (error) {
+    console.log("Error Deleting Resume", error );
+    res.status(400).json({message:"Internal Server Error"})
+    
+  }
+}
 
 export const getResume = async (req, res) => {
   try {
