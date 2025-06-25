@@ -1,5 +1,6 @@
 import express from "express"
 import "./config/db.js"
+import cors from "cors"
 import {protect} from "./middleware/authMiddleware.js"
 
 import userRoute from "./routes/userRoute.js"
@@ -9,6 +10,7 @@ const app = express()
 const PORT = 3000;
 
 app.use(express.json())
+app.use(cors())
 
 app.get("/", (req,res)=>{
     res.send("Hello to JobFolio")
