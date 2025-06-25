@@ -1,13 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const Register = () => {
-//   const { login } = useAuth();
+const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    username: "",
     email: "",
     password: "",
   });
@@ -25,13 +25,18 @@ const Register = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/auth/register",
+        "http://localhost:3000/auth/login",
         form
       );
 
+      console.log(data);
+      
+      login(data.user, data.token); 
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      setError(
+        err.response?.data?.message || "Login failed. Check your credentials."
+      );
     } finally {
       setLoading(false);
     }
@@ -40,7 +45,7 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white shadow-xl p-8 rounded-xl">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Register</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Login</h2>
 
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-2 mb-4 rounded">
@@ -49,18 +54,6 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
-            <input
-              type="text"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -90,19 +83,19 @@ const Register = () => {
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             disabled={loading}
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
+          Don't have an account?{" "}
           <a onClick={()=>{
-            navigate("/login")
-          }} className="text-blue-500 hover:underline">Login</a>
+            navigate("/register")
+          }} className="text-blue-500 hover:underline">Register</a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Register;
+export default Login;
