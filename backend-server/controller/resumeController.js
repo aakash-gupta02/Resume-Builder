@@ -146,6 +146,7 @@ export const updateResume = async (req, res) => {
   }
 };
 
+
 export const deleteResume = async (req, res)=>{
   try {
     const { id } = req.params
@@ -172,6 +173,8 @@ export const deleteResume = async (req, res)=>{
   }
 }
 
+
+// all resume
 export const getResume = async (req, res) => {
   try {
     const allResume = await resume.find({ userId: req.user._id });
@@ -183,7 +186,7 @@ export const getResume = async (req, res) => {
   }
 };
 
-
+// one resume
 export const oneResume = async (req,res) =>{
     const {id} = req.params
     try {
