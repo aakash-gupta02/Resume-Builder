@@ -23,7 +23,7 @@ const handleSubmit = async (e) => {
       userId: user._id,
     };
 
-    const res = await axios.post("http://localhost:3000/api/resumes", payload, {
+    const res = await axios.post("http://localhost:3000/resume/create", payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -41,7 +41,7 @@ const handleSubmit = async (e) => {
   return (
     <div className="flex gap-6 px-8 py-6">
 
-        
+
       {/* Left: Form Sections */}
       <div className="w-[40%] space-y-4 overflow-y-auto h-[90vh] pr-4">
         <ProfileSection />

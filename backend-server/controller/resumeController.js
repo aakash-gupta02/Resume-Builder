@@ -3,8 +3,7 @@ import Resume1 from "../models/resumeModel.js";
 
 export const createResume = async (req, res) => {
   try {
-    const count = await resume.countDocuments({ userId: req.user._id });
-    const title = `Resume ${count + 1}`;
+   
 
     const defaultResumeData = {
       thumbnailLink: "",
@@ -90,13 +89,16 @@ export const createResume = async (req, res) => {
           progress: 0,
         },
       ],
-    };
+    }; 
+
+    const count = await resume.countDocuments({ userId: req.user._id });
+    const title = `Resume ${count + 1}`;
 
     const newResume = await resume.create({
-      userId: req.user.id, // comes from protect middleware
-      title,
+      userId: req.user.id,
       ...defaultResumeData,
       ...req.body,
+      title,
     });
 
     res.status(201).json({
