@@ -1,19 +1,12 @@
 import resume from "../models/resumeModel.js";
 import Resume1 from "../models/resumeModel.js";
 
-
-
 export const createResume = async (req, res) => {
   try {
-    const { title } = req.body;
-
-    // Check if required fields are present
-    if (!title || !req.user?.id) {
-      return res.status(400).json({ message: "Missing title or user authentication" });
-    }
+    const count = await resume.countDocuments({ userId: req.user._id });
+    const title = `Resume ${count + 1}`;
 
     const defaultResumeData = {
-
       thumbnailLink: "",
 
       template: {
@@ -99,12 +92,11 @@ export const createResume = async (req, res) => {
       ],
     };
 
-    // Create the resume with default + provided fields
     const newResume = await resume.create({
       userId: req.user.id, // comes from protect middleware
       title,
       ...defaultResumeData,
-      ...req.body, 
+      ...req.body,
     });
 
     res.status(201).json({
@@ -117,11 +109,10 @@ export const createResume = async (req, res) => {
   }
 };
 
-
 export const updateResume = async (req, res) => {
   try {
-    const { id } = req.params; 
-    const updates = req.body;  
+    const { id } = req.params;
+    const updates = req.body;
 
     const resume = await Resume1.findById(id);
     if (!resume) {
@@ -129,7 +120,9 @@ export const updateResume = async (req, res) => {
     }
 
     if (resume.userId.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to update this resume" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this resume" });
     }
 
     Object.assign(resume, updates);
@@ -139,40 +132,34 @@ export const updateResume = async (req, res) => {
       message: "Resume updated successfully",
       resume: updatedResume,
     });
-
   } catch (error) {
     console.error("Update Resume Error:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-
-export const deleteResume = async (req, res)=>{
+export const deleteResume = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
 
-    
     const resume = await Resume1.findById(id);
     if (!resume) {
       return res.status(404).json({ message: "Resume not found" });
     }
 
     if (resume.userId.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to update this resume" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this resume" });
     }
 
-
-    const deletedResume = await Resume1.findByIdAndDelete(id)
-    res.status(200).json({message:"Deleted Successfully", deletedResume })
-
-
+    const deletedResume = await Resume1.findByIdAndDelete(id);
+    res.status(200).json({ message: "Deleted Successfully", deletedResume });
   } catch (error) {
-    console.log("Error Deleting Resume", error );
-    res.status(400).json({message:"Internal Server Error"})
-    
+    console.log("Error Deleting Resume", error);
+    res.status(400).json({ message: "Internal Server Error" });
   }
-}
-
+};
 
 // all resume
 export const getResume = async (req, res) => {
@@ -187,14 +174,14 @@ export const getResume = async (req, res) => {
 };
 
 // one resume
-export const oneResume = async (req,res) =>{
-    const {id} = req.params
-    try {
-       const resume1 = await resume.findById({id})
+export const oneResume = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const resume1 = await resume.findById({ id });
 
-       res.status(200).json(resume1)
-    } catch (error) {
-            console.log(error);
+    res.status(200).json(resume1);
+  } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Internal Server Error" });
-    }
-}
+  }
+};
