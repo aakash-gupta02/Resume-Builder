@@ -4,6 +4,7 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import Test from "./components/Test";
 import CreateResume from "./pages/CreateResume";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -14,6 +15,10 @@ const App = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/dashboard" element={ <Dashboard/> }  />
+
+        
         <Route path="/resume/create" element={<CreateResume />} />
       </Routes>
     </div>

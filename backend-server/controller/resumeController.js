@@ -168,7 +168,7 @@ export const getResume = async (req, res) => {
   try {
     const allResume = await resume.find({ userId: req.user._id });
 
-    res.status(200).json({ allResume });
+    res.status(200).json({ resume : allResume });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Internal Server Error" });
