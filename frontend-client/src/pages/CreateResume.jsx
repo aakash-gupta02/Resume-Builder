@@ -11,6 +11,11 @@ import ProfileInfoSection from "../components/resume/ProfileInfoSection";
 import ContactLinksSection from "../components/resume/ContactLinkSection";
 import EducationSection from "../components/resume/EducationSection";
 import ExperienceSection from "../components/resume/ExperienceSection";
+import CertificationsSection from "../components/resume/CertificationsSection";
+import AchievementsSection from "../components/resume/AchievementsSection";
+import LanguagesSection from "../components/resume/LanguagesSection";
+import HobbiesSection from "../components/resume/HobbiesSection";
+import ProjectsSection from "../components/resume/ProjectsSection";
 
 const CreateResume = () => {
 
@@ -51,8 +56,13 @@ const handleSubmit = async (e) => {
         <ProfileInfoSection/>
         <ContactLinksSection/>
         <SkillsSection />
-        <EducationSection/>
+        <ProjectsSection/>
         <ExperienceSection/>
+        <EducationSection/>
+        <CertificationsSection/>
+        <AchievementsSection/>
+        <LanguagesSection/>
+        <HobbiesSection/>
 
 
         <button
