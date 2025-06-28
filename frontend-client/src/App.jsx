@@ -8,6 +8,7 @@ import CreateResume from "./pages/CreateResume";
 const App = () => {
   return (
     <div>
+      <Test/>
       <Routes>
         <Route path="/" element={<Test />} />
 

@@ -5,8 +5,12 @@ import { useResume } from "../context/ResumeContext";
 
 
 import ProfileSection from "../components/resume/ProfileSection";
-// import SkillsSection from "../components/resume/SkillsSection";
+import SkillsSection from "../components/resume/SkillsSection";
 import ResumePreview from "../components/resume/ResumePreview";
+import ProfileInfoSection from "../components/resume/ProfileInfoSection";
+import ContactLinksSection from "../components/resume/ContactLinkSection";
+import EducationSection from "../components/resume/EducationSection";
+import ExperienceSection from "../components/resume/ExperienceSection";
 
 const CreateResume = () => {
 
@@ -44,8 +48,11 @@ const handleSubmit = async (e) => {
 
       {/* Left: Form Sections */}
       <div className="w-[40%] space-y-4 overflow-y-auto h-[90vh] pr-4">
-        <ProfileSection />
-        {/* <SkillsSection /> */}
+        <ProfileInfoSection/>
+        <ContactLinksSection/>
+        <SkillsSection />
+        <EducationSection/>
+        <ExperienceSection/>
 
 
         <button
