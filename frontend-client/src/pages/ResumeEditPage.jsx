@@ -53,8 +53,6 @@ const ResumeEditPage = () => {
     };
   }, [id, setResumeData]);
 
-
-  
   const updateLoad = {
     ...resumeData,
     // userID:
@@ -72,17 +70,32 @@ const ResumeEditPage = () => {
         }
       );
       console.log("Updated Successfully");
-
-      console.log(res);
+      console.log(res.data);
     } catch (error) {
       console.error("Error loading resume:", error);
     }
   };
 
+
+  const handleDownload = () =>{
+    window.print()
+  }
+
   return (
     <div className="flex gap-6 px-8 py-6">
+      
       {/* Left: Form Sections */}
       <div className="w-[40%] space-y-4 overflow-y-auto h-[90vh] pr-4">
+
+
+        <button
+          onClick={handleDownload}
+          className="mt-6 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Download
+        </button>
+
+
         <ProfileInfoSection />
         <ContactLinksSection />
         <SkillsSection />
