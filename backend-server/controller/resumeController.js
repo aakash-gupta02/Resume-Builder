@@ -25,9 +25,9 @@ export const createResume = async (req, res) => {
 
     const newResume = await Resume.create({
       userId: req.user._id,
-      title,
       ...defaultResumeData,
       ...req.body,
+      title,
     });
 
     res.status(201).json({

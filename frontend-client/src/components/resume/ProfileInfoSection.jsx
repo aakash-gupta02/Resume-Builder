@@ -13,8 +13,16 @@ const ProfileInfoSection = () => {
     });
   };
 
-  const { fullName, title, email, phone, address, summary, profileImage } =
-    resumeData.profileInfo;
+  const {
+  fullName = "",
+  title = "",
+  email = "",
+  phone = "",
+  address = "",
+  summary = "",
+  profileImage = "",
+} = resumeData.profileInfo || {};
+
 
   return (
     <div className="space-y-3">

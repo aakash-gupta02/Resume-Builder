@@ -19,7 +19,7 @@ const LanguagesSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Languages</h2>
-      {resumeData.languages.map((lang, index) => (
+      {resumeData.languages?.map((lang, index) => (
         <div key={index} className="space-y-2">
           <input name="name" value={lang.name} onChange={(e) => handleChange(index, e)} placeholder="Language" className="input" />
           <input name="progress" type="number" value={lang.progress} onChange={(e) => handleChange(index, e)} placeholder="Proficiency (0–100)" className="input" />

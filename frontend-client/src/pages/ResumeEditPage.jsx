@@ -36,7 +36,10 @@ const ResumeEditPage = () => {
           }
         );
 
-        setResumeData(res.data);
+        setResumeData(res.data.resume);
+
+        console.log("response data: ", res.data );
+        
 
         console.log(resumeData);
       } catch (err) {

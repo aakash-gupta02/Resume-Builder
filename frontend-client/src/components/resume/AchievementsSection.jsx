@@ -19,7 +19,7 @@ const AchievementsSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Achievements</h2>
-      {resumeData.achievements.map((item, index) => (
+      {resumeData.achievements?.map((item, index) => (
         <input key={index} value={item} onChange={(e) => handleChange(index, e)} placeholder="Achievement" className="input" />
       ))}
       <button onClick={addAchievement} className="btn">+ Add Achievement</button>

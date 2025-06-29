@@ -31,7 +31,7 @@ const EducationSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Education</h2>
-      {resumeData.education.map((edu, index) => (
+      {resumeData.education?.map((edu, index) => (
         <div key={index} className="space-y-2">
           <input name="institute" value={edu.institute} onChange={(e) => handleChange(index, e)} placeholder="Institute" className="input" />
           <input name="degree" value={edu.degree} onChange={(e) => handleChange(index, e)} placeholder="Degree" className="input" />

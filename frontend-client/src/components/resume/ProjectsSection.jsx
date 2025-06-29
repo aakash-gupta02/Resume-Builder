@@ -28,7 +28,7 @@ const ProjectsSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Projects</h2>
-      {resumeData.projects.map((proj, index) => (
+      {resumeData.projects?.map((proj, index) => (
         <div key={index} className="space-y-2">
           <input
             name="name"

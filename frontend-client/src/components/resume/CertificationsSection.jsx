@@ -21,7 +21,7 @@ const CertificationsSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Certifications</h2>
-      {resumeData.certifications.map((cert, index) => (
+      {resumeData.certifications?.map((cert, index) => (
         <div key={index} className="space-y-2">
           <input name="name" value={cert.name} onChange={(e) => handleChange(index, e)} placeholder="Name" className="input" />
           <input name="issuer" value={cert.issuer} onChange={(e) => handleChange(index, e)} placeholder="Issuer" className="input" />

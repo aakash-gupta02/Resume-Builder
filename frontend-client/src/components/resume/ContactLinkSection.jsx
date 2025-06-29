@@ -12,7 +12,7 @@ const ContactLinksSection = () => {
     });
   };
 
-  const { website, linkedIn, github, leetcode } = resumeData.contactLinks;
+  const { website = "", linkedIn = "", github = "", leetcode = "" } = resumeData.contactLinks || {} ;
 
   return (
     <div className="space-y-3">

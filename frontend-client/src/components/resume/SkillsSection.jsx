@@ -64,7 +64,7 @@ const SkillsSection = () => {
           </div>
 
           <div className="flex flex-wrap gap-2 mt-2">
-            {resumeData.skills[type].map((skill, index) => (
+            {resumeData.skills?.[type]?.map((skill, index) => (
               <span
                 key={index}
                 className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1"

@@ -21,7 +21,7 @@ const ExperienceSection = () => {
   return (
     <div className="space-y-3">
       <h2 className="text-xl font-semibold">Experience</h2>
-      {resumeData.experience.map((exp, index) => (
+      {resumeData.experience?.map((exp, index) => (
         <div key={index} className="space-y-2">
           <input name="company" value={exp.company} onChange={(e) => handleChange(index, e)} placeholder="Company" className="input" />
           <input name="role" value={exp.role} onChange={(e) => handleChange(index, e)} placeholder="Role" className="input" />
