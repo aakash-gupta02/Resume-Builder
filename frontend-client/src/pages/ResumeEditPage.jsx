@@ -1,7 +1,10 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; 
+
+import CreateResume from "./CreateResume";
 import { useResume } from "../context/ResumeContext";
+import { useAuth } from "../context/AuthContext";
 
 
 import SkillsSection from "../components/resume/SkillsSection";
@@ -16,38 +19,45 @@ import LanguagesSection from "../components/resume/LanguagesSection";
 import HobbiesSection from "../components/resume/HobbiesSection";
 import ProjectsSection from "../components/resume/ProjectsSection";
 
-const CreateResume = () => {
 
-const navigate = useNavigate();
-const { token, user } = useAuth();
-const { resumeData, SetResumeData } = useResume();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const payload = {
-      ...resumeData,
-      userId: user._id,
+
+
+
+const ResumeEditPage = () => {
+  const { id } = useParams();
+  const { setResumeData, resumeData } = useResume();
+  const { token } = useAuth();
+
+  useEffect(() => {
+    const fetchResume = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/resume/getresume/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        setResumeData(res.data);
+
+        console.log(resumeData);
+      } catch (err) {
+        console.error("Error loading resume:", err);
+      }
     };
 
-    const res = await axios.post("http://localhost:3000/resume/create", payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log("Resume created:", res.data);
-
-    // Optionally redirect
-    // navigate("/dashboard");
-  } catch (error) {
-    console.error("Error creating resume:", error);
-  }
-};
+    fetchResume();
+    return () => {
+      setResumeData({});
+    };
+  }, [id, setResumeData]);
 
   return (
-    <div className="flex gap-6 px-8 py-6">
+ <div className="flex gap-6 px-8 py-6">
 
 
       {/* Left: Form Sections */}
@@ -65,10 +75,10 @@ const handleSubmit = async (e) => {
 
 
         <button
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
           className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Create Resume
+          Update  Resume
         </button>
 
 
@@ -87,4 +97,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default CreateResume;
+export default ResumeEditPage;

@@ -1,104 +1,225 @@
-import resume from "../models/resumeModel.js";
-import Resume1 from "../models/resumeModel.js";
+// import resume from "../models/resumeModel.js";
+// import Resume1 from "../models/resumeModel.js";
 
-export const createResume = async (req, res) => {
-  try {
+// export const createResume = async (req, res) => {
+//   try {
    
 
+//     const defaultResumeData = {
+//       thumbnailLink: "",
+
+//       template: {
+//         theme: "",
+//         colorPalate: [],
+//       },
+
+//       profileInfo: {
+//         fullName: "",
+//         title: "",
+//         email: "",
+//         phone: "",
+//         address: "",
+//         summary: "",
+//         profileImage: "",
+//       },
+
+//       contactLinks: {
+//         website: "",
+//         linkedIn: "",
+//         github: "",
+//         leetcode: "",
+//       },
+
+//       education: [
+//         {
+//           institute: "",
+//           degree: "",
+//           fieldOfStudy: "",
+//           startDate: "",
+//           endDate: "",
+//           grade: "",
+//           description: "",
+//         },
+//       ],
+
+//       experience: [
+//         {
+//           company: "",
+//           role: "",
+//           startDate: "",
+//           endDate: "",
+//           location: "",
+//           description: "",
+//         },
+//       ],
+
+//       projects: [
+//         {
+//           name: "",
+//           description: "",
+//           techStack: [],
+//           link: "",
+//           github: "",
+//         },
+//       ],
+
+//       skills: {
+//         technical: [],
+//         soft: [],
+//         tools: [],
+//         languages: [],
+//       },
+
+//       certifications: [
+//         {
+//           name: "",
+//           issuer: "",
+//           date: "",
+//           credentialId: "",
+//           credentialUrl: "",
+//         },
+//       ],
+
+//       hobbies: [""],
+//       achievements: [""],
+
+//       languages: [
+//         {
+//           name: "",
+//           progress: 0,
+//         },
+//       ],
+//     }; 
+
+//     const count = await resume.countDocuments({ userId: req.user._id });
+//     const title = `Resume ${count + 1}`;
+
+//     const newResume = await resume.create({
+//       userId: req.user.id,
+//       ...defaultResumeData,
+//       ...req.body,
+//       title,
+//     });
+
+//     res.status(201).json({
+//       message: "Resume created successfully",
+//       resume: newResume,
+//     });
+//   } catch (error) {
+//     console.error("Create Resume Error:", error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
+// export const updateResume = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const updates = req.body;
+
+//     const resume = await Resume1.findById(id);
+//     if (!resume) {
+//       return res.status(404).json({ message: "Resume not found" });
+//     }
+
+//     if (resume.userId.toString() !== req.user._id.toString()) {
+//       return res
+//         .status(403)
+//         .json({ message: "Unauthorized to update this resume" });
+//     }
+
+//     Object.assign(resume, updates);
+//     const updatedResume = await resume.save();
+
+//     res.status(200).json({
+//       message: "Resume updated successfully",
+//       resume: updatedResume,
+//     });
+//   } catch (error) {
+//     console.error("Update Resume Error:", error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
+// export const deleteResume = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     const resume = await Resume1.findById(id);
+//     if (!resume) {
+//       return res.status(404).json({ message: "Resume not found" });
+//     }
+
+//     if (resume.userId.toString() !== req.user.id) {
+//       return res
+//         .status(403)
+//         .json({ message: "Unauthorized to update this resume" });
+//     }
+
+//     const deletedResume = await Resume1.findByIdAndDelete(id);
+//     res.status(200).json({ message: "Deleted Successfully", deletedResume });
+//   } catch (error) {
+//     console.log("Error Deleting Resume", error);
+//     res.status(400).json({ message: "Internal Server Error" });
+//   }
+// };
+
+// // all resume
+// export const getResume = async (req, res) => {
+//   try {
+//     const allResume = await resume.find({ userId: req.user._id });
+
+//     res.status(200).json({ resume : allResume });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Internal Server Error" });
+//   }
+// };
+
+// // one resume
+// export const oneResume = async (req, res) => {
+//   try {
+//     const resume1 = await resume.findById( req.params.id);
+
+//     res.status(200).json(resume1);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({ message: "Internal Server Error" });
+//   }
+// };
+
+
+
+
+import Resume from "../models/resumeModel.js";
+
+// Create Resume
+export const createResume = async (req, res) => {
+  try {
     const defaultResumeData = {
       thumbnailLink: "",
-
-      template: {
-        theme: "",
-        colorPalate: [],
-      },
-
+      template: { theme: "", colorPalate: [] },
       profileInfo: {
-        fullName: "",
-        title: "",
-        email: "",
-        phone: "",
-        address: "",
-        summary: "",
-        profileImage: "",
+        fullName: "", title: "", email: "", phone: "", address: "", summary: "", profileImage: "",
       },
-
-      contactLinks: {
-        website: "",
-        linkedIn: "",
-        github: "",
-        leetcode: "",
-      },
-
-      education: [
-        {
-          institute: "",
-          degree: "",
-          fieldOfStudy: "",
-          startDate: "",
-          endDate: "",
-          grade: "",
-          description: "",
-        },
-      ],
-
-      experience: [
-        {
-          company: "",
-          role: "",
-          startDate: "",
-          endDate: "",
-          location: "",
-          description: "",
-        },
-      ],
-
-      projects: [
-        {
-          name: "",
-          description: "",
-          techStack: [],
-          link: "",
-          github: "",
-        },
-      ],
-
-      skills: {
-        technical: [],
-        soft: [],
-        tools: [],
-        languages: [],
-      },
-
-      certifications: [
-        {
-          name: "",
-          issuer: "",
-          date: "",
-          credentialId: "",
-          credentialUrl: "",
-        },
-      ],
-
+      contactLinks: { website: "", linkedIn: "", github: "", leetcode: "" },
+      education: [{ institute: "", degree: "", fieldOfStudy: "", startDate: "", endDate: "", grade: "", description: "" }],
+      experience: [{ company: "", role: "", startDate: "", endDate: "", location: "", description: "" }],
+      projects: [{ name: "", description: "", techStack: [], link: "", github: "" }],
+      skills: { technical: [], soft: [], tools: [], languages: [] },
+      certifications: [{ name: "", issuer: "", date: "", credentialId: "", credentialUrl: "" }],
       hobbies: [""],
       achievements: [""],
+      languages: [{ name: "", progress: 0 }],
+    };
 
-      languages: [
-        {
-          name: "",
-          progress: 0,
-        },
-      ],
-    }; 
-
-    const count = await resume.countDocuments({ userId: req.user._id });
+    const count = await Resume.countDocuments({ userId: req.user._id });
     const title = `Resume ${count + 1}`;
 
-    const newResume = await resume.create({
-      userId: req.user.id,
+    const newResume = await Resume.create({
+      userId: req.user._id,
+      title,
       ...defaultResumeData,
       ...req.body,
-      title,
     });
 
     res.status(201).json({
@@ -111,28 +232,25 @@ export const createResume = async (req, res) => {
   }
 };
 
+// Update Resume
 export const updateResume = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
 
-    const resume = await Resume1.findById(id);
-    if (!resume) {
-      return res.status(404).json({ message: "Resume not found" });
+    const existing = await Resume.findById(id);
+    if (!existing) return res.status(404).json({ message: "Resume not found" });
+
+    if (existing.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized to update this resume" });
     }
 
-    if (resume.userId.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to update this resume" });
-    }
-
-    Object.assign(resume, updates);
-    const updatedResume = await resume.save();
+    Object.assign(existing, updates);
+    const updated = await existing.save();
 
     res.status(200).json({
       message: "Resume updated successfully",
-      resume: updatedResume,
+      resume: updated,
     });
   } catch (error) {
     console.error("Update Resume Error:", error.message);
@@ -140,50 +258,52 @@ export const updateResume = async (req, res) => {
   }
 };
 
+// Delete Resume
 export const deleteResume = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const resume = await Resume1.findById(id);
-    if (!resume) {
-      return res.status(404).json({ message: "Resume not found" });
+    const resume = await Resume.findById(id);
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    if (resume.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized to delete this resume" });
     }
 
-    if (resume.userId.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to update this resume" });
-    }
+    await Resume.findByIdAndDelete(id);
 
-    const deletedResume = await Resume1.findByIdAndDelete(id);
-    res.status(200).json({ message: "Deleted Successfully", deletedResume });
+    res.status(200).json({ message: "Resume deleted successfully" });
   } catch (error) {
-    console.log("Error Deleting Resume", error);
-    res.status(400).json({ message: "Internal Server Error" });
+    console.error("Delete Resume Error:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-// all resume
-export const getResume = async (req, res) => {
+// Get All Resumes (User-specific)
+export const getAllResumes = async (req, res) => {
   try {
-    const allResume = await resume.find({ userId: req.user._id });
-
-    res.status(200).json({ resume : allResume });
+    const resumes = await Resume.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    res.status(200).json({ resume: resumes });
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Internal Server Error" });
+    console.error("Get All Resumes Error:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-// one resume
-export const oneResume = async (req, res) => {
-  const { id } = req.params;
+// Get Single Resume (User-specific + ID validation)
+export const getSingleResume = async (req, res) => {
   try {
-    const resume1 = await resume.findById({ id });
+    const resume = await Resume.findById(req.params.id);
 
-    res.status(200).json(resume1);
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    if (resume.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized to access this resume" });
+    }
+
+    res.status(200).json({ resume });
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Internal Server Error" });
+    console.error("Get Resume Error:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

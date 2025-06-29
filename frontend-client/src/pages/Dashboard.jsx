@@ -23,12 +23,9 @@ const Dashboard = () => {
         console.log(token);
         console.log("SENDING TOKEN:", token);
 
-        
-        
         console.log(res.data);
         console.log(res.data.resume);
-        
-        
+
         setResumes(res.data.resume || []);
       } catch (err) {
         console.error("Failed to load resumes", err);
@@ -45,7 +42,7 @@ const Dashboard = () => {
         {resumes.map((resume) => (
           <div
             key={resume._id}
-            onClick={() => navigate(`/resume/${resume._id}`)}
+            onClick={() => navigate(`/resume/edit/${resume._id}`)}
             className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer transition-all"
           >
             <h2 className="text-lg font-semibold">{resume.title}</h2>

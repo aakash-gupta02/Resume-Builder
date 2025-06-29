@@ -255,6 +255,7 @@ const ResumePreview = () => {
       )}
     </div>
   );
+  
 };
 
 export default ResumePreview;

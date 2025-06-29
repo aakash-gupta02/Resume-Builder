@@ -93,8 +93,13 @@ export const ResumeProvider = ({ children }) => {
     ],
   });
 
+  const clearResumeData = () => {
+  setResumeData({});
+};
+
+
   return (
-    <ResumeContext.Provider value={{ resumeData, setResumeData }}>
+    <ResumeContext.Provider value={{ resumeData, setResumeData, clearResumeData }}>
       {children}
     </ResumeContext.Provider>
   );
