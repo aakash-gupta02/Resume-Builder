@@ -14,7 +14,7 @@ const Dashboard = () => {
 
     const fetchResumes = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/resume/allresume", {
+        const res = await axios.get("http://localhost:3000/resume/all", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
