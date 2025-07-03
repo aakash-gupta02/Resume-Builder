@@ -1,7 +1,52 @@
+import { useRef } from "react";
 import { useResume } from "../../context/ResumeContext";
+
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const ResumePreview = () => {
   const { resumeData } = useResume();
+
+  const printref = useRef(null);
+
+  const handleDownload = async () => {
+    const element = printref.current;
+
+    if (!element) {
+      console.error("Element not found for PDF generation.");
+      return;
+    }
+
+    const canvas = await html2canvas(element, {
+      scale: 2, // better quality
+      useCORS: true,
+      scrollY: -window.scrollY, // fix scroll capture issues
+    });
+
+    const data = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const imgProps = pdf.getImageProperties(data);
+    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(data, "PNG", 0, position, pdfWidth, imgHeight);
+    heightLeft -= pdfHeight;
+
+    while (heightLeft > 0) {
+      position -= pdfHeight;
+      pdf.addPage();
+      pdf.addImage(data, "PNG", 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+    }
+
+    pdf.save("resume.pdf");
+  };
 
   const {
     profileInfo = {},
@@ -34,7 +79,10 @@ const ResumePreview = () => {
   } = contactLinks;
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md space-y-6 text-left text-sm">
+    <div
+      ref={printref}
+      className="bg-bgLight text-textPrimary p-6 rounded-lg shadow-md space-y-6 text-left text-sm font-sans"
+    >
       {/* Profile Info */}
       {(fullName ||
         title ||
@@ -46,15 +94,16 @@ const ResumePreview = () => {
         <div>
           {profileImage && (
             <img
+              crossOrigin="anonymous"
               src={profileImage}
               alt="Profile"
               className="w-24 h-24 rounded-full mb-2"
             />
           )}
           {fullName && <h1 className="text-2xl font-bold">{fullName}</h1>}
-          {title && <p className="text-gray-600">{title}</p>}
+          {title && <p className="text-textSecondary">{title}</p>}
           {(email || phone || address) && (
-            <p className="text-gray-500">
+            <p className="text-textSecondary">
               {[email, phone, address].filter(Boolean).join(" | ")}
             </p>
           )}
@@ -66,11 +115,27 @@ const ResumePreview = () => {
       {[website, linkedIn, github, leetcode].some(Boolean) && (
         <div>
           <h2 className="text-lg font-semibold mb-1">Links</h2>
-          <ul className="list-disc pl-5">
-            {website && <li>Website: {website}</li>}
-            {linkedIn && <li>LinkedIn: {linkedIn}</li>}
-            {github && <li>GitHub: {github}</li>}
-            {leetcode && <li>LeetCode: {leetcode}</li>}
+          <ul className="pl-5 text-textSecondary space-y-1">
+            {website && (
+              <li className="before:content-['•'] before:mr-2 before:text-black">
+                Website: {website}
+              </li>
+            )}
+            {linkedIn && (
+              <li className="before:content-['•'] before:mr-2 before:text-black">
+                LinkedIn: {linkedIn}
+              </li>
+            )}
+            {github && (
+              <li className="before:content-['•'] before:mr-2 before:text-black">
+                GitHub: {github}
+              </li>
+            )}
+            {leetcode && (
+              <li className="before:content-['•'] before:mr-2 before:text-black">
+                LeetCode: {leetcode}
+              </li>
+            )}
           </ul>
         </div>
       )}
@@ -80,9 +145,9 @@ const ResumePreview = () => {
         <div>
           <h2 className="text-lg font-semibold mb-1">Education</h2>
           {education.map((edu, idx) => (
-            <div key={idx} className="mb-2">
+            <div key={idx} className="mb-2 text-textSecondary">
               {edu.degree && (
-                <p className="font-semibold">
+                <p className="font-semibold text-textPrimary">
                   {edu.degree} in {edu.fieldOfStudy}
                 </p>
               )}
@@ -104,8 +169,8 @@ const ResumePreview = () => {
         <div>
           <h2 className="text-lg font-semibold mb-1">Experience</h2>
           {experience.map((exp, idx) => (
-            <div key={idx} className="mb-2">
-              <p className="font-semibold">
+            <div key={idx} className="mb-2 text-textSecondary">
+              <p className="font-semibold text-textPrimary">
                 {exp.role} @ {exp.company}
               </p>
               {(exp.startDate || exp.endDate) && (
@@ -125,8 +190,8 @@ const ResumePreview = () => {
         <div>
           <h2 className="text-lg font-semibold mb-1">Projects</h2>
           {projects.map((project, idx) => (
-            <div key={idx} className="mb-2">
-              <p className="font-semibold">{project.name}</p>
+            <div key={idx} className="mb-2 text-textSecondary">
+              <p className="font-semibold text-textPrimary">{project.name}</p>
               {project.description && <p>{project.description}</p>}
               {project.techStack?.length > 0 && (
                 <p>Tech Stack: {project.techStack}</p>
@@ -136,7 +201,7 @@ const ResumePreview = () => {
                   {project.link && (
                     <a
                       href={project.link}
-                      className="text-blue-600 underline"
+                      className="text-link underline"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -148,7 +213,7 @@ const ResumePreview = () => {
                       {" | "}
                       <a
                         href={project.github}
-                        className="text-blue-600 underline"
+                        className="text-link underline"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -170,26 +235,28 @@ const ResumePreview = () => {
         skills.languages?.length) > 0 && (
         <div>
           <h2 className="text-lg font-semibold mb-1">Skills</h2>
-          {skills.technical?.length > 0 && (
-            <p>
-              <strong>Technical:</strong> {skills.technical.join(", ")}
-            </p>
-          )}
-          {skills.soft?.length > 0 && (
-            <p>
-              <strong>Soft Skills:</strong> {skills.soft.join(", ")}
-            </p>
-          )}
-          {skills.tools?.length > 0 && (
-            <p>
-              <strong>Tools:</strong> {skills.tools.join(", ")}
-            </p>
-          )}
-          {skills.languages?.length > 0 && (
-            <p>
-              <strong>Languages:</strong> {skills.languages.join(", ")}
-            </p>
-          )}
+          <div className="text-textSecondary">
+            {skills.technical?.length > 0 && (
+              <p>
+                <strong>Technical:</strong> {skills.technical.join(", ")}
+              </p>
+            )}
+            {skills.soft?.length > 0 && (
+              <p>
+                <strong>Soft Skills:</strong> {skills.soft.join(", ")}
+              </p>
+            )}
+            {skills.tools?.length > 0 && (
+              <p>
+                <strong>Tools:</strong> {skills.tools.join(", ")}
+              </p>
+            )}
+            {skills.languages?.length > 0 && (
+              <p>
+                <strong>Languages:</strong> {skills.languages.join(", ")}
+              </p>
+            )}
+          </div>
         </div>
       )}
 
@@ -198,15 +265,15 @@ const ResumePreview = () => {
         <div>
           <h2 className="text-lg font-semibold mb-1">Certifications</h2>
           {certifications.map((cert, idx) => (
-            <div key={idx}>
-              <p className="font-semibold">
+            <div key={idx} className="text-textSecondary">
+              <p className="font-semibold text-textPrimary">
                 {cert.name} - {cert.issuer}
               </p>
               {cert.date && <p>Issued: {cert.date}</p>}
               {cert.credentialUrl && (
                 <a
                   href={cert.credentialUrl}
-                  className="text-blue-600 underline"
+                  className="text-link underline"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -222,7 +289,7 @@ const ResumePreview = () => {
       {achievements.some((a) => a.trim()) && (
         <div>
           <h2 className="text-lg font-semibold mb-1">Achievements</h2>
-          <ul className="list-disc pl-5">
+          <ul className="list-disc pl-5 text-textSecondary">
             {achievements.map((item, idx) => item && <li key={idx}>{item}</li>)}
           </ul>
         </div>
@@ -232,17 +299,17 @@ const ResumePreview = () => {
       {hobbies.some((h) => h.trim()) && (
         <div>
           <h2 className="text-lg font-semibold mb-1">Hobbies</h2>
-          <ul className="list-disc pl-5">
+          <ul className="list-disc pl-5 text-textSecondary">
             {hobbies.map((item, idx) => item && <li key={idx}>{item}</li>)}
           </ul>
         </div>
       )}
 
-      {/* Languages with Name */}
+      {/* Languages */}
       {languages.some((lang) => lang.name?.trim()) && (
         <div>
           <h2 className="text-lg font-semibold mb-1">Languages</h2>
-          <ul className="list-disc pl-5">
+          <ul className="list-disc pl-5 text-textSecondary">
             {languages
               .filter((lang) => lang.name?.trim())
               .map((lang, idx) => (
@@ -255,7 +322,6 @@ const ResumePreview = () => {
       )}
     </div>
   );
-  
 };
 
 export default ResumePreview;
