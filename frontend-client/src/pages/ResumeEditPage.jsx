@@ -1,13 +1,7 @@
 import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-import html2pdf from "html2pdf.js";
-
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
-import CreateResume from "./CreateResume";
 import { useResume } from "../context/ResumeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -22,11 +16,13 @@ import AchievementsSection from "../components/resume/AchievementsSection";
 import LanguagesSection from "../components/resume/LanguagesSection";
 import HobbiesSection from "../components/resume/HobbiesSection";
 import ProjectsSection from "../components/resume/ProjectsSection";
+import MyResumePDF from "../components/resume/MyResumePDF";
 
 const ResumeEditPage = () => {
   const { id } = useParams();
   const { setResumeData, resumeData } = useResume();
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   const printref = useRef(null);
 
@@ -38,6 +34,9 @@ const ResumeEditPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log(res.data);
+        
 
         setResumeData(res.data.resume);
       } catch (err) {
@@ -75,63 +74,39 @@ const ResumeEditPage = () => {
     }
   };
 
-const handleDownload = async () => {
-  const element = printref.current;
+  const handleDownload = () => {
+    navigate(`/resume/preview/${id}`);
+  };
 
-  if (!element) {
-    console.error("Element not found for PDF generation.");
-    return;
-  }
-
-  const canvas = await html2canvas(element, {
-    scale: 2,
-    useCORS: true,
-    allowTaint: true,
-    scrollX: 0,
-    scrollY: -window.scrollY,
-    windowWidth: document.documentElement.scrollWidth,
-    windowHeight: element.scrollHeight,
-  });
-
-  const imgData = canvas.toDataURL("image/png");
-  const pdf = new jsPDF("p", "mm", "a4");
-
-  const imgProps = pdf.getImageProperties(imgData);
-  const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-  let heightLeft = pdfHeight;
-  let position = 0;
-
-  // First page
-  pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-  heightLeft -= pdf.internal.pageSize.getHeight();
-
-  // Add additional pages if content overflows
-  while (heightLeft > 0) {
-    position = heightLeft - pdfHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-    heightLeft -= pdf.internal.pageSize.getHeight();
-  }
-
-  pdf.save("resume.pdf");
-};
-
-
-
-
-  return (
-    <div className="flex gap-6 px-8 py-6">
-      {/* Left: Form Sections */}
-      <div className="w-[40%] space-y-4 overflow-y-auto h-[90vh] pr-4">
+return (
+  <div className="min-h-screen bg-[#f5f4f9]">
+    {/* Top Navbar */}
+    <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center text-sm font-medium text-gray-800 shadow-sm">
+      <div className="flex gap-6">
+        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Dashboard</button>
+        <button className="px-3 py-1.5 rounded text-pink-600 font-semibold bg-pink-50">Content</button>
+        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Customize</button>
+        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Links</button>
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="text-gray-700 text-sm font-medium">{resumeData.title}</span>
         <button
           onClick={handleDownload}
-          className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 "
+          className="bg-[#2b1d4a] text-white px-4 py-2 rounded-md hover:bg-[#3a2961] flex items-center gap-1"
         >
-          Download
+          <span>Download</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+          </svg>
         </button>
+      </div>
+    </div>
 
+    {/* Main Section */}
+    <div className="flex gap-6 px-8 py-6">
+      {/* Left Form Section Box */}
+      <div className="w-[40%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh] space-y-4">
         <ProfileInfoSection />
         <ContactLinksSection />
         <SkillsSection />
@@ -142,24 +117,26 @@ const handleDownload = async () => {
         <AchievementsSection />
         <LanguagesSection />
         <HobbiesSection />
-
         <button
           onClick={handleUpdate}
-          className="mt-6 bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
+          className="w-full bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
         >
           Update Resume
         </button>
       </div>
 
-      {/* Right: Live Preview */}
+      {/* Right Preview Section Box */}
       <div
         ref={printref}
-        className="w-[60%] bg-white p-6 rounded shadow overflow-y-auto h-[90vh]"
+        className="w-[60%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh]"
       >
-        <ResumePreview   />
+        <ResumePreview />
       </div>
     </div>
-  );
+  </div>
+);
+
+
 };
 
 export default ResumeEditPage;

@@ -6,11 +6,11 @@ import Test from "./components/Test";
 import CreateResume from "./pages/CreateResume";
 import Dashboard from "./pages/Dashboard";
 import ResumeEditPage from "./pages/ResumeEditPage";
+import Preview from "./pages/Preview";
 
 const App = () => {
   return (
     <div>
-      <Test/>
       <Routes>
         <Route path="/" element={<Test />} />
 
@@ -19,6 +19,7 @@ const App = () => {
 
         <Route path="/dashboard" element={ <Dashboard/> }  />
         <Route path="/resume/edit/:id" element={ <ResumeEditPage/> } />
+        <Route path="/resume/preview/:id" element={ <Preview/> } /> 
 
 
         

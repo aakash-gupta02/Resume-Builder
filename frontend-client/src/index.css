@@ -4,16 +4,16 @@
 @theme {
 
 
-  --color-primary: '#1E3A8A'; // Blue-800
-  --color-secondary: '#6D28D9'; // Violet-700
-  --color-accent: '#10B981'; // Emerald-500
-  --color-textPrimary: '#0F172A'; // Slate-900
-  --color-textSecondary: '#64748B'; // Slate-500
+  --color-primary: '#1E3A8A'; 
+  --color-secondary: '#6D28D9';
+  --color-accent: '#10B981'; 
+  --color-textPrimary: '#0F172A';
+  --color-textSecondary: '#64748B'; 
   --color-bgLight: '#FFFFFF';
-  --color-bgDark: '#F1F5F9'; // Slate-100
-  --color-border: '#E2E8F0'; // Slate-200
-  --color-warning: '#DC2626'; // Red-600
-  --color-link: '#2563EB'; // Blue-600
+  --color-bgDark: '#F1F5F9';
+  --color-border: '#E2E8F0';
+  --color-warning: '#DC2626'; 
+  --color-link: '#2563EB'; 
 
 
 
@@ -22,14 +22,23 @@
   /* ... */
 }
 
+@media print{
+  #no-print{
+    display: none;
+  }
 
+  #yes-print{
+    display: block;
+  }
 
-
-/* In your CSS */
-.page-break {
-  page-break-before: always;
+  body{
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
 }
 
-.avoid-break {
-  page-break-inside: avoid;
+@page{
+  size: auto;
+  margin: 0mm;
 }
