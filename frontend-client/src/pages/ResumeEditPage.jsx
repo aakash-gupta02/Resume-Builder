@@ -5,18 +5,10 @@ import axios from "axios";
 import { useResume } from "../context/ResumeContext";
 import { useAuth } from "../context/AuthContext";
 
-import SkillsSection from "../components/resume/SkillsSection";
 import ResumePreview from "../components/resume/ResumePreview";
-import ProfileInfoSection from "../components/resume/ProfileInfoSection";
-import ContactLinksSection from "../components/resume/ContactLinkSection";
-import EducationSection from "../components/resume/EducationSection";
-import ExperienceSection from "../components/resume/ExperienceSection";
-import CertificationsSection from "../components/resume/CertificationsSection";
-import AchievementsSection from "../components/resume/AchievementsSection";
-import LanguagesSection from "../components/resume/LanguagesSection";
-import HobbiesSection from "../components/resume/HobbiesSection";
-import ProjectsSection from "../components/resume/ProjectsSection";
+
 import MyResumePDF from "../components/resume/MyResumePDF";
+import ResumeForm from "../components/ResumeForm";
 
 const ResumeEditPage = () => {
   const { id } = useParams();
@@ -36,7 +28,6 @@ const ResumeEditPage = () => {
         });
 
         console.log(res.data);
-        
 
         setResumeData(res.data.resume);
       } catch (err) {
@@ -78,65 +69,74 @@ const ResumeEditPage = () => {
     navigate(`/resume/preview/${id}`);
   };
 
-return (
-  <div className="min-h-screen bg-[#f5f4f9]">
-    {/* Top Navbar */}
-    <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center text-sm font-medium text-gray-800 shadow-sm">
-      <div className="flex gap-6">
-        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Dashboard</button>
-        <button className="px-3 py-1.5 rounded text-pink-600 font-semibold bg-pink-50">Content</button>
-        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Customize</button>
-        <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">Links</button>
+  return (
+    <div className="min-h-screen bg-[#f5f4f9]">
+      {/* Top Navbar */}
+      <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center text-sm font-medium text-gray-800 shadow-sm">
+        <div className="flex gap-6">
+          <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">
+            Dashboard
+          </button>
+          <button className="px-3 py-1.5 rounded text-pink-600 font-semibold bg-pink-50">
+            Content
+          </button>
+          <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">
+            Customize
+          </button>
+          <button className="px-3 py-1.5 rounded hover:bg-gray-100 transition">
+            Links
+          </button>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-gray-700 text-sm font-medium">
+            {resumeData.title}
+          </span>
+          <button
+            onClick={handleDownload}
+            className="bg-[#2b1d4a] text-white px-4 py-2 rounded-md hover:bg-[#3a2961] flex items-center gap-1"
+          >
+            <span>Download</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div className="flex items-center gap-4">
-        <span className="text-gray-700 text-sm font-medium">{resumeData.title}</span>
-        <button
-          onClick={handleDownload}
-          className="bg-[#2b1d4a] text-white px-4 py-2 rounded-md hover:bg-[#3a2961] flex items-center gap-1"
+
+      {/* Main Section */}
+      <div className="flex gap-6 px-8 py-6">
+        {/* Left Form Section Box */}
+        <div className="w-[40%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh] space-y-4">
+          <ResumeForm />
+          <button
+            onClick={handleUpdate}
+            className="w-full bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
+          >
+            Update Resume
+          </button>
+        </div>
+
+        {/* Right Preview Section Box */}
+        <div
+          ref={printref}
+          className="w-[60%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh]"
         >
-          <span>Download</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
-          </svg>
-        </button>
+          <ResumePreview />
+        </div>
       </div>
     </div>
-
-    {/* Main Section */}
-    <div className="flex gap-6 px-8 py-6">
-      {/* Left Form Section Box */}
-      <div className="w-[40%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh] space-y-4">
-        <ProfileInfoSection />
-        <ContactLinksSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <EducationSection />
-        <CertificationsSection />
-        <AchievementsSection />
-        <LanguagesSection />
-        <HobbiesSection />
-        <button
-          onClick={handleUpdate}
-          className="w-full bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
-        >
-          Update Resume
-        </button>
-      </div>
-
-      {/* Right Preview Section Box */}
-      <div
-        ref={printref}
-        className="w-[60%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh]"
-      >
-        <ResumePreview />
-      </div>
-    </div>
-  </div>
-);
-
-
+  );
 };
 
 export default ResumeEditPage;
