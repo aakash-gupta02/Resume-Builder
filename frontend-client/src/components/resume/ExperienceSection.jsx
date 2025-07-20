@@ -109,7 +109,7 @@ const ExperienceSection = () => {
                   </label>
                   <input
                     type="date"
-                    value={exp.startDate}
+                    value={exp.startDate ? new Date(exp.startDate).toISOString().slice(0, 10) : ''}
                     onChange={(e) => updateExperience(index, 'startDate', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -122,7 +122,7 @@ const ExperienceSection = () => {
                   <div className="flex items-center">
                     <input
                       type="date"
-                      value={exp.endDate}
+                      value={exp.endDate ? new Date(exp.endDate).toISOString().slice(0, 10) : ''}
                       onChange={(e) => updateExperience(index, 'endDate', e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />

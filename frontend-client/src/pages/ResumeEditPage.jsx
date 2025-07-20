@@ -115,9 +115,9 @@ const ResumeEditPage = () => {
       </div>
 
       {/* Main Section */}
-      <div className="flex gap-6 px-8 py-6">
+      <div className="flex gap-6 px-8 py-10">
         {/* Left Form Section Box */}
-        <div className="w-[40%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh] space-y-4">
+        <div className="w-[50%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh] space-y-4">
           <ResumeForm />
           <button
             onClick={handleUpdate}
@@ -130,7 +130,7 @@ const ResumeEditPage = () => {
         {/* Right Preview Section Box */}
         <div
           ref={printref}
-          className="w-[60%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh]"
+          className="w-[50%] bg-white p-6 rounded-lg shadow-md overflow-y-auto h-[88vh]"
         >
           <ResumePreview />
         </div>

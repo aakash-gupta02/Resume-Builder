@@ -44,19 +44,31 @@ const EducationSection = () => {
           onClick={addEducation}
           className="px-3 py-1 bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 flex items-center text-sm"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
           </svg>
           Add Education
         </button>
       </div>
 
-      {resumeData.education.length === 0 ? (
+      {resumeData.education?.length === 0 ? (
         <div className="text-center py-4 text-gray-500">
-          No education entries. Click "Add Education" to add your educational background.
+          No education entries. Click "Add Education" to add your educational
+          background.
         </div>
       ) : (
-        resumeData.education.map((edu, index) => (
+        resumeData.education?.map((edu, index) => (
           <div
             key={index}
             className="border border-gray-200 rounded-md p-4 mb-4 bg-gray-50"
@@ -68,12 +80,23 @@ const EducationSection = () => {
                 onClick={() => removeEducation(index)}
                 className="text-red-500 hover:text-red-700"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
                 </svg>
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -82,12 +105,14 @@ const EducationSection = () => {
                 <input
                   type="text"
                   value={edu.institute}
-                  onChange={(e) => updateEducation(index, 'institute', e.target.value)}
+                  onChange={(e) =>
+                    updateEducation(index, "institute", e.target.value)
+                  }
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="University/College Name"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Degree
@@ -95,12 +120,14 @@ const EducationSection = () => {
                 <input
                   type="text"
                   value={edu.degree}
-                  onChange={(e) => updateEducation(index, 'degree', e.target.value)}
+                  onChange={(e) =>
+                    updateEducation(index, "degree", e.target.value)
+                  }
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Bachelor's, Master's, etc."
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Field of Study
@@ -108,12 +135,14 @@ const EducationSection = () => {
                 <input
                   type="text"
                   value={edu.fieldOfStudy}
-                  onChange={(e) => updateEducation(index, 'fieldOfStudy', e.target.value)}
+                  onChange={(e) =>
+                    updateEducation(index, "fieldOfStudy", e.target.value)
+                  }
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Computer Science, Business, etc."
                 />
               </div>
-              
+
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -121,25 +150,29 @@ const EducationSection = () => {
                   </label>
                   <input
                     type="date"
-                    value={edu.startDate}
-                    onChange={(e) => updateEducation(index, 'startDate', e.target.value)}
+                    value={edu.startDate ? new Date(edu.startDate).toISOString().slice(0, 10) : ''}
+                    onChange={(e) =>
+                      updateEducation(index, "startDate", e.target.value)
+                    }
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     End Date
                   </label>
                   <input
                     type="date"
-                    value={edu.endDate}
-                    onChange={(e) => updateEducation(index, 'endDate', e.target.value)}
+                    value={edu.endDate ? new Date(edu.endDate).toISOString().slice(0, 10) : ''}
+                    onChange={(e) =>
+                      updateEducation(index, "endDate", e.target.value)
+                    }
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Grade/GPA
@@ -147,20 +180,24 @@ const EducationSection = () => {
                 <input
                   type="text"
                   value={edu.grade}
-                  onChange={(e) => updateEducation(index, 'grade', e.target.value)}
+                  onChange={(e) =>
+                    updateEducation(index, "grade", e.target.value)
+                  }
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="3.8/4.0, First Class, etc."
                 />
               </div>
             </div>
-            
+
             <div className="mt-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Description
               </label>
               <textarea
                 value={edu.description}
-                onChange={(e) => updateEducation(index, 'description', e.target.value)}
+                onChange={(e) =>
+                  updateEducation(index, "description", e.target.value)
+                }
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Relevant coursework, achievements, etc."
                 rows="3"
