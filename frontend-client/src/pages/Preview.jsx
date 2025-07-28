@@ -2,10 +2,10 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useNavigation, useParams } from "react-router-dom";
 import axios from "axios";
 
-
 import { useResume } from "../context/ResumeContext";
 import { useAuth } from "../context/AuthContext";
 import ResumePreview from "../components/resume/ResumePreview";
+import TemplateRenderer from "../components/TemplateRenderer";
 
 const Preview = () => {
   const navigate = useNavigate();
@@ -66,7 +66,8 @@ const Preview = () => {
       </div>
 
       <div id="yes-print">
-        <ResumePreview />
+        {/* <ResumePreview /> */}
+        <TemplateRenderer />
       </div>
     </div>
   );

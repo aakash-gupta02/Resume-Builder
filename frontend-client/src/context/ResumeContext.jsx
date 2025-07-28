@@ -11,7 +11,7 @@ export const ResumeProvider = ({ children }) => {
     thumbnailLink: "",
 
     template: {
-      theme: "",
+      theme: "template1",
       colorPalate: [], 
     },
 

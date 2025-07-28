@@ -1,7 +1,23 @@
 import React, { useState } from "react";
+import { useResume } from "../context/ResumeContext";
 
-const ResumeNavbar = ({ resumeData, handleDownload }) => {
+const ResumeNavbar = ({ handleDownload }) => {
+  const { resumeData, setResumeData } = useResume();
+  console.log("ResumeNavbar data:", resumeData.template);
   const [menuOpen, setMenuOpen] = useState(false);
+
+const handleTemplateChange = (e) => {
+  const selected = e.target.value;
+  setResumeData((prev) => ({
+    ...prev,
+    template: {
+      ...prev.template,
+      theme: selected,
+    },
+  }));
+  console.log("Template changed to:", selected);
+};
+
 
   const menuButtons = (
     <>
@@ -22,27 +38,52 @@ const ResumeNavbar = ({ resumeData, handleDownload }) => {
 
   return (
     <nav className="bg-white border-b border-blue-200 px-4 sm:px-8 py-3 flex flex-col sm:flex-row justify-between items-center text-sm font-medium text-blue-900 shadow-sm relative">
-      {/* Left side buttons (hidden on small screens) */}
+      {/* Left menu (desktop) */}
       <div className="gap-2 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start mb-2 sm:mb-0 hidden sm:flex">
         {menuButtons}
       </div>
-      {/* Menu button (visible on small screens) */}
+
+      {/* Template Selector */}
+      <div>
+        <select
+          onChange={handleTemplateChange}
+          value={resumeData?.template?.theme || "template1"}
+          className="border px-2 py-1 rounded"
+        >
+          <option value="template1">Template 1</option>
+          <option value="template2">Template 2</option>
+        </select>
+      </div>
+
+      {/* Mobile Menu Button */}
       <div className="flex sm:hidden w-full justify-between items-center mb-2">
         <button
           className="p-2 rounded hover:bg-blue-50 transition focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => setMenuOpen((open) => !open)}
           aria-label="Open menu"
         >
-          {/* Hamburger icon */}
-          <svg className="w-6 h-6 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            className="w-6 h-6 text-blue-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
-        {resumeData && (
+
+        {resumeData?.title && (
           <span className="text-blue-800 text-sm font-medium truncate max-w-xs text-center">
             {resumeData.title}
           </span>
         )}
+
+        {/* Download */}
         <div className="flex items-center">
           {handleDownload ? (
             <button
@@ -72,19 +113,22 @@ const ResumeNavbar = ({ resumeData, handleDownload }) => {
           )}
         </div>
       </div>
-      {/* Dropdown menu for small screens */}
+
+      {/* Dropdown menu for mobile */}
       {menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white border-b border-blue-200 shadow-md z-10 flex flex-col sm:hidden animate-fade-in">
           {menuButtons}
         </div>
       )}
-      {/* Right side (visible on desktop) */}
+
+      {/* Right side (desktop) */}
       <div className="flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto hidden sm:flex">
-        {resumeData && (
+        {resumeData?.title && (
           <span className="text-blue-800 text-sm font-medium truncate max-w-xs text-center sm:text-left">
             {resumeData.title}
           </span>
         )}
+
         {handleDownload ? (
           <button
             onClick={handleDownload}

@@ -6,9 +6,8 @@ import { useResume } from "../context/ResumeContext";
 import { useAuth } from "../context/AuthContext";
 
 import ResumeForm from "../components/ResumeForm";
-import ResumePreview from "../components/resume/ResumePreview";
 import ResumeNavbar from "../components/ResumeNavbar";
-import Classic from "./templates/classic";
+import TemplateRenderer from "./TemplateRenderer";
 
 const ResumeEditor = () => {
   const { id } = useParams();
@@ -21,7 +20,7 @@ const ResumeEditor = () => {
 
   const isEditMode = Boolean(id);
 
-  // Load existing resume if in edit mode
+  // edit mode
   useEffect(() => {
     const fetchResume = async () => {
       if (!isEditMode) return setLoading(false);
@@ -106,7 +105,13 @@ const ResumeEditor = () => {
           className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md overflow-y-auto max-h-[88vh]"
         >
           {/* <ResumePreview /> */}
-          <Classic/>
+          {/* <Classic /> */}
+          {/* 
+          <div className="mt-4">
+            <TemplateRenderer />
+          </div> */}
+
+          <TemplateRenderer />
         </div>
       </div>
     </div>
