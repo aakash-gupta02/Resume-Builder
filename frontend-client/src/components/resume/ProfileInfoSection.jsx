@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useResume } from "../../context/ResumeContext";
+import CollapsibleSection from "../CollapsibleSection";
 
 const ProfileInfoSection = () => {
   const { resumeData, setResumeData } = useResume();
@@ -29,8 +30,9 @@ const ProfileInfoSection = () => {
   };
 
   return (
+    <CollapsibleSection title="Profile Information" defaultOpen={false}>
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Personal Information</h2>
+      {/* <h2 className="text-xl font-semibold">Personal Information</h2> */}
 
       <div className="flex flex-col md:flex-row gap-4">
         <div className="w-full md:w-3/4">
@@ -153,6 +155,7 @@ const ProfileInfoSection = () => {
         ></textarea>
       </div>
     </div>
+    </CollapsibleSection>
   );
 };
 

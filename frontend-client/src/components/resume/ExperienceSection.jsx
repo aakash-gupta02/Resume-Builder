@@ -1,4 +1,5 @@
 import { useResume } from "../../context/ResumeContext";
+import CollapsibleSection from "../CollapsibleSection";
 
 const ExperienceSection = () => {
   const { resumeData, setResumeData } = useResume();
@@ -37,6 +38,8 @@ const ExperienceSection = () => {
   const experience = resumeData.experience || [];
 
   return (
+        <CollapsibleSection title="Experience" defaultOpen={false}>
+
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Work Experience</h2>
@@ -160,6 +163,7 @@ const ExperienceSection = () => {
         ))
       )}
     </div>
+    </CollapsibleSection>
   );
 };
 

@@ -1,4 +1,5 @@
 import { useResume } from "../../context/ResumeContext";
+import CollapsibleSection from "../CollapsibleSection";
 
 const ProfileSection = () => {
   const { resumeData, setResumeData } = useResume();
@@ -16,6 +17,7 @@ const ProfileSection = () => {
   };
 
   return (
+    <CollapsibleSection title="Profile Section" defaultOpen={false}>
     <div className="p-4 bg-gray-100 rounded shadow">
       <h2 className="text-lg font-semibold mb-2">Profile Info</h2>
       <input
@@ -36,6 +38,7 @@ const ProfileSection = () => {
       />
       {/* Add email, phone, etc. */}
     </div>
+    </CollapsibleSection>
   );
 };
 

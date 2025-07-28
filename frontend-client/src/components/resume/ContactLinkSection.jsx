@@ -1,4 +1,5 @@
 import { useResume } from "../../context/ResumeContext";
+import CollapsibleSection from "../CollapsibleSection";
 
 const ContactLinksSection = () => {
   const { resumeData, setResumeData } = useResume();
@@ -14,6 +15,7 @@ const ContactLinksSection = () => {
   };
 
   return (
+    <CollapsibleSection title="Contact Links" defaultOpen={false}>
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Contact Links</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -95,6 +97,7 @@ const ContactLinksSection = () => {
         </div>
       </div>
     </div>
+    </CollapsibleSection>
   );
 };
 
