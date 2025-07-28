@@ -5,11 +5,13 @@ import { useResume } from "../context/ResumeContext";
 
 import ResumePreview from "../components/resume/ResumePreview";
 import ResumeForm from "../components/ResumeForm";
+import ResumeNavbar from "../components/ResumeNavbar";
+import { useRef } from "react";
 
 const CreateResume = () => {
-  const navigate = useNavigate();
   const { token, user } = useAuth();
   const { resumeData, SetResumeData } = useResume();
+  const printref = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,24 +41,28 @@ const CreateResume = () => {
   };
 
   return (
-    <div className="flex gap-6 px-8 py-6">
-      {/* Left: Form Sections */}
-      <div className="w-[40%] space-y-4 overflow-y-auto h-[90vh] pr-4">
-        <ResumeForm />
-
-        <button
-          onClick={handleSubmit}
-          className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Create Resume
-        </button>
+    <>
+      <div className="min-h-screen bg-[#f5f4f9]">
+        <ResumeNavbar />
+        <div className="flex flex-col lg:flex-row gap-6 px-4 lg:px-8 py-6 lg:py-10">
+          <div className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md space-y-4 overflow-y-auto max-h-[88vh]">
+            <ResumeForm />
+            <button
+              onClick={handleSubmit}
+              className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Create Resume
+            </button>
+          </div>
+          <div
+            ref={printref}
+            className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md overflow-y-auto max-h-[88vh]"
+          >
+            <ResumePreview />
+          </div>
+        </div>
       </div>
-
-      {/* Right: Live Preview */}
-      <div className="w-[60%] bg-white p-6 rounded shadow overflow-y-auto h-[90vh]">
-        <ResumePreview />
-      </div>
-    </div>
+    </>
   );
 };
 

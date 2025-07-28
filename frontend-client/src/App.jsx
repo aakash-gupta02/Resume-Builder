@@ -7,6 +7,7 @@ import CreateResume from "./pages/CreateResume";
 import Dashboard from "./pages/Dashboard";
 import ResumeEditPage from "./pages/ResumeEditPage";
 import Preview from "./pages/Preview";
+import ResumeEditor from "./components/ResumeEditor";
 
 const App = () => {
   return (
@@ -17,13 +18,14 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={ <Dashboard/> }  />
-        <Route path="/resume/edit/:id" element={ <ResumeEditPage/> } />
-        <Route path="/resume/preview/:id" element={ <Preview/> } /> 
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/resume/preview/:id" element={<Preview />} />
+        {/* 
+        <Route path="/resume/edit/:id" element={<ResumeEditPage />} />
+        <Route path="/resume/create" element={<CreateResume />} /> */}
 
-
-        
-        <Route path="/resume/create" element={<CreateResume />} />
+        <Route path="/resume/edit/:id" element={<ResumeEditor />} />
+        <Route path="/resume/create" element={<ResumeEditor />} />
       </Routes>
     </div>
   );
