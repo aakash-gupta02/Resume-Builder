@@ -42,7 +42,6 @@ const ExperienceSection = () => {
 
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Work Experience</h2>
         <button
           type="button"
           onClick={addExperience}

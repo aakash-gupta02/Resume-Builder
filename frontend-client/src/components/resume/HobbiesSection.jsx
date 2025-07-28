@@ -29,7 +29,6 @@ const HobbiesSection = () => {
   return (
     <CollapsibleSection title="Hobbies & Interests" defaultOpen={false}>
       <div>
-        <h2 className="text-xl font-semibold mb-3">Hobbies & Interests</h2>
         <textarea
           value={inputValue}
           onChange={handleChange}

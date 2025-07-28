@@ -40,7 +40,6 @@ const EducationSection = () => {
     <CollapsibleSection title="Education" defaultOpen={false}>
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Education</h2>
         <button
           type="button"
           onClick={addEducation}

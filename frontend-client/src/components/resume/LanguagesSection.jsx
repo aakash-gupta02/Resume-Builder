@@ -31,7 +31,6 @@ const LanguagesSection = () => {
     <CollapsibleSection title="Languages" defaultOpen={false}>
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-xl font-semibold">Languages</h2>
         <button
           type="button"
           onClick={addLanguage}

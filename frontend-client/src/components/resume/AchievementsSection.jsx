@@ -30,7 +30,6 @@ const AchievementsSection = () => {
   return (
     <CollapsibleSection title="Achievements" defaultOpen={false}>
       <div>
-        <h2 className="text-xl font-semibold mb-3">Achievements</h2>
         <textarea
           value={inputValue}
           onChange={handleChange}

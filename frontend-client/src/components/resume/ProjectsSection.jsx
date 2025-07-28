@@ -65,7 +65,6 @@ const ProjectsSection = () => {
     <CollapsibleSection title="Projects" defaultOpen={false}>
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Projects</h2>
         <button
           type="button"
           onClick={addProject}

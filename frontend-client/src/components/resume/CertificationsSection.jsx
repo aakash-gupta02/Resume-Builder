@@ -42,7 +42,6 @@ const CertificationsSection = () => {
     <CollapsibleSection title="Certifications" defaultOpen={false}>
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Certifications</h2>
         <button
           type="button"
           onClick={addCertification}

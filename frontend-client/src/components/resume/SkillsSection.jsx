@@ -43,7 +43,6 @@ const SkillsSection = () => {
   return (
     <CollapsibleSection title="Skills" defaultOpen={false}>
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Skills</h2>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
