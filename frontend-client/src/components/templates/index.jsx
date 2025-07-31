@@ -1,4 +1,5 @@
 import Classic from "./Classic";
+import Classic2 from "./Classic2";
 import Minimal from "./Minimal";
 import Modern from "./Modern";
 import Modern2 from "./Modern2";
@@ -24,10 +25,10 @@ export const TEMPLATES = {
     name: "Modern2",
     description: "Updated modern layout with new features",
   },
-  modern2: {
-    component: Modern2,
-    name: "Modern2",
-    description: "Updated modern layout with new features",
+  classic2: {
+    component: Classic2,
+    name: "Classic2",
+    description: "Updated classic layout with new features",
   },
   // Add other templates here as needed
 };
