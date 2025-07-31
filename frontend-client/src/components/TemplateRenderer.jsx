@@ -1,20 +1,22 @@
 import { useResume } from "../context/ResumeContext";
-import Modern from "./templates/Modern";
-import Classic from "./templates/Classic";
+import { TEMPLATES, DEFAULT_TEMPLATE } from "./templates/index";
 
 const TemplateRenderer = () => {
   const { resumeData } = useResume();
-  console.log("Rendering Template with data:", resumeData.template);
   
-const selected = resumeData.template?.theme || "template1";
+  // Use the same key as defined in TEMPLATES ('classic' not 'template1')
+  const selected = resumeData.template?.theme || DEFAULT_TEMPLATE;
+  
+  // Safely get the component
+  const TemplateComponent = TEMPLATES[selected]?.component;
 
+  if (!TemplateComponent) {
+    console.error(`Template "${selected}" not found. Falling back to default.`);
+    const DefaultComponent = TEMPLATES[DEFAULT_TEMPLATE].component;
+    return <DefaultComponent />;
+  }
 
-  const templates = {
-    template1: <Classic />,
-    template2: <Modern />,
-  };
-
-  return templates[selected] || <div>Invalid Template</div>;
+  return <TemplateComponent />;
 };
 
 export default TemplateRenderer;

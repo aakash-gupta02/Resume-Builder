@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import { useResume } from "../context/ResumeContext";
+import { TEMPLATES } from "./templates/index";
 
 const ResumeNavbar = ({ handleDownload }) => {
   const { resumeData, setResumeData } = useResume();
-  console.log("ResumeNavbar data:", resumeData.template);
   const [menuOpen, setMenuOpen] = useState(false);
 
-const handleTemplateChange = (e) => {
-  const selected = e.target.value;
-  setResumeData((prev) => ({
-    ...prev,
-    template: {
-      ...prev.template,
-      theme: selected,
-    },
-  }));
-  console.log("Template changed to:", selected);
-};
+  const handleTemplateChange = (e) => {
+    const selected = e.target.value;
+    setResumeData((prev) => ({
+      ...prev,
+      template: {
+        ...prev.template,
+        theme: selected,
+      },
+    }));
+    // console.log("Template changed to:", selected);
+  };
 
+  const handleChange = (e) => {
+    setResumeData({
+      ...resumeData,
+      template: { theme: e.target.value },
+    });
+  };
 
   const menuButtons = (
     <>
@@ -45,14 +51,20 @@ const handleTemplateChange = (e) => {
 
       {/* Template Selector */}
       <div>
-        <select
-          onChange={handleTemplateChange}
-          value={resumeData?.template?.theme || "template1"}
-          className="border px-2 py-1 rounded"
-        >
-          <option value="template1">Template 1</option>
-          <option value="template2">Template 2</option>
-        </select>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">Select Template</label>
+          <select
+            onChange={handleChange}
+            value={resumeData?.template?.theme || Object.keys(TEMPLATES)[0]}
+            className="border px-3 py-2 rounded-md w-full"
+          >
+            {Object.entries(TEMPLATES).map(([key, template]) => (
+              <option key={key} value={key}>
+                {template.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Mobile Menu Button */}
