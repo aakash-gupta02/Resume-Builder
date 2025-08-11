@@ -23,7 +23,7 @@ const resumeSchema = new mongoose.Schema(
     },
 
     profileInfo: {
-      fullName: { type: String},
+      fullName: { type: String },
       title: { type: String }, // e.g., Web Developer
       email: { type: String },
       phone: { type: String },
@@ -104,6 +104,8 @@ const resumeSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+
+    publicAccess: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

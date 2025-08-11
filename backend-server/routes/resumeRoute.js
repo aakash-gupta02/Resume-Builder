@@ -6,20 +6,24 @@ import {
   getAllResumes,
   getSingleResume,
   updateTitle,
+  toggleResumeAccess,
 } from "../controller/resumeController.js";
 
-import { protect } from "../middleware/authMiddleware.js";
+import { conditionalAuth, protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/create", protect, createResume);
-router.get("/all", protect, getAllResumes);
+router.get("/get/:id", conditionalAuth, getSingleResume);
 
-router.put("/update/:id", protect, updateResume);
-router.delete("/delete/:id", protect, deleteResume);
+router.use(protect);
 
-router.patch("/update/title/:id", protect, updateTitle);
+router.post("/create", createResume);
+router.get("/all", getAllResumes);
 
-router.get("/get/:id", protect, getSingleResume);
+router.put("/update/:id", updateResume);
+router.delete("/delete/:id", deleteResume);
+
+router.patch("/update/title/:id", updateTitle);
+router.patch("/update/access/:id", toggleResumeAccess);
 
 export default router;

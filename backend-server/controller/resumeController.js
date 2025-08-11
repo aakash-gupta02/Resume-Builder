@@ -136,9 +136,16 @@ export const getAllResumes = async (req, res) => {
 // Get Single Resume
 export const getSingleResume = async (req, res) => {
   try {
-    const resume = await Resume.findById(req.params.id);
+    const { id } = req.params;
+    console.log("Getting resume with ID:", id);
+
+    const resume = await Resume.findById(id);
 
     if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    if (resume.publicAccess) {
+      return res.status(200).json({ resume });
+    }
 
     if (resume.userId.toString() !== req.user._id.toString()) {
       return res
@@ -176,6 +183,32 @@ export const updateTitle = async (req, res) => {
     });
   } catch (error) {
     console.error("Update Resume Title Error:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const toggleResumeAccess = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const resume = await Resume.findById(id);
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    if (resume.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to access this resume" });
+    }
+
+    resume.publicAccess = !resume.publicAccess;
+    await resume.save();
+    res.status(200).json({
+      message: `Resume access ${
+        resume.publicAccess ? "enabled" : "disabled"
+      } successfully`,
+    });
+  } catch (error) {
+    console.error("Get Resume Error:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
