@@ -9,6 +9,8 @@ import {
   ArrowDownTrayIcon,
   DocumentTextIcon,
   XMarkIcon,
+  PlusIcon,
+  EyeIcon
 } from "@heroicons/react/24/outline";
 import { Tooltip } from "@mui/material";
 
@@ -57,7 +59,7 @@ const Dashboard = () => {
   const handleEditTitle = async (id, e) => {
     e.stopPropagation();
     try {
-      await API.put(`/resume/update/${id}`, { title: newTitle });
+      await API.patch(`/resume/update/title/${id}`, { title: newTitle });
       setResumes(
         resumes.map((resume) =>
           resume._id === id ? { ...resume, title: newTitle } : resume
@@ -69,65 +71,63 @@ const Dashboard = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-white p-6">
-      {/* Delete Confirmation Modal */}
-      {deleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Delete Resume
-              </h3>
-              <button
-                onClick={closeDeleteModal}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                <XMarkIcon className="h-6 w-6" />
-              </button>
-            </div>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this resume? This action cannot be
-              undone.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={closeDeleteModal}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
+return (
+  <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+    {/* Delete Confirmation Modal */}
+    {deleteModalOpen && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-gray-900">Delete Resume</h3>
+            <button
+              onClick={closeDeleteModal}
+              className="text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              <XMarkIcon className="h-6 w-6" />
+            </button>
+          </div>
+          <p className="text-gray-600 mb-6">
+            Are you sure you want to delete <span className="font-medium">"{resumes.find(r => r._id === deleteId)?.title}"</span>? This action cannot be undone.
+          </p>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={closeDeleteModal}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium shadow-sm"
+            >
+              Confirm Delete
+            </button>
           </div>
         </div>
-      )}
+      </div>
+    )}
 
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-blue-800">Your Resumes</h1>
-            <p className="text-blue-600">
-              Create, manage and edit your resumes
-            </p>
-          </div>
-          <button
-            onClick={() => navigate("/resume/create")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-all flex items-center gap-2"
-          >
-            <DocumentTextIcon className="h-5 w-5" />
-            New Resume
-          </button>
+    <div className="max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">My Resumes</h1>
+          <p className="text-gray-600 mt-1">
+            Create, manage and track all your resumes in one place
+          </p>
         </div>
+        <button
+          onClick={() => navigate("/resume/create")}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2 font-medium whitespace-nowrap"
+        >
+          <PlusIcon className="h-5 w-5" />
+          New Resume
+        </button>
+      </div>
 
-        {/* Resume Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Resume Cards Grid */}
+      {resumes.length > 0 ? (
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {resumes.map((resume) => (
             <div
               key={resume._id}
@@ -241,43 +241,28 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-
-        {/* Empty State */}
-        {resumes.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-blue-400 mb-4">
-              <svg
-                className="w-16 h-16 mx-auto"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                ></path>
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-blue-800 mb-2">
-              No resumes yet
-            </h3>
-            <p className="text-blue-600 mb-4">
-              Create your first resume to get started
-            </p>
-            <button
-              onClick={() => navigate("/resume/create")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md flex items-center gap-2 mx-auto"
-            >
-              <DocumentTextIcon className="h-5 w-5" />
-              Create Resume
-            </button>
+      ) : (
+        /* Empty State */
+        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+          <div className="mx-auto w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+            <DocumentTextIcon className="h-10 w-10 text-blue-400" />
           </div>
-        )}
-      </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">No resumes yet</h3>
+          <p className="text-gray-600 mb-6 max-w-md mx-auto">
+            Get started by creating your first professional resume
+          </p>
+          <button
+            onClick={() => navigate("/resume/create")}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2 mx-auto font-medium"
+          >
+            <PlusIcon className="h-5 w-5" />
+            Create Resume
+          </button>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
 };
 
 export default Dashboard;
