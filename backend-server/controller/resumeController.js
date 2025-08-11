@@ -7,14 +7,43 @@ export const createResume = async (req, res) => {
       thumbnailLink: "",
       template: { theme: "", colorPalate: [] },
       profileInfo: {
-        fullName: "", title: "", email: "", phone: "", address: "", summary: "", profileImage: "",
+        fullName: "",
+        title: "",
+        email: "",
+        phone: "",
+        address: "",
+        summary: "",
+        profileImage: "",
       },
       contactLinks: { website: "", linkedIn: "", github: "", leetcode: "" },
-      education: [{ institute: "", degree: "", fieldOfStudy: "", startDate: "", endDate: "", grade: "", description: "" }],
-      experience: [{ company: "", role: "", startDate: "", endDate: "", location: "", description: "" }],
-      projects: [{ name: "", description: "", techStack: [], link: "", github: "" }],
+      education: [
+        {
+          institute: "",
+          degree: "",
+          fieldOfStudy: "",
+          startDate: "",
+          endDate: "",
+          grade: "",
+          description: "",
+        },
+      ],
+      experience: [
+        {
+          company: "",
+          role: "",
+          startDate: "",
+          endDate: "",
+          location: "",
+          description: "",
+        },
+      ],
+      projects: [
+        { name: "", description: "", techStack: [], link: "", github: "" },
+      ],
       skills: { technical: [], soft: [], tools: [], languages: [] },
-      certifications: [{ name: "", issuer: "", date: "", credentialId: "", credentialUrl: "" }],
+      certifications: [
+        { name: "", issuer: "", date: "", credentialId: "", credentialUrl: "" },
+      ],
       hobbies: [""],
       achievements: [""],
       languages: [{ name: "", progress: 0 }],
@@ -50,7 +79,9 @@ export const updateResume = async (req, res) => {
     if (!existing) return res.status(404).json({ message: "Resume not found" });
 
     if (existing.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized to update this resume" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this resume" });
     }
 
     Object.assign(existing, updates);
@@ -75,7 +106,9 @@ export const deleteResume = async (req, res) => {
     if (!resume) return res.status(404).json({ message: "Resume not found" });
 
     if (resume.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized to delete this resume" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this resume" });
     }
 
     await Resume.findByIdAndDelete(id);
@@ -90,7 +123,9 @@ export const deleteResume = async (req, res) => {
 // Get All Resumes
 export const getAllResumes = async (req, res) => {
   try {
-    const resumes = await Resume.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const resumes = await Resume.find({ userId: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json({ resume: resumes });
   } catch (error) {
     console.error("Get All Resumes Error:", error.message);
@@ -106,12 +141,41 @@ export const getSingleResume = async (req, res) => {
     if (!resume) return res.status(404).json({ message: "Resume not found" });
 
     if (resume.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized to access this resume" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to access this resume" });
     }
 
     res.status(200).json({ resume });
   } catch (error) {
     console.error("Get Resume Error:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const updateTitle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    const resume = await Resume.findById(id);
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    if (resume.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this resume" });
+    }
+
+    resume.title = title;
+    await resume.save();
+
+    res.status(200).json({
+      message: "Resume title updated successfully",
+      resume,
+    });
+  } catch (error) {
+    console.error("Update Resume Title Error:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
