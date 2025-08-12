@@ -3,7 +3,6 @@ import { createContext, useContext, useState } from "react";
 const ResumeContext = createContext();
 
 export const ResumeProvider = ({ children }) => {
-  
   const [resumeData, setResumeData] = useState({
     userId: "",
 
@@ -12,12 +11,12 @@ export const ResumeProvider = ({ children }) => {
 
     template: {
       theme: "template1",
-      colorPalate: [], 
+      colorPalate: [],
     },
 
     profileInfo: {
       fullName: "",
-      title: "", 
+      title: "",
       email: "",
       phone: "",
       address: "",
@@ -91,19 +90,22 @@ export const ResumeProvider = ({ children }) => {
         progress: 0,
       },
     ],
+
+    publicAccess: false,
+    
   });
 
   const clearResumeData = () => {
-  setResumeData({});
-};
-
+    setResumeData({});
+  };
 
   return (
-    <ResumeContext.Provider value={{ resumeData, setResumeData, clearResumeData }}>
+    <ResumeContext.Provider
+      value={{ resumeData, setResumeData, clearResumeData }}
+    >
       {children}
     </ResumeContext.Provider>
   );
 };
 
 export const useResume = () => useContext(ResumeContext);
-

@@ -1,13 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useResume } from "../context/ResumeContext";
 import { TEMPLATES } from "./templates/index";
 import ShareModal from "./ShareModal";
+import {
+  ArrowDownTrayIcon,
+  Squares2X2Icon,
+  PencilSquareIcon,
+  AdjustmentsHorizontalIcon,
+  ShareIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 const ResumeNavbar = ({ handleDownload }) => {
+  const navigate = useNavigate();
   const { resumeData, setResumeData } = useResume();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [activeTab, setActiveTab] = useState("Content"); // Track active tab
+  const [activeTab, setActiveTab] = useState("Content");
 
   const handleTemplateChange = (e) => {
     const selected = e.target.value;
@@ -22,105 +33,88 @@ const ResumeNavbar = ({ handleDownload }) => {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
-    // You can add additional logic here for each tab if needed
+    if (tabName === "Dashboard") {
+      navigate("/dashboard");
+    }
+    if (menuOpen) setMenuOpen(false);
   };
 
   const menuButtons = (
     <>
       <button
         onClick={() => handleTabClick("Dashboard")}
-        className={`px-3 py-1.5 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-300 w-full text-left ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
           activeTab === "Dashboard"
-            ? "bg-blue-600 text-white"
-            : "hover:bg-blue-50"
+            ? "bg-blue-100 text-blue-700"
+            : "hover:bg-gray-100 text-gray-700"
         }`}
       >
-        Dashboard
+        <Squares2X2Icon className="h-5 w-5" />
+        <span>Dashboard</span>
       </button>
       <button
         onClick={() => handleTabClick("Content")}
-        className={`px-3 py-1.5 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-300 w-full text-left ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
           activeTab === "Content"
-            ? "bg-blue-600 text-white"
-            : "hover:bg-blue-50"
+            ? "bg-blue-100 text-blue-700"
+            : "hover:bg-gray-100 text-gray-700"
         }`}
       >
-        Content
+        <PencilSquareIcon className="h-5 w-5" />
+        <span>Content</span>
       </button>
       <button
         onClick={() => handleTabClick("Customize")}
-        className={`px-3 py-1.5 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-300 w-full text-left ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
           activeTab === "Customize"
-            ? "bg-blue-600 text-white"
-            : "hover:bg-blue-50"
+            ? "bg-blue-100 text-blue-700"
+            : "hover:bg-gray-100 text-gray-700"
         }`}
       >
-        Customize
+        <AdjustmentsHorizontalIcon className="h-5 w-5" />
+        <span>Customize</span>
       </button>
       <button
         onClick={() => {
           handleTabClick("Share");
           setShowShareModal(true);
         }}
-        className={`px-3 py-1.5 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-300 w-full text-left ${
-          activeTab === "Share" ? "bg-blue-600 text-white" : "hover:bg-blue-50"
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+          activeTab === "Share"
+            ? "bg-blue-100 text-blue-700"
+            : "hover:bg-gray-100 text-gray-700"
         }`}
       >
-        Share
+        <ShareIcon className="h-5 w-5" />
+        <span>Share</span>
       </button>
     </>
   );
 
   return (
     <>
-      <nav className="bg-white border-b border-blue-200 px-4 sm:px-8 py-3 flex flex-col sm:flex-row justify-between items-center text-sm font-medium text-blue-900 shadow-sm relative">
+      <nav className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 flex flex-col sm:flex-row justify-between items-center sticky top-0 z-40">
         {/* Left menu (desktop) */}
-        <div className="gap-2 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start mb-2 sm:mb-0 hidden sm:flex">
+        <div className="hidden sm:flex items-center gap-1 w-full max-w-2xl">
           {menuButtons}
         </div>
 
-        {/* Template Selector */}
-        <div className="mb-2 sm:mb-0">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium">Select Template</label>
-            <select
-              onChange={handleTemplateChange}
-              value={resumeData?.template?.theme || Object.keys(TEMPLATES)[0]}
-              className="border border-gray-300 px-3 py-2 rounded-md w-full focus:ring-blue-500 focus:border-blue-500"
-            >
-              {Object.entries(TEMPLATES).map(([key, template]) => (
-                <option key={key} value={key}>
-                  {template.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
         {/* Mobile Menu Button */}
-        <div className="flex sm:hidden w-full justify-between items-center mb-2">
+        <div className="flex sm:hidden w-full justify-between items-center">
           <button
-            className="p-2 rounded hover:bg-blue-50 transition focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label="Open menu"
           >
-            <svg
-              className="w-6 h-6 text-blue-900"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            {menuOpen ? (
+              <XMarkIcon className="h-6 w-6 text-gray-700" />
+            ) : (
+              <Bars3Icon className="h-6 w-6 text-gray-700" />
+            )}
           </button>
 
           {resumeData?.title && (
-            <span className="text-blue-800 text-sm font-medium truncate max-w-xs text-center">
+            <span className="text-gray-800 font-medium truncate max-w-[180px] text-center">
               {resumeData.title}
             </span>
           )}
@@ -130,81 +124,67 @@ const ResumeNavbar = ({ handleDownload }) => {
             {handleDownload ? (
               <button
                 onClick={handleDownload}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-300 ml-2"
+                className="bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition flex items-center gap-1 text-sm"
               >
-                <span>Download</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
-                  />
-                </svg>
+                <ArrowDownTrayIcon className="h-4 w-4" />
+                <span className="hidden sm:inline">Download</span>
               </button>
             ) : (
-              <button className="bg-blue-100 text-blue-400 px-4 py-2 rounded-md cursor-not-allowed ml-2">
-                Download
+              <button className="bg-gray-100 text-gray-400 px-3 py-1.5 rounded-lg cursor-not-allowed flex items-center gap-1 text-sm">
+                <ArrowDownTrayIcon className="h-4 w-4" />
+                <span className="hidden sm:inline">Download</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Dropdown menu for mobile */}
+        {/* Template Selector and Desktop Download */}
+        <div className="flex items-center gap-4 w-full sm:w-auto mt-3 sm:mt-0">
+          <div className="w-full sm:w-48">
+            <select
+              onChange={handleTemplateChange}
+              value={resumeData?.template?.theme || Object.keys(TEMPLATES)[0]}
+              className="w-full text-sm border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+            >
+              {Object.entries(TEMPLATES).map(([key, template]) => (
+                <option key={key} value={key}>
+                  {template.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="hidden sm:flex">
+            {handleDownload ? (
+              <button
+                onClick={handleDownload}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm"
+              >
+                <ArrowDownTrayIcon className="h-4 w-4" />
+                <span>Download</span>
+              </button>
+            ) : (
+              <button className="bg-gray-100 text-gray-400 px-4 py-2 rounded-lg cursor-not-allowed flex items-center gap-2 text-sm">
+                <ArrowDownTrayIcon className="h-4 w-4" />
+                <span>Download</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile menu */}
         {menuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-b border-blue-200 shadow-md z-10 flex flex-col sm:hidden animate-fade-in">
+          <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 sm:hidden p-4 space-y-2">
             {menuButtons}
           </div>
         )}
-
-        {/* Right side (desktop) */}
-        <div className="flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto hidden sm:flex">
-          {resumeData?.title && (
-            <span className="text-blue-800 text-sm font-medium truncate max-w-xs text-center sm:text-left">
-              {resumeData.title}
-            </span>
-          )}
-
-          {handleDownload ? (
-            <button
-              onClick={handleDownload}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
-              <span>Download</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
-                />
-              </svg>
-            </button>
-          ) : (
-            <button className="bg-blue-100 text-blue-400 px-4 py-2 rounded-md cursor-not-allowed">
-              Download
-            </button>
-          )}
-        </div>
       </nav>
 
       {/* Share Modal */}
       {showShareModal && (
         <ShareModal
           onClose={() => setShowShareModal(false)}
-          resumeTitle={resumeData?.title || "My Resume"}
+          resumeid={resumeData?._id || "My Resume"}
         />
       )}
     </>
