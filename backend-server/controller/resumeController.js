@@ -206,6 +206,7 @@ export const toggleResumeAccess = async (req, res) => {
       message: `Resume access ${
         resume.publicAccess ? "enabled" : "disabled"
       } successfully`,
+      access: resume.publicAccess,
     });
   } catch (error) {
     console.error("Get Resume Error:", error.message);
