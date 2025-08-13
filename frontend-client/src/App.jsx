@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/resume/edit/:id" element={<ResumeEditor />} />
         <Route path="/resume/create" element={<ResumeEditor />} />
       </Routes>
-      <QuillEditor />
+      {/* <QuillEditor /> */}
     </div>
   );
 };

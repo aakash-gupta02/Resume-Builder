@@ -47,3 +47,48 @@ const AchievementsSection = () => {
 };
 
 export default AchievementsSection;
+
+
+
+// import { useResume } from "../../context/ResumeContext";
+// import React from "react";
+// import CollapsibleSection from "../CollapsibleSection";
+// import QuillEditor from "../QuillEditor";
+
+// const AchievementsSection = () => {
+//   const { resumeData, setResumeData } = useResume();
+
+//   const handleChange = (htmlContent) => {
+//     // Convert HTML list items to array
+//     const tempDiv = document.createElement('div');
+//     tempDiv.innerHTML = htmlContent;
+//     const achievements = Array.from(tempDiv.querySelectorAll('li'))
+//       .map(li => li.textContent.trim())
+//       .filter(Boolean);
+    
+//     setResumeData({
+//       ...resumeData,
+//       achievements
+//     });
+//   };
+
+//   // Convert achievements array to HTML list
+//   const achievementsHtml = resumeData.achievements?.length > 0
+//     ? `<ul>${resumeData.achievements.map(a => `<li>${a}</li>`).join('')}</ul>`
+//     : '';
+
+//   return (
+//     <CollapsibleSection title="Achievements" defaultOpen={false}>
+//       <QuillEditor
+//         value={achievementsHtml}
+//         onChange={handleChange}
+//         placeholder="List your achievements (press Enter for new bullet points)..."
+//       />
+//       <p className="mt-2 text-xs text-gray-500">
+//         Use bullet points for your achievements (press Enter for new points)
+//       </p>
+//     </CollapsibleSection>
+//   );
+// };
+
+// export default AchievementsSection;
