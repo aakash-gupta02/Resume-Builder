@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import ResumeEditPage from "./pages/ResumeEditPage";
 import Preview from "./pages/Preview";
 import ResumeEditor from "./components/ResumeEditor";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css"; // Optional: for bubble theme
+import QuillEditor from "./components/QuillEditor";
 
 const App = () => {
   return (
@@ -27,6 +30,7 @@ const App = () => {
         <Route path="/resume/edit/:id" element={<ResumeEditor />} />
         <Route path="/resume/create" element={<ResumeEditor />} />
       </Routes>
+      <QuillEditor />
     </div>
   );
 };

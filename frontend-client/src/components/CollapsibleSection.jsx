@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const CollapsibleSection = ({ title, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -13,17 +13,26 @@ const CollapsibleSection = ({ title, children, defaultOpen = true }) => {
       >
         <span className="text-lg font-semibold text-gray-800">{title}</span>
         <svg
-          className={`w-6 h-6 text-gray-500 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+          className={`w-6 h-6 text-gray-500 transform transition-transform duration-300 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-        style={{ willChange: 'max-height, opacity' }}
+        className={`overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-fit opacity-100" : "max-h-0 opacity-0"
+        }`}
+        style={{ willChange: "max-height, opacity" }}
       >
         <div className="p-5 text-gray-700">{children}</div>
       </div>
