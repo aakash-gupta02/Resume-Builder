@@ -11,12 +11,14 @@ import ResumeEditor from "./components/ResumeEditor";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css"; // Optional: for bubble theme
 import QuillEditor from "./components/QuillEditor";
+import HomePage from "./pages/HomePage";
+import Navbar from "./components/LandingPage/Navbar";
 
 const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Test />} />
+        <Route path="/" element={<HomePage />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
