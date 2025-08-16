@@ -3,49 +3,29 @@ import {
   ArrowRightIcon,
   PlayIcon,
   SparklesIcon,
-  CheckCircleIcon,
+  CodeBracketIcon,
   DocumentTextIcon,
-  UserGroupIcon,
-  BriefcaseIcon,
-  ChatBubbleLeftRightIcon,
+  ChartBarIcon,
   ShieldCheckIcon,
-  RocketLaunchIcon,
+  DevicePhoneMobileIcon,
+  ArrowsPointingOutIcon,
+  UserGroupIcon,
+  BoltIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 import Navbar from "../components/LandingPage/Navbar";
-
-// Feature Card Component
-const FeatureCard = ({ icon: Icon, title, desc }) => (
-  <div className="flex flex-col items-center text-center p-6 bg-white/80 rounded-xl shadow border border-gray-200 hover:shadow-lg transition">
-    <div className="bg-blue-100 rounded-full p-3 mb-4">
-      <Icon className="h-7 w-7 text-blue-600" />
-    </div>
-    <h3 className="font-semibold text-lg text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-600 text-sm">{desc}</p>
-  </div>
-);
-
-// Service Card Component
-const ServiceCard = ({ icon: Icon, title, desc }) => (
-  <div className="flex items-start gap-4 p-5 bg-white/90 rounded-lg border border-blue-100 shadow hover:shadow-md transition">
-    <div className="bg-indigo-100 rounded-full p-2">
-      <Icon className="h-6 w-6 text-indigo-600" />
-    </div>
-    <div>
-      <h4 className="font-semibold text-gray-900">{title}</h4>
-      <p className="text-gray-600 text-sm">{desc}</p>
-    </div>
-  </div>
-);
+import HeroResume from "../components/LandingPage/HeroResume";
+import AppleTerminal from "../components/LandingPage/AppleTerminal";
+import HeroSection from "../components/LandingPage/HeroSection";
+import FeaturesSection from "../components/LandingPage/FeaturesSection";
+import StatsSection from "../components/LandingPage/StatsSection";
 
 const LandingPage = () => {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col overflow-hidden">
-      {/* Navbar */}
-      <Navbar />
-
+    <div className="relative bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden">
       {/* Grid Background Pattern */}
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:24px_24px] opacity-5 pointer-events-none"
+        className="fixed inset-0 bg-[linear-gradient(to_right,#1E293B_1px,transparent_1px),linear-gradient(to_bottom,#1E293B_1px,transparent_1px)] bg-[size:24px_24px] opacity-5"
         style={{
           maskImage:
             "linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)",
@@ -53,183 +33,189 @@ const LandingPage = () => {
       />
 
       {/* Blurred Color Blobs */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400 rounded-full blur-3xl opacity-30 pointer-events-none" />
-      <div className="absolute top-1/3 -right-40 w-96 h-96 bg-indigo-400 rounded-full blur-3xl opacity-30 pointer-events-none" />
+      <div className="fixed -top-40 -left-40 w-96 h-96 bg-blue-400 rounded-full blur-3xl opacity-30" />
+      <div className="fixed top-1/3 -right-40 w-96 h-96 bg-indigo-400 rounded-full blur-3xl opacity-30" />
+      <div className="fixed bottom-20 left-1/4 w-80 h-80 bg-purple-400 rounded-full blur-3xl opacity-20" />
 
-      {/* HERO SECTION */}
-      <section className="relative z-10 container mt-10 mx-auto px-6 py-20 text-center">
-        <div className="inline-flex items-center gap-x-2 px-4 py-2 rounded-full bg-white/10 border border-blue-200 shadow-sm text-blue-600 text-sm mb-8 backdrop-blur-sm hover:bg-blue-50 transition-colors">
-          <SparklesIcon className="h-4 w-4 text-blue-500" />
-          <span className="font-medium text-gray-900">
-            Your Success Metric!
-          </span>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-          <span className="block">Build. Share. Dominate.</span>
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Your Career Journey
-          </span>
-        </h1>
-        <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10">
-          The most powerful resume builder for professionals, developers, and
-          career changers.
-        </p>
-        <p className="text-blue-600 font-medium mb-10 flex items-center justify-center space-x-2">
-          <span className="h-px w-8 bg-blue-600"></span>
-          <span>No fluff. Just results.</span>
-          <span className="h-px w-8 bg-blue-600"></span>
-        </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-8">
-          <a
-            href="#features"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-semibold shadow hover:bg-blue-700 transition"
-          >
-            Get Started
-            <ArrowRightIcon className="h-5 w-5" />
-          </a>
-          <a
-            href="#demo"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 border border-blue-200 text-blue-700 rounded-full font-semibold shadow hover:bg-blue-50 transition"
-          >
-            <PlayIcon className="h-5 w-5 text-blue-500" />
-            Watch Demo
-          </a>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <HeroSection />
 
-      {/* LINK GRID */}
-      <section className="relative z-10 container mx-auto px-6 pb-20 max-w-md">
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-6 border border-gray-200">
-          <div className="text-center mb-6">
-            <p className="text-sm font-mono text-gray-500">
-              ResumeCraft/yourname.com
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* Stats Section */}
+      <StatsSection />
+
+      {/* Template Showcase */}
+      <section className="relative py-20">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-x-2 px-4 py-2 rounded-full bg-white/10 border border-blue-200 shadow-sm text-blue-600 text-sm mb-5 backdrop-blur-sm">
+              <SparklesIcon className="h-4 w-4 text-blue-500" />
+              <span className="font-medium text-gray-900">Templates</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Professionally designed templates
+            </h2>
+            <p className="text-lg text-gray-600">
+              Choose from our collection of modern, elegant, and effective
+              resume templates.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+
+          <div className="grid md:grid-cols-3 gap-8">
             {[
-              "Portfolio",
-              "GitHub",
-              "Twitter",
-              "LinkedIn",
-              "Projects",
-              "Contact",
-            ].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="p-3 text-center text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              "Modern",
+              "Executive",
+              "Minimalist",
+              "Creative",
+              "Technical",
+              "Academic",
+            ].map((template, index) => (
+              <div
+                key={index}
+                className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
               >
-                {item}
-              </a>
+                <div className="h-48 bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+                  <DocumentTextIcon className="h-16 w-16 text-blue-600 opacity-50" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {template}
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Perfect for {template.toLowerCase()} professionals
+                  </p>
+                  <a
+                    href="#"
+                    className="text-blue-600 font-medium flex items-center gap-1 text-sm"
+                  >
+                    Preview template <ArrowRightIcon className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section
-        id="features"
-        className="relative z-10 container mx-auto px-6 py-20"
-      >
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Choose ResumeCraft?
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Unlock your career potential with features designed for modern professionals.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <FeatureCard
-            icon={DocumentTextIcon}
-            title="Beautiful Templates"
-            desc="Choose from stunning, ATS-friendly templates that make your resume stand out."
-          />
-          <FeatureCard
-            icon={UserGroupIcon}
-            title="Collaboration"
-            desc="Share and collaborate with mentors, friends, or recruiters in real-time."
-          />
-          <FeatureCard
-            icon={CheckCircleIcon}
-            title="Instant Feedback"
-            desc="Get AI-powered suggestions to improve your resume instantly."
-          />
-        </div>
-      </section>
-
-      {/* SERVICES SECTION */}
-      <section
-        id="services"
-        className="relative z-10 container mx-auto px-6 py-20"
-      >
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Services
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Everything you need to build, polish, and launch your career journey.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <ServiceCard
-            icon={BriefcaseIcon}
-            title="Resume Builder"
-            desc="Create, edit, and export professional resumes in minutes."
-          />
-          <ServiceCard
-            icon={ChatBubbleLeftRightIcon}
-            title="Expert Review"
-            desc="Get your resume reviewed by industry experts for actionable feedback."
-          />
-          <ServiceCard
-            icon={ShieldCheckIcon}
-            title="Privacy First"
-            desc="Your data is secure and private. You control what you share."
-          />
-          <ServiceCard
-            icon={RocketLaunchIcon}
-            title="One-Click Apply"
-            desc="Apply to jobs directly from your dashboard with a single click."
-          />
-        </div>
-      </section>
-
-      {/* CALL TO ACTION */}
-      <section className="relative z-10 container mx-auto px-6 py-20 text-center">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-lg p-12 max-w-2xl mx-auto">
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Ready to Supercharge Your Career?
-          </h3>
-          <p className="text-blue-100 mb-8">
-            Join thousands of professionals who trust ResumeCraft to land their dream jobs.
-          </p>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-700 font-semibold rounded-full shadow hover:bg-blue-50 transition"
-          >
-            Get Started Free
-            <ArrowRightIcon className="h-5 w-5" />
-          </a>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="relative z-10 bg-white/80 border-t border-blue-100 py-8 mt-10">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} ResumeCraft. All rights reserved.
+      {/* CTA Section */}
+      <section className="relative py-20 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+        <div className="container mx-auto px-6 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to transform your resume?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8">
+              Join thousands of professionals who've accelerated their careers
+              with ResumeCraft.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="#"
+                className="px-6 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2"
+              >
+                Get Started for Free <ArrowRightIcon className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                className="px-6 py-3 bg-transparent text-white font-medium rounded-lg hover:bg-blue-700 transition-colors border border-white flex items-center gap-2"
+              >
+                <PlayIcon className="h-4 w-4" />
+                Watch Demo
+              </a>
+            </div>
           </div>
-          <div className="flex gap-4">
-            <a href="#" className="text-blue-600 hover:underline text-sm">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-blue-600 hover:underline text-sm">
-              Terms of Service
-            </a>
-            <a href="#" className="text-blue-600 hover:underline text-sm">
-              Contact
-            </a>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative bg-gray-900 text-gray-400 py-16">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+                  <DocumentTextIcon className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">
+                  ResumeCraft
+                </span>
+              </div>
+              <p className="text-sm mb-4">
+                The most powerful resume builder for professionals.
+              </p>
+              <div className="flex space-x-4">
+                {["Twitter", "LinkedIn", "GitHub", "Instagram"].map(
+                  (social) => (
+                    <a
+                      key={social}
+                      href="#"
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {social}
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
+
+            {[
+              {
+                title: "Product",
+                links: ["Features", "Templates", "Pricing", "Integrations"],
+              },
+              {
+                title: "Resources",
+                links: ["Blog", "Guides", "Help Center", "Community"],
+              },
+              {
+                title: "Company",
+                links: ["About", "Careers", "Privacy", "Terms"],
+              },
+            ].map((column, index) => (
+              <div key={index}>
+                <h3 className="text-white font-medium mb-4">{column.title}</h3>
+                <ul className="space-y-2">
+                  {column.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm hover:text-white transition-colors"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm mb-4 md:mb-0">
+              © 2023 ResumeCraft. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <a
+                href="#"
+                className="text-sm hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="#"
+                className="text-sm hover:text-white transition-colors"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="#"
+                className="text-sm hover:text-white transition-colors"
+              >
+                Cookies
+              </a>
+            </div>
           </div>
         </div>
       </footer>
