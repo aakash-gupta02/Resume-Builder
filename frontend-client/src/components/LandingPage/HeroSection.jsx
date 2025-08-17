@@ -71,46 +71,6 @@ const HeroSection = () => {
             <HeroResume />
           </AppleTerminal>
         </div>
-
-        {/* Link Grid */}
-        {/* <div className="relative z-10 container mx-auto px-6 pb-20 ">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-6 border border-gray-200">
-            <div className="text-center mb-6">
-              <p className="text-sm font-mono text-gray-500">
-                ResumeCraft/yourname.com
-              </p>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                "Portfolio",
-                "GitHub",
-                "Twitter",
-                "LinkedIn",
-                "Projects",
-                "Contact",
-              ].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="p-3 text-center text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-
-
-          </div>
-        </div> */}
-
-        {/* <AppleTerminal>
-          <HeroResume />
-        </AppleTerminal> */}
-
-        {/* <div className="relative z-10 container mx-auto px-6 text-center">
-          <HeroResume />
-        </div> */}
       </section>
     </div>
   );
