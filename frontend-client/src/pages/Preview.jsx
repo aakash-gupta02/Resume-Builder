@@ -6,6 +6,7 @@ import {
   HomeIcon,
   PrinterIcon,
   UserIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { useResume } from "../context/ResumeContext";
 import TemplateRenderer from "../components/TemplateRenderer";
@@ -22,10 +23,12 @@ const Preview = () => {
   const [loading, setLoading] = useState(true);
   const [showPromo, setShowPromo] = useState(false);
   const [promoShown, setPromoShown] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   const fetchResume = async () => {
     try {
       setLoading(true);
+      setUnauthorized(false);
       const res = await API.get(`/resume/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,8 +37,12 @@ const Preview = () => {
 
       setResumeData(res.data.resume);
     } catch (err) {
-      console.error("Error loading resume:", err);
-      navigate("/");
+      if (err.response?.status === 401) {
+        setUnauthorized(true);
+      } else {
+        console.error("Error loading resume:", err);
+        navigate("/");
+      }
     } finally {
       setLoading(false);
     }
@@ -74,6 +81,50 @@ const Preview = () => {
           <p className="text-gray-600">Loading your resume...</p>
         </div>
       </div>
+    );
+  }
+
+  if (unauthorized) {
+    return (
+      <BackgroundComponent>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="max-w-md w-full bg-white/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200 text-center">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+              <LockClosedIcon className="h-6 w-6 text-red-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Private Resume
+            </h2>
+            <p className="text-gray-600 mb-6">
+              This resume is private and cannot be accessed without permission.
+            </p>
+            {!user && (
+              <div className="space-y-4">
+                <Link
+                  to="/login"
+                  className="w-full flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  Sign in to view your resumes
+                </Link>
+                <Link
+                  to="/register"
+                  className="w-full flex justify-center items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+                >
+                  Create an account
+                </Link>
+              </div>
+            )}
+            {user && (
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Back to Dashboard
+              </Link>
+            )}
+          </div>
+        </div>
+      </BackgroundComponent>
     );
   }
 
