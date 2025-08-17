@@ -69,8 +69,27 @@ const Preview = () => {
     };
   }, [id, setResumeData, token, navigate, user, promoShown]);
 
-  const handleDownload = () => {
-    window.print();
+  // const handleDownload = () => {
+  //   window.print();
+  // };
+
+  const handleDownload = async (resumeData) => {
+    console.log(resumeData._id, "Resume ID for PDF generation");
+    try {
+      const response = await API.post(
+        `/puppeteer/generate-pdf/${resumeData._id}`
+      );
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `resume-${resumeData.title}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
   };
 
   if (loading) {
@@ -166,7 +185,7 @@ const Preview = () => {
                   Make Yours
                 </Link>
                 <button
-                  onClick={handleDownload}
+                  onClick={() => handleDownload(resumeData)}
                   className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:scale-105 hover:shadow-md hover:bg-blue-700 transition-all"
                 >
                   <ArrowDownTrayIcon className="h-5 w-5" />
@@ -224,7 +243,6 @@ const Preview = () => {
             <ResumePromoModal onClose={() => setShowPromo(false)} />
           )}
         </div>
-
       </div>
     </BackgroundComponent>
   );

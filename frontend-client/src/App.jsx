@@ -10,6 +10,8 @@ import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import "quill/dist/quill.snow.css";
+import TemplateRenderer from "./components/TemplateRenderer";
+import PuppetPreview from "./pages/PuppetPreview";
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -35,6 +37,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/resume/preview/:id" element={<Preview />} />
+        <Route path="/resume/puppeteer/:id" element={<PuppetPreview />} />
 
         {/* Protected Routes */}
         <Route

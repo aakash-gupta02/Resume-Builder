@@ -137,7 +137,6 @@ export const getAllResumes = async (req, res) => {
 export const getSingleResume = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("Getting resume with ID:", id);
 
     const resume = await Resume.findById(id);
 
