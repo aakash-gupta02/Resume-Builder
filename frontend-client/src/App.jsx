@@ -25,9 +25,7 @@ const App = () => {
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/resume/preview/:id" element={<Preview />} />
-        {/* 
-        <Route path="/resume/edit/:id" element={<ResumeEditPage />} />
-        <Route path="/resume/create" element={<CreateResume />} /> */}
+        
 
         <Route path="/resume/edit/:id" element={<ResumeEditor />} />
         <Route path="/resume/create" element={<ResumeEditor />} />

@@ -8,6 +8,8 @@ import { useAuth } from "../context/AuthContext";
 import ResumeForm from "../components/ResumeForm";
 import ResumeNavbar from "../components/ResumeNavbar";
 import TemplateRenderer from "./TemplateRenderer";
+import API from "../api/axiosInstance";
+import BackgroundComponent from "./BackgroundComponent";
 
 const ResumeEditor = () => {
   const { id } = useParams();
@@ -26,7 +28,7 @@ const ResumeEditor = () => {
       if (!isEditMode) return setLoading(false);
 
       try {
-        const res = await axios.get(`http://localhost:3000/resume/get/${id}`, {
+        const res = await API.get(`/resume/get/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -53,18 +55,14 @@ const ResumeEditor = () => {
 
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:3000/resume/update/${id}`, payload, {
+        await API.put(`/resume/update/${id}`, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Resume updated!");
       } else {
-        const res = await axios.post(
-          "http://localhost:3000/resume/create",
-          payload,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await API.post("/resume/create", payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         console.log("Resume created!");
         navigate(`/resume/edit/${res.data.resume._id}`);
       }
@@ -80,41 +78,46 @@ const ResumeEditor = () => {
   if (loading) return <div className="p-10 text-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-[#f5f4f9]">
-      {id && isEditMode ? (
-        <ResumeNavbar resumeData={resumeData} handleDownload={handleDownload} />
-      ) : (
-        <ResumeNavbar />
-      )}
+    <BackgroundComponent>
+      <div className="min-h-screen bg-white/30 ">
+        {id && isEditMode ? (
+          <ResumeNavbar
+            resumeData={resumeData}
+            handleDownload={handleDownload}
+          />
+        ) : (
+          <ResumeNavbar />
+        )}
 
-      <div className="flex flex-col lg:flex-row gap-6 px-4 lg:px-8 py-6 lg:py-10">
-        {/* Left Form */}
-        <div className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md space-y-4 overflow-y-auto max-h-[88vh]">
-          <ResumeForm />
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        <div className="flex flex-col lg:flex-row gap-6 px-4 lg:px-8 py-6 lg:py-10">
+          {/* Left Form */}
+          <div className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md space-y-4 overflow-y-auto max-h-[88vh]">
+            <ResumeForm />
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              {isEditMode ? "Update Resume" : "Create Resume"}
+            </button>
+          </div>
+
+          {/* Right Preview */}
+          <div
+            ref={printref}
+            className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md overflow-y-auto max-h-[88vh]"
           >
-            {isEditMode ? "Update Resume" : "Create Resume"}
-          </button>
-        </div>
-
-        {/* Right Preview */}
-        <div
-          ref={printref}
-          className="w-full lg:w-1/2 bg-white p-4 lg:p-6 rounded-lg shadow-md overflow-y-auto max-h-[88vh]"
-        >
-          {/* <ResumePreview /> */}
-          {/* <Classic /> */}
-          {/* 
+            {/* <ResumePreview /> */}
+            {/* <Classic /> */}
+            {/* 
           <div className="mt-4">
             <TemplateRenderer />
           </div> */}
 
-          <TemplateRenderer />
+            <TemplateRenderer />
+          </div>
         </div>
       </div>
-    </div>
+    </BackgroundComponent>
   );
 };
 
