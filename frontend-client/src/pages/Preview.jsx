@@ -12,6 +12,7 @@ import TemplateRenderer from "../components/TemplateRenderer";
 import { useAuth } from "../context/AuthContext";
 import ResumePromoModal from "../components/ResumePromoModal";
 import BackgroundComponent from "../components/BackgroundComponent";
+import API from "../api/axiosInstance";
 
 const Preview = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Preview = () => {
   const fetchResume = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:3000/resume/get/${id}`, {
+      const res = await API.get(`/resume/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +35,7 @@ const Preview = () => {
       setResumeData(res.data.resume);
     } catch (err) {
       console.error("Error loading resume:", err);
-      navigate("/dashboard");
+      navigate("/");
     } finally {
       setLoading(false);
     }
