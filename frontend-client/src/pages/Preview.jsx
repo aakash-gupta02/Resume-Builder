@@ -130,7 +130,7 @@ const Preview = () => {
 
   return (
     <BackgroundComponent>
-      <div className="min-h-screen bg-gray-50/40 pb-20">
+      <div className="bg-gray-50/40 ">
         <div id="no-print" className="sticky top-0 bg-white shadow-sm z-10">
           <div className="w-full flex justify-center fixed top-0 z-50 py-4 bg-transparent">
             {/* Floating Glass Container */}
@@ -177,8 +177,21 @@ const Preview = () => {
           </div>
         </div>
 
-        {/* Preview Content */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 ">
+        <div id="no-print" className="text-center mt-30 mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            {resumeData?.title || "My Resume"}
+          </h1>
+          <p className="text-gray-600">
+            {user
+              ? "Review your resume below. It will look exactly like this when downloaded."
+              : "You're viewing a shared resume"}
+          </p>
+        </div>
+
+        {/* <div
+          id="no-print"
+          className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 "
+        >
           <div id="no-print" className="text-center mb-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
               {resumeData?.title || "My Resume"}
@@ -189,28 +202,29 @@ const Preview = () => {
                 : "You're viewing a shared resume"}
             </p>
           </div>
+        </div> */}
 
-          <div
-            id="yes-print"
-            className="bg-white shadow-lg rounded-lg overflow-hidden"
-          >
-            <TemplateRenderer />
-          </div>
+        {/* Preview Content */}
+        {/* <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 "> */}
+        {/* <div
+          id="yes-print"
+          className="bg-white shadow-lg rounded-lg overflow-hidden"
+        >
+          <TemplateRenderer />
+        </div> */}
 
-          {user && (
-            <div id="no-print" className="mt-8 text-center">
-              <button
-                onClick={handleDownload}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors"
-              >
-                <PrinterIcon className="h-5 w-5" />
-                <span>Download Resume as PDF</span>
-              </button>
-            </div>
+        <div id="yes-print">
+          <TemplateRenderer />
+        </div>
+
+        {/* </div> */}
+
+        <div id="no-print">
+          {showPromo && (
+            <ResumePromoModal onClose={() => setShowPromo(false)} />
           )}
         </div>
 
-        {showPromo && <ResumePromoModal onClose={() => setShowPromo(false)} />}
       </div>
     </BackgroundComponent>
   );
