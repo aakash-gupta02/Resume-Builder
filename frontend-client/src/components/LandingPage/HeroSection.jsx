@@ -1,5 +1,7 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React from "react";
+import Navbar from "./Navbar";
+import AppleTerminal from "./AppleTerminal";
+import HeroResume from "./HeroResume";
 import {
   ArrowRightIcon,
   PlayIcon,
@@ -18,30 +20,32 @@ import {
 const HeroSection = () => {
   return (
     <div>
-          <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
         <Navbar />
 
-        <div className="relative z-10 container mt-10 mx-auto px-6 py-20 text-center">
-          <div className="inline-flex items-center gap-x-2 px-4 py-2 rounded-full bg-white/10 border border-blue-200 shadow-sm text-blue-600 text-sm mb-8 backdrop-blur-sm hover:bg-blue-50 transition-colors">
-            <SparklesIcon className="h-4 w-4 text-blue-500" />
-            <span className="font-medium text-gray-900">
-              Your Success Metric!
-            </span>
+        <div className="relative z-10 container mt-10 mx-auto px-6 py-20 ">
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-x-2 px-4 py-2 rounded-full bg-white/10 border border-blue-200 shadow-sm text-blue-600 text-sm backdrop-blur-sm hover:bg-blue-50 transition-colors">
+              <SparklesIcon className="h-4 w-4 text-blue-500" />
+              <span className="font-medium text-gray-900">
+                Your Success Metric!
+              </span>
+            </div>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className=" text-center text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             <span className="block">Build. Share. Dominate.</span>
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Your Career Journey
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10">
+          <p className=" text-center text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10">
             The most powerful resume builder for professionals, developers, and
             career changers.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <div className=" text-center flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <a
               href="#"
               className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
@@ -57,11 +61,15 @@ const HeroSection = () => {
             </a>
           </div>
 
-          <p className="text-blue-600 font-medium mb-10 flex items-center justify-center space-x-2">
+          <p className=" text-center text-blue-600 font-medium mb-10 flex items-center justify-center space-x-2">
             <span className="h-px w-8 bg-blue-600"></span>
             <span>No fluff. Just results.</span>
             <span className="h-px w-8 bg-blue-600"></span>
           </p>
+
+          <AppleTerminal>
+            <HeroResume />
+          </AppleTerminal>
         </div>
 
         {/* Link Grid */}
@@ -100,10 +108,12 @@ const HeroSection = () => {
           <HeroResume />
         </AppleTerminal> */}
 
-        {/* <HeroResume /> */}
+        {/* <div className="relative z-10 container mx-auto px-6 text-center">
+          <HeroResume />
+        </div> */}
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

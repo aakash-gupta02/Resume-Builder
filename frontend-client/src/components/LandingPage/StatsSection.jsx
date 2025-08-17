@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   ArrowRightIcon,
   PlayIcon,
@@ -17,7 +17,7 @@ import {
 const StatsSection = () => {
   return (
     <div>
-            <section className="relative py-20 bg-white">
+      <section className=" py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             {[
@@ -51,7 +51,7 @@ const StatsSection = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default StatsSection
+export default StatsSection;
