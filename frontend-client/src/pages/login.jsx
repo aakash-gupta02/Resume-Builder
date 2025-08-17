@@ -42,8 +42,8 @@ const Login = () => {
 
   return (
     <BackgroundComponent>
-      <div className="flex items-center justify-center min-h-screen px-4 py-8  bg-white/10  ">
-        <div className="w-full max-w-md  backdrop-blur-sm shadow-xl p-8 rounded-2xl border border-white/20">
+      <div className="flex items-center justify-center min-h-screen px-4 py-8 ">
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-sm shadow-xl p-8 rounded-2xl border border-white/20">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Welcome back</h2>
             <p className="text-gray-500 mt-2">Sign in to your account</p>
