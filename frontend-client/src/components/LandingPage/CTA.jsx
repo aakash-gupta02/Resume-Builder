@@ -16,7 +16,8 @@ import {
 
 const CTA = () => {
   return (
-    <div className="bg-white py-16">
+    <div className=" py-16 bg-white/40">
+      {/* <div className="bg-white py-16"> */}
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-x-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 shadow-sm text-blue-600 text-sm mb-5 backdrop-blur-sm">

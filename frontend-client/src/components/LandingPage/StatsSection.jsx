@@ -17,7 +17,8 @@ import {
 const StatsSection = () => {
   return (
     <div>
-      <section className=" py-20 bg-white">
+      <section className=" py-20 bg-white/40">
+      {/* <section className=" py-20 bg-white"> */}
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             {[
