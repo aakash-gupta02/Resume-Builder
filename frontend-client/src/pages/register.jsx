@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BackgroundComponent from "../components/BackgroundComponent";
+import API from "../api/axiosInstance";
+import { Eye, EyeOff, Loader2, X } from "lucide-react";
 
 const Register = () => {
-//   const { login } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -14,6 +15,7 @@ const Register = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,11 +26,7 @@ const Register = () => {
     setError("");
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:3000/auth/register",
-        form
-      );
-
+      const { data } = await API.post("/auth/register", form);
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
@@ -38,70 +36,111 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white shadow-xl p-8 rounded-xl">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Register</h2>
-
-        {error && (
-          <div className="bg-red-100 text-red-700 px-4 py-2 mb-4 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
-            <input
-              type="text"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+    <BackgroundComponent>
+      <div className="flex items-center justify-center bg-white/20 min-h-screen px-4 py-8">
+        <div className="w-full max-w-md  backdrop-blur-sm shadow-xl p-8 rounded-2xl border border-white/20">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800">Create account</h2>
+            <p className="text-gray-500 mt-2">Get started with JobFolio</p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
+          {error && (
+            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+              <div className="flex-1">
+                <p className="font-medium">{error}</p>
+              </div>
+              <button
+                onClick={() => setError("")}
+                className="text-red-400 hover:text-red-600"
+              >
+                <X size={18} />
+              </button>
+            </div>
+          )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="John Doe"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
-          <a onClick={()=>{
-            navigate("/login")
-          }} className="text-blue-500 hover:underline">Login</a>
-        </p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10"
+                  placeholder="••••••••"
+                  required
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                "Register"
+              )}
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-blue-500 hover:underline"
+            >
+              Login
+            </button>
+          </p>
+        </div>
       </div>
-    </div>
+    </BackgroundComponent>
   );
 };
 
