@@ -72,14 +72,18 @@ const Preview = () => {
   const handleDownload = async (resumeData) => {
     console.log(resumeData._id, "Resume ID for PDF generation");
     try {
-      const response = await API.post(`/puppeteer/generate-pdf/${resumeData._id}`);
+      const response = await API.post(
+        `/puppeteer/generate-pdf/${resumeData._id}`,
+        {}, // no body
+        {
+          responseType: "blob", // 👈 important
+        }
+      );
 
-      console.log(response.data, "PDF generation response");
+      console.log(response, "PDF generation response");
 
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
-
-      console.log(url, "PDF Blob URL");
 
       const a = document.createElement("a");
       a.href = url;
