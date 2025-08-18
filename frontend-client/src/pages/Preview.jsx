@@ -69,19 +69,18 @@ const Preview = () => {
     };
   }, [id, setResumeData, token, navigate, user, promoShown]);
 
-  // const handleDownload = () => {
-  //   window.print();
-  // };
-
   const handleDownload = async (resumeData) => {
     console.log(resumeData._id, "Resume ID for PDF generation");
     try {
-      const response = await API.post(
-        `/puppeteer/generate-pdf/${resumeData._id}`
-      );
+      const response = await API.post(`/puppeteer/generate-pdf/${resumeData._id}`);
+
+      console.log(response.data, "PDF generation response");
 
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
+
+      console.log(url, "PDF Blob URL");
+
       const a = document.createElement("a");
       a.href = url;
       a.download = `resume-${resumeData.title}.pdf`;

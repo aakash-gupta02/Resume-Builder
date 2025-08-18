@@ -8,9 +8,6 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization?.split(" ")[1] || null;
 
-  console.log(token, "Token for PDF generation");
-  console.log(id, "Resume ID for PDF generation");
-
   try {
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();

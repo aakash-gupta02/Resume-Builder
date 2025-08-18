@@ -32,10 +32,9 @@ export const protect = async (req, res, next) => {
 export const conditionalAuth = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id, "Resume ID for conditional auth");
 
     const resume = await resumeModel.findById(id);
-    if (!resume) return res.status(404).json({ message: "Resume not found2" });
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
 
     if (resume.publicAccess) {
       return next();
