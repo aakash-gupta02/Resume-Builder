@@ -22,7 +22,7 @@
   /* ... */
 }
 
-@media print{
+/* @media print{
   #no-print{
     display: none;
   }
@@ -41,4 +41,25 @@
 @page{
   size: auto;
   margin: 0mm;
+} */
+
+
+.resume-wrapper {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm;
+  margin: auto;
+  background: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+  /* force A4 print size */
+  @media print {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
 }
+
+

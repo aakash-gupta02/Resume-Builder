@@ -12,6 +12,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import InfoModal from "./InfoModal";
 
 const ResumeNavbar = ({ handleDownload }) => {
   const navigate = useNavigate();
@@ -88,6 +89,8 @@ const ResumeNavbar = ({ handleDownload }) => {
         <ShareIcon className="h-5 w-5" />
         <span>Share</span>
       </button>
+        <InfoModal />
+
     </>
   );
 

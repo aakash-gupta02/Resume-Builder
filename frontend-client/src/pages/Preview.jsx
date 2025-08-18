@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
-  ArrowDownTrayIcon,
   HomeIcon,
   PrinterIcon,
   UserIcon,
   LockClosedIcon,
+  ArrowDownTrayIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useResume } from "../context/ResumeContext";
 import TemplateRenderer from "../components/TemplateRenderer";
@@ -24,6 +25,7 @@ const Preview = () => {
   const [showPromo, setShowPromo] = useState(false);
   const [promoShown, setPromoShown] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
+  const [pdfGenerating, setPdfGenerating] = useState(false);
 
   const fetchResume = async () => {
     try {
@@ -70,7 +72,7 @@ const Preview = () => {
   }, [id, setResumeData, token, navigate, user, promoShown]);
 
   const handleDownload = async (resumeData) => {
-    console.log(resumeData._id, "Resume ID for PDF generation");
+    setPdfGenerating(true);
     try {
       const response = await API.post(
         `/puppeteer/generate-pdf/${resumeData._id}`,
@@ -80,8 +82,6 @@ const Preview = () => {
         }
       );
 
-      console.log(response, "PDF generation response");
-
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
@@ -90,8 +90,11 @@ const Preview = () => {
       a.download = `resume-${resumeData.title}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
+      setPdfGenerating(false);
     } catch (error) {
       console.error("Error downloading PDF:", error);
+    } finally {
+      setPdfGenerating(false);
     }
   };
 
@@ -181,12 +184,15 @@ const Preview = () => {
 
               {/* Right Section */}
               <div className="flex items-center gap-2">
-                <Link
-                  to="/"
-                  className="text-sm flex items-center gap-2 border border-blue-600 text-blue-600 px-6 py-2 rounded-full cursor-pointer hover:bg-blue-600 hover:text-white hover:shadow-md transition-all"
-                >
-                  Make Yours
-                </Link>
+
+                {!user && (
+                  <Link
+                    to="/"
+                    className="text-sm flex items-center gap-2 border border-blue-600 text-blue-600 px-6 py-2 rounded-full cursor-pointer hover:bg-blue-600 hover:text-white hover:shadow-md transition-all"
+                  >
+                    Make Yours
+                  </Link>
+                )}
                 <button
                   onClick={() => handleDownload(resumeData)}
                   className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:scale-105 hover:shadow-md hover:bg-blue-700 transition-all"
@@ -210,32 +216,41 @@ const Preview = () => {
           </p>
         </div>
 
-        {/* <div
-          id="no-print"
-          className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 "
-        >
-          <div id="no-print" className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              {resumeData?.title || "My Resume"}
-            </h1>
-            <p className="text-gray-600">
-              {user
-                ? "Review your resume below. It will look exactly like this when downloaded."
-                : "You're viewing a shared resume"}
-            </p>
+        {pdfGenerating && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="relative bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4">
+              {/* <button
+                // onClick={onClose}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <XMarkIcon className="h-6 w-6" />
+              </button> */}
+
+              <div className="flex flex-col items-center text-center">
+                <div className="animate-bounce mb-4">
+                  <ArrowDownTrayIcon className="h-12 w-12 text-blue-600" />
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-2 animate-pulse ">
+                  Preparing Your PDF...
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Your resume is being generated. Please wait a moment...
+                </p>
+
+                {/* <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div
+                    className="bg-blue-600 h-2.5 rounded-full animate-pulse"
+                    style={{ width: "70%" }}
+                  ></div>
+                </div> */}
+              </div>
+            </div>
           </div>
-        </div> */}
+        )}
 
-        {/* Preview Content */}
-        {/* <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 "> */}
-        {/* <div
-          id="yes-print"
-          className="bg-white shadow-lg rounded-lg overflow-hidden"
-        >
-          <TemplateRenderer />
-        </div> */}
-
-        <div id="yes-print">
+        {/* <div id="yes-print" className="p-4"> */}
+        <div className="resume-wrapper" >
           <TemplateRenderer />
         </div>
 
