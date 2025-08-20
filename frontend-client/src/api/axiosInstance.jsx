@@ -2,6 +2,8 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://resume-builder-xa7u.onrender.com",
+  // baseURL: "http://localhost:3000",
+
   headers: {
     "Content-Type": "application/json",
   },

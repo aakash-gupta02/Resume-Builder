@@ -1,4 +1,4 @@
-import Classic from "./Classic";
+import Classic from "./classic";
 import Classic2 from "./Classic2";
 import Minimal from "./Minimal";
 import Modern from "./Modern";
