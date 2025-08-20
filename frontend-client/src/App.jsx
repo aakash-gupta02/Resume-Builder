@@ -12,6 +12,7 @@ import { useAuth } from "./context/AuthContext";
 import "quill/dist/quill.snow.css";
 import TemplateRenderer from "./components/TemplateRenderer";
 import PuppetPreview from "./pages/PuppetPreview";
+import AboutUs from "./pages/AboutUs";
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/resume/preview/:id" element={<Preview />} />
         <Route path="/resume/puppeteer/:id" element={<PuppetPreview />} />
+        <Route path="/about" element={<AboutUs />} />
 
         {/* Protected Routes */}
         <Route
