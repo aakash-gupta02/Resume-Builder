@@ -9,6 +9,7 @@ import ResumePreview from "../components/resume/ResumePreview";
 
 import ResumeForm from "../components/ResumeForm";
 import ResumeNavbar from "../components/ResumeNavbar";
+import API from "../api/axiosInstance";
 
 const ResumeEditPage = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ const ResumeEditPage = () => {
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/resume/get/${id}`, {
+        const res = await API.get(`/resume/get/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -48,8 +49,8 @@ const ResumeEditPage = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(
-        `http://localhost:3000/resume/update/${id}`,
+      const res = await API.put(
+        `/resume/update/${id}`,
         updateLoad,
         {
           headers: {

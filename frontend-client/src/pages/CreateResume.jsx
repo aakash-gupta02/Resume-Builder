@@ -7,6 +7,7 @@ import ResumePreview from "../components/resume/ResumePreview";
 import ResumeForm from "../components/ResumeForm";
 import ResumeNavbar from "../components/ResumeNavbar";
 import { useRef, useState } from "react";
+import API from "../api/axiosInstance";
 const CreateResume = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const { token, user } = useAuth();
@@ -23,8 +24,8 @@ const CreateResume = () => {
         userId: user._id,
       };
 
-      const res = await axios.post(
-        "http://localhost:3000/resume/create",
+      const res = await API.post(
+        "/resume/create",
         payload,
         {
           headers: {
