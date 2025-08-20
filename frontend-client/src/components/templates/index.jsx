@@ -3,6 +3,7 @@ import Classic2 from "./Classic2";
 import Minimal from "./Minimal";
 import Modern from "./Modern";
 import Modern2 from "./Modern2";
+import ModernTwoColumnResume from "./ModernTwo-ColumnResume";
 import Narrow from "./Narrow";
 
 export const TEMPLATES = {
@@ -47,6 +48,13 @@ export const TEMPLATES = {
     description: "Narrow layout with new features",
     image:
       "https://resumeworded.com/assets/images/resume-guides/career-change-data-scientist.png", // Another clean design
+  },
+  modernTwoColumnResume: {
+    component: ModernTwoColumnResume,
+    name: "Modern Two Column",
+    description: "Modern two-column layout",
+    image:
+      "https://cdn.enhancv.com/images/1098/i/aHR0cHM6Ly9jZG4uZW5oYW5jdi5jb20vcHJlZGVmaW5lZC1leGFtcGxlcy9OcWVmRGROYXV3ZUhkY3hzVXI2dmt3TG13V1ZQUm5vZ3dORDBZUnMzL2ltYWdlLnBuZw~~.png", 
   },
 };
 
