@@ -6,10 +6,13 @@
   "author": "",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "start": " npx nodemon index.js"
+   "scripts": {
+    "build": "npm install",
+    "start": "node index.js",
+    "postinstall": "node install-puppeteer.js"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^138.0.2",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
