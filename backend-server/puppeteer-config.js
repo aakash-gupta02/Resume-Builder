@@ -6,7 +6,7 @@ dotenv.config();
 
 // Function to get Chrome executable path based on environment
 const getChromePath = () => {
-  if (process.env.NODE_ENV == 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     // Development - use system Chrome or let Puppeteer download it
     return undefined;
   }
