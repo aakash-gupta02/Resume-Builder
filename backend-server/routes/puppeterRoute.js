@@ -1,7 +1,9 @@
 // puppeteerRoute.js
 import express from "express";
 import { conditionalAuth } from "../middleware/authMiddleware.js";
-import { launchBrowser } from "../puppeteer-config.js"; // Import from config
+import { launchBrowser } from "../puppeteer-config.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
