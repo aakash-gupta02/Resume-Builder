@@ -1,7 +1,7 @@
 // puppeteerRoute.js
 import express from "express";
 import { conditionalAuth } from "../middleware/authMiddleware.js";
-import { launchBrowser } from "./puppeteer-config.js"; // Import from config
+import { launchBrowser } from "../puppeteer-config.js"; // Import from config
 
 const router = express.Router();
 
