@@ -10,8 +10,23 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://resume-builder-chi-eight.vercel.app",
+];
 
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // allow cookies/authorization headers
+  })
+);
 app.get("/", (req, res) => {
   res.send("Hello to JobFolio");
 });
