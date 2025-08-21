@@ -6,11 +6,10 @@
   "author": "",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "build": "npm install",
-    "start": "node index.js",
-"postinstall": "PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer npx puppeteer browsers install chrome"
-  },
+"scripts": {
+  "start": "node index.js",
+  "postinstall": "npx puppeteer browsers install chrome"
+},
   "dependencies": {
     "@sparticuz/chromium": "^138.0.2",
     "bcryptjs": "^3.0.2",
