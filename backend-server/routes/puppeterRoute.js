@@ -1,8 +1,8 @@
 // puppeteerRoute.js
 import express from "express";
 import { conditionalAuth } from "../middleware/authMiddleware.js";
-import { launchBrowser } from "../puppeteer-config.js";
-import dotenv from 'dotenv';
+import puppeteer from "puppeteer";
+import dotenv from "dotenv";
 dotenv.config();
 
 const router = express.Router();
@@ -13,8 +13,18 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
   let browser = null;
 
   try {
-    // Option 1: If you want to navigate to a URL
-    browser = await launchBrowser();
+    // 🔥 Independent browser launch (no dependency on launchBrowser util)
+    browser = await puppeteer.launch({
+      headless: "new",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--single-process",
+      ],
+    });
+
     const page = await browser.newPage();
 
     if (token) {
@@ -23,16 +33,17 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
       });
     }
 
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.FRONTEND_URL 
-      : "http://localhost:5173";
-    
+    const baseUrl =
+      process.env.NODE_ENV === "production"
+        ? process.env.FRONTEND_URL
+        : "http://localhost:5173";
+
     const previewUrl = `${baseUrl}/resume/puppeteer/${id}`;
     console.log(`Generating PDF from: ${previewUrl}`);
 
-    await page.goto(previewUrl, { 
+    await page.goto(previewUrl, {
       waitUntil: "networkidle0",
-      timeout: 60000
+      timeout: 60000,
     });
 
     const pdfBuffer = await page.pdf({
@@ -42,8 +53,8 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
         top: "0.5in",
         right: "0.5in",
         bottom: "0.5in",
-        left: "0.5in"
-      }
+        left: "0.5in",
+      },
     });
 
     await browser.close();
@@ -53,14 +64,13 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
       "Content-Disposition": `attachment; filename="resume-${id}.pdf"`,
     });
     res.send(pdfBuffer);
-
   } catch (error) {
-    console.error("PDF Generation Error:", error);
+    console.error("PDF Generation Error:", error.message);
     if (browser) {
       await browser.close();
     }
+    res.status(500).json({ error: "Failed to generate PDF" });
   }
 });
-
 
 export default router;
