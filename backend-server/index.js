@@ -2,7 +2,6 @@ import express from "express";
 import "./config/db.js";
 import cors from "cors";
 import { protect } from "./middleware/authMiddleware.js";
-
 import userRoute from "./routes/userRoute.js";
 import resRoute from "./routes/resumeRoute.js";
 import puppeteerRoute from "./routes/puppeterRoute.js" ;
