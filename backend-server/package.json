@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm install",
     "start": "node index.js",
-    "postinstall": "node install-puppeteer.js"
+  "postinstall": "npx puppeteer browsers install"
   },
   "dependencies": {
     "@sparticuz/chromium": "^138.0.2",
