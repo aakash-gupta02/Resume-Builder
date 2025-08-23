@@ -98,6 +98,16 @@ const Preview = () => {
     }
   };
 
+  // const handleDownload = async () => {
+  //   try {
+  //     const res = await axios.get("https://puppeteer-render-kx0r.onrender.com/resume");
+  //     console.log(res.data);
+
+  // } catch (error) {
+  //   console.error("Error downloading PDF:", error);
+  // }
+  // };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">

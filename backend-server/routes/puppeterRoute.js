@@ -10,19 +10,17 @@ const router = express.Router();
 router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization?.split(" ")[1] || null;
-  let browser = null;
+
+  let browser; // declare once
 
   try {
-    // 🔥 Independent browser launch (no dependency on launchBrowser util)
     browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
       headless: "new",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--single-process",
-      ],
     });
 
     const page = await browser.newPage();
@@ -49,7 +47,7 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
-      margin: {
+     margin: {
         top: "0.5in",
         right: "0.5in",
         bottom: "0.5in",
@@ -59,18 +57,20 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
 
     await browser.close();
 
-    res.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="resume-${id}.pdf"`,
-    });
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="resume-${id}.pdf"`
+    );
     res.send(pdfBuffer);
+
+    console.log("✅ Resume PDF generated");
   } catch (error) {
     console.error("PDF Generation Error:", error.message);
-    if (browser) {
-      await browser.close();
-    }
+    if (browser) await browser.close();
     res.status(500).json({ error: "Failed to generate PDF" });
   }
 });
+
 
 export default router;
