@@ -4,7 +4,7 @@ import BackgroundComponent from "../components/BackgroundComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import API from "../api/axiosInstance";
-import { Eye, EyeOff, Loader2 } from "lucide-react"; // Import eye icons and spinner
+import { Eye, EyeOff, Loader2, X } from "lucide-react"; // Import eye icons and spinner
 
 const Login = () => {
   const { login } = useAuth();
