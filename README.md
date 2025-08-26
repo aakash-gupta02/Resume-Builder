@@ -24,8 +24,13 @@ A full-stack web application for creating, editing, and sharing professional res
 
 ### Resume Editor
 [![Screenshot-2025-08-26-225232.png](https://i.postimg.cc/R0JSYvz9/Screenshot-2025-08-26-225232.png)](https://postimg.cc/mcRWzfD6)
+
 ### PDF Preview
 [![Screenshot-2025-08-26-225306.png](https://i.postimg.cc/y8b6nktv/Screenshot-2025-08-26-225306.png)](https://postimg.cc/xXLS1T0z)
+
+### Full Landing Page
+[![screencapture-localhost-5173-2025-08-17-16-27-52.png](https://i.postimg.cc/SKkXcFpr/screencapture-localhost-5173-2025-08-17-16-27-52.png)](https://postimg.cc/pmcXtSrh)
+
 ---
 
 ## Tech Stack
@@ -195,6 +200,23 @@ Resume Builder/
 │   └── resume1.pdf
 └── ...
 ```
+
+## Challenges I Faced
+
+The backend and frontend development were relatively smooth, but the real challenges started when I implemented the **PDF download feature**.
+
+- At first, I tried frontend-based solutions for generating PDFs. While they worked to some extent, they produced unexpected behaviors and inconsistent results, especially when handling complex resume layouts.  
+- I experimented with libraries like **html2pdf** and similar packages, but none of them were reliable enough for production use.  
+- After researching how real-world products handle PDF generation, I discovered that it’s generally done on the **backend**, as it’s more stable and predictable.  
+- This led me to adopt **Puppeteer**, a Node.js backend library for headless browser automation, which provided reliable and responsive resume-to-PDF conversion.
+
+Other significant challenges I faced:  
+- Ensuring the **resume remained responsive** and visually consistent across PDF exports.  
+- Handling **Docker deployment** with Puppeteer (since Puppeteer requires additional dependencies inside Docker to run Chromium properly).  
+- Configuring and troubleshooting **MongoDB Atlas connectivity**, which involved dealing with whitelisting issues, IP restrictions, and even Mongoose version mismatches during deployment.
+
+Overcoming these hurdles gave me a deeper understanding of production-grade challenges and how to approach them systematically.
+
 
 ---
 
