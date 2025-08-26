@@ -13,6 +13,7 @@ app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
   "https://resume-builder-chi-eight.vercel.app",
+  "https://jobfolioo.vercel.app"
 ];
 
 app.use(
