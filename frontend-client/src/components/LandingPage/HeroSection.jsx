@@ -16,6 +16,7 @@ import {
   BoltIcon,
   GlobeAltIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -46,19 +47,19 @@ const HeroSection = () => {
           </p>
 
           <div className=" text-center flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <a
-              href="#"
+            <Link
+              to="/dashboard"
               className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
             >
               Create Your Resume <ArrowRightIcon className="h-4 w-4" />
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className="px-6 py-3 bg-white text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 flex items-center gap-2"
             >
               <PlayIcon className="h-4 w-4 text-blue-600" />
               Watch Demo
-            </a>
+            </Link>
           </div>
 
           <p className=" text-center text-blue-600 font-medium mb-10 flex items-center justify-center space-x-2">
