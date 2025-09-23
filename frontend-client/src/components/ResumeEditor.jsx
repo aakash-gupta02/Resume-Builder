@@ -10,6 +10,7 @@ import ResumeNavbar from "../components/ResumeNavbar";
 import TemplateRenderer from "./TemplateRenderer";
 import API from "../api/axiosInstance";
 import BackgroundComponent from "./BackgroundComponent";
+import { toast } from "react-toastify";
 
 const ResumeEditor = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const ResumeEditor = () => {
 
   const isEditMode = Boolean(id);
 
-  // edit mode
+  // edit mode & fetch resume data 
   useEffect(() => {
     const fetchResume = async () => {
       if (!isEditMode) return setLoading(false);
@@ -33,8 +34,10 @@ const ResumeEditor = () => {
         });
 
         setResumeData(res.data.resume);
+        toast.success("Resume data loaded successfully!");
       } catch (err) {
         console.error("Error loading resume:", err);
+        toast.error("Failed to load resume data.");
       } finally {
         setLoading(false);
       }
@@ -58,16 +61,20 @@ const ResumeEditor = () => {
         await API.put(`/resume/update/${id}`, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         console.log("Resume updated!");
+        toast.success("Resume updated successfully!");
       } else {
         const res = await API.post("/resume/create", payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Resume created!");
+        toast.success("Resume created successfully!");
         navigate(`/resume/edit/${res.data.resume._id}`);
       }
     } catch (error) {
       console.error("Error submitting resume:", error);
+      toast.error("Failed to submit resume.");
     }
   };
 
