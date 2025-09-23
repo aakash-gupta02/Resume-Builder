@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import API from "../api/axiosInstance";
 import { Eye, EyeOff, Loader2, X } from "lucide-react"; // Import eye icons and spinner
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { login } = useAuth();
@@ -30,6 +31,7 @@ const Login = () => {
     try {
       const { data } = await API.post("/auth/login", form);
       login(data.user, data.token);
+      toast.success("Login successful!");
       navigate("/");
     } catch (err) {
       setError(

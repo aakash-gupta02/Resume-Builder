@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BackgroundComponent from "../components/BackgroundComponent";
 import API from "../api/axiosInstance";
 import { Eye, EyeOff, Loader2, X } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Register = () => {
 
     try {
       const { data } = await API.post("/auth/register", form);
+      toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");

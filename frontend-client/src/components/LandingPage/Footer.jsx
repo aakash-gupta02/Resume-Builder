@@ -1,5 +1,6 @@
 import React from "react";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaFileDownload } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -61,14 +62,13 @@ return (
               <FaEnvelope size={24} />
             </a>
           </div>
-          <a 
-            href="/resume.pdf" 
-            download
+          <Link 
+            to="/resume/preview/689a1c11bbb7bab568b7e203" 
             className="inline-flex items-center text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-colors"
           >
             <FaFileDownload className="mr-2" />
             Download My Resume
-          </a>
+          </Link>
         </div>
       </div>
       
