@@ -28,7 +28,7 @@ return (
           </p>
           <div className="flex space-x-4 mb-4">
             <a 
-              href="https://github.com/yourusername" 
+              href="https://github.com/aakash-gupta02" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-900 transition-colors"
@@ -37,7 +37,7 @@ return (
               <FaGithub size={24} />
             </a>
             <a 
-              href="https://linkedin.com/in/yourusername" 
+              href="https://www.linkedin.com/in/aakash-gupta-5a337928b" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-900 transition-colors"
@@ -46,7 +46,7 @@ return (
               <FaLinkedin size={24} />
             </a>
             <a 
-              href="https://twitter.com/yourusername" 
+              href="https://x.com/AakashG99795" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-900 transition-colors"
@@ -55,7 +55,7 @@ return (
               <FaTwitter size={24} />
             </a>
             <a 
-              href="mailto:youremail@example.com"
+              href="mailto:aakashgupta052004@gmail.com"
               className="text-gray-500 hover:text-gray-900 transition-colors"
               aria-label="Email"
             >
@@ -96,3 +96,4 @@ return (
 };
 
 export default Footer;
+
