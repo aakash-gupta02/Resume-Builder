@@ -5,14 +5,7 @@ dotenv.config();
 
 const MONGOURL = process.env.MONGO_URL;
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  ssl: true,                       // 🔒 Required for Atlas
-  serverSelectionTimeoutMS: 15000, // ⏳ avoid hanging logs forever
-};
-
-mongoose.connect(MONGOURL, options)
+mongoose.connect(MONGOURL)
   .then(() => {
     console.log("✅ DB CONNECTED");
   })

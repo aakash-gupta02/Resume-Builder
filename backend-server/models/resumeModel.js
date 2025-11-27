@@ -7,8 +7,6 @@ const itemSchema = new mongoose.Schema(
   },
 );
 
-
-
 const sectionSchema = new mongoose.Schema(
   {
     type: String,            // "experience", "education", "custom"
@@ -29,20 +27,36 @@ const resumeSchema = new mongoose.Schema(
       ref: "user",
       required: true,
     },
-
-    title: { type: String, required: true },
-    thumbnailLink: String,
-
-    template: {
-      id: String,
-      theme: String,
-      colors: [String],
-      styles: Object,
+    title: { 
+      type: String, 
+      required: true 
     },
-
-    sections: [sectionSchema],
-
-    publicAccess: { type: Boolean, default: false },
+    thumbnailLink: { 
+      type: String, 
+      default: "" 
+    },
+    template: {
+      id: { 
+        type: String, 
+        default: "classic" 
+      },
+      theme: { 
+        type: String, 
+        default: "blue" 
+      },
+      styles: { 
+        type: Object, 
+        default: {} 
+      },
+    },
+    sections: { 
+      type: [sectionSchema], 
+      default: [] 
+    },
+    publicAccess: { 
+      type: Boolean, 
+      default: false 
+    },
   },
   { timestamps: true }
 );

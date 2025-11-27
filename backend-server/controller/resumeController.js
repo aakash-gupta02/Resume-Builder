@@ -3,60 +3,13 @@ import Resume from "../models/resumeModel.js";
 // Create Resume
 export const createResume = async (req, res) => {
   try {
-    const defaultResumeData = {
-      thumbnailLink: "",
-      template: { theme: "", colorPalate: [] },
-      profileInfo: {
-        fullName: "",
-        title: "",
-        email: "",
-        phone: "",
-        address: "",
-        summary: "",
-        profileImage: "",
-      },
-      contactLinks: { website: "", linkedIn: "", github: "", leetcode: "" },
-      education: [
-        {
-          institute: "",
-          degree: "",
-          fieldOfStudy: "",
-          startDate: "",
-          endDate: "",
-          grade: "",
-          description: "",
-        },
-      ],
-      experience: [
-        {
-          company: "",
-          role: "",
-          startDate: "",
-          endDate: "",
-          location: "",
-          description: "",
-        },
-      ],
-      projects: [
-        { name: "", description: "", techStack: [], link: "", github: "" },
-      ],
-      skills: { technical: [], soft: [], tools: [], languages: [] },
-      certifications: [
-        { name: "", issuer: "", date: "", credentialId: "", credentialUrl: "" },
-      ],
-      hobbies: [""],
-      achievements: [""],
-      languages: [{ name: "", progress: 0 }],
-    };
-
     const count = await Resume.countDocuments({ userId: req.user._id });
     const title = `Resume ${count + 1}`;
 
     const newResume = await Resume.create({
       userId: req.user._id,
-      ...defaultResumeData,
-      ...req.body,
       title,
+      ...req.body,
     });
 
     res.status(201).json({
