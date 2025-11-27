@@ -1,5 +1,27 @@
 import mongoose from "mongoose";
 
+const itemSchema = new mongoose.Schema(
+  {
+    values: mongoose.Schema.Types.Mixed,
+    order: Number,
+  },
+);
+
+
+
+const sectionSchema = new mongoose.Schema(
+  {
+    type: String,            // "experience", "education", "custom"
+    title: String,           // user visible
+    order: Number,           // order of sections
+    visible: { type: Boolean, default: true },
+
+    content: mongoose.Schema.Types.Mixed,  // for summary/about sections
+
+    items: [itemSchema],
+  },
+);
+
 const resumeSchema = new mongoose.Schema(
   {
     userId: {
@@ -8,102 +30,17 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
 
-    title: {
-      type: String,
-      required: true,
-    },
-
-    thumbnailLink: {
-      type: String,
-    },
+    title: { type: String, required: true },
+    thumbnailLink: String,
 
     template: {
+      id: String,
       theme: String,
-      colorPalate: [String],
+      colors: [String],
+      styles: Object,
     },
 
-    profileInfo: {
-      fullName: { type: String },
-      title: { type: String }, // e.g., Web Developer
-      email: { type: String },
-      phone: { type: String },
-      address: { type: String },
-      summary: { type: String }, // about me
-      profileImage: { type: String }, // URL
-    },
-
-    contactLinks: {
-      website: { type: String },
-      linkedIn: { type: String },
-      github: { type: String },
-      leetcode: { type: String },
-    },
-
-    education: [
-      {
-        institute: String,
-        degree: String,
-        fieldOfStudy: String,
-        startDate: Date,
-        endDate: Date,
-        grade: String,
-        description: String,
-      },
-    ],
-
-    experience: [
-      {
-        company: String,
-        role: String,
-        startDate: Date,
-        endDate: Date,
-        location: String,
-        description: String,
-      },
-    ],
-
-    projects: [
-      {
-        name: String,
-        description: String,
-        techStack: [String],
-        link: String,
-        github: String,
-      },
-    ],
-
-    skills: {
-      technical: [String], // e.g., JavaScript, Python, SQL
-      soft: [String], // e.g., Communication, Teamwork
-      tools: [String],
-      languages: [String],
-    },
-
-    certifications: [
-      {
-        name: String,
-        issuer: String,
-        date: Date,
-        credentialId: String,
-        credentialUrl: String,
-      },
-    ],
-
-    hobbies: [String],
-
-    achievements: [String],
-
-    languages: [
-      {
-        name: String,
-        progress: Number,
-      },
-    ],
-
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+    sections: [sectionSchema],
 
     publicAccess: { type: Boolean, default: false },
   },
