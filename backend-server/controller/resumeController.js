@@ -28,24 +28,40 @@ export const updateResume = async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
-    const existing = await Resume.findById(id);
-    if (!existing) return res.status(404).json({ message: "Resume not found" });
-
-    if (existing.userId.toString() !== req.user._id.toString()) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to update this resume" });
+    const existingResume = await Resume.findById(id);
+    if (!existingResume) {
+      return res.status(404).json({ message: "Resume not found" });
     }
 
-    Object.assign(existing, updates);
-    const updated = await existing.save();
+    // Authorization check
+    if (existingResume.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ 
+        message: "Unauthorized to update this resume" 
+      });
+    }
+
+    // Use findByIdAndUpdate for better Mongoose integration
+    const updatedResume = await Resume.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true, runValidators: true } // Returns updated doc + runs validation
+    );
 
     res.status(200).json({
       message: "Resume updated successfully",
-      resume: updated,
+      resume: updatedResume,
     });
   } catch (error) {
     console.error("Update Resume Error:", error.message);
+    
+    // Handle validation errors specifically
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        message: "Validation Error", 
+        errors: error.errors 
+      });
+    }
+    
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

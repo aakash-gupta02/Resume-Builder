@@ -8,7 +8,6 @@ import {
   updateTitle,
   toggleResumeAccess,
 } from "../controller/resumeController.js";
-
 import { conditionalAuth, protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -20,7 +19,7 @@ router.use(protect);
 router.post("/create", createResume);
 router.get("/all", getAllResumes);
 
-router.put("/update/:id", updateResume);
+router.patch("/update/:id", updateResume);
 router.delete("/delete/:id", deleteResume);
 
 router.patch("/update/title/:id", updateTitle);
