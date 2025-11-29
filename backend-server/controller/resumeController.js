@@ -35,16 +35,16 @@ export const updateResume = async (req, res) => {
 
     // Authorization check
     if (existingResume.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ 
-        message: "Unauthorized to update this resume" 
+      return res.status(403).json({
+        message: "Unauthorized to update this resume"
       });
     }
 
     // Use findByIdAndUpdate for better Mongoose integration
     const updatedResume = await Resume.findByIdAndUpdate(
       id,
-      { $set: updates },
-      { new: true, runValidators: true } // Returns updated doc + runs validation
+      updates,
+      { new: true, runValidators: true }
     );
 
     res.status(200).json({
@@ -53,15 +53,15 @@ export const updateResume = async (req, res) => {
     });
   } catch (error) {
     console.error("Update Resume Error:", error.message);
-    
+
     // Handle validation errors specifically
     if (error.name === 'ValidationError') {
-      return res.status(400).json({ 
-        message: "Validation Error", 
-        errors: error.errors 
+      return res.status(400).json({
+        message: "Validation Error",
+        errors: error.errors
       });
     }
-    
+
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -171,9 +171,8 @@ export const toggleResumeAccess = async (req, res) => {
     resume.publicAccess = !resume.publicAccess;
     await resume.save();
     res.status(200).json({
-      message: `Resume access ${
-        resume.publicAccess ? "enabled" : "disabled"
-      } successfully`,
+      message: `Resume access ${resume.publicAccess ? "enabled" : "disabled"
+        } successfully`,
       access: resume.publicAccess,
     });
   } catch (error) {
