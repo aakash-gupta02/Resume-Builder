@@ -5,7 +5,7 @@ const TemplateRenderer = () => {
   const { resumeData } = useResume();
   
   // Use the same key as defined in TEMPLATES ('classic' not 'template1')
-  const selected = resumeData.template?.theme || DEFAULT_TEMPLATE;
+  const selected = resumeData?.template?.id || DEFAULT_TEMPLATE;
   
   // Safely get the component
   const TemplateComponent = TEMPLATES[selected]?.component;

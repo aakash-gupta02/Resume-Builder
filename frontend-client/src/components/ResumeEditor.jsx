@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 
 import { useResume } from "../context/ResumeContext";
 import { useAuth } from "../context/AuthContext";
@@ -16,7 +15,7 @@ const ResumeEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { token, user } = useAuth();
-  const { resumeData, setResumeData } = useResume();
+  const { resume, setResume } = useResume();
 
   const printref = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -29,11 +28,9 @@ const ResumeEditor = () => {
       if (!isEditMode) return setLoading(false);
 
       try {
-        const res = await API.get(`/resume/get/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get(`/resume/get/${id}`);
 
-        setResumeData(res.data.resume);
+        setResume(res.data.resume);
         toast.success("Resume data loaded successfully!");
       } catch (err) {
         console.error("Error loading resume:", err);
@@ -46,13 +43,13 @@ const ResumeEditor = () => {
     fetchResume();
 
     return () => {
-      setResumeData({});
+      setResume({});
     };
   }, [id, isEditMode]);
 
   const handleSubmit = async () => {
     const payload = {
-      ...resumeData,
+      ...resume,
       userId: user._id,
     };
 
@@ -82,6 +79,9 @@ const ResumeEditor = () => {
     navigate(`/resume/preview/${id}`);
   };
 
+  console.log(resume);
+  
+
   if (loading) return <div className="p-10 text-center">Loading...</div>;
 
   return (
@@ -89,7 +89,7 @@ const ResumeEditor = () => {
       <div className="min-h-screen bg-white/30 ">
         {id && isEditMode ? (
           <ResumeNavbar
-            resumeData={resumeData}
+            resume={resume}
             handleDownload={handleDownload}
           />
         ) : (
