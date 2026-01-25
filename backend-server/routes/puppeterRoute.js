@@ -31,10 +31,12 @@ router.post("/generate-pdf/:id", conditionalAuth, async (req, res) => {
       });
     }
 
-    const baseUrl =
-      process.env.NODE_ENV === "production"
-        ? process.env.FRONTEND_URL
-        : "http://localhost:5173";
+    // const baseUrl =
+    //   process.env.NODE_ENV === "production"
+    //     ? process.env.FRONTEND_URL
+    //     : "http://localhost:5173";
+
+    const baseUrl = "http://localhost:5173";
 
     const previewUrl = `${baseUrl}/resume/puppeteer/${id}`;
     console.log(`Generating PDF from: ${previewUrl}`);

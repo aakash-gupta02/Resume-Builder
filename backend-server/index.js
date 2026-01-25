@@ -5,11 +5,13 @@ import { protect } from "./middleware/authMiddleware.js";
 import userRoute from "./routes/userRoute.js";
 import resRoute from "./routes/resumeRoute.js";
 import puppeteerRoute from "./routes/puppeterRoute.js" ;
+import morgan from "morgan";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
   "http://localhost:5173",
   "https://resume-builder-chi-eight.vercel.app",
@@ -28,6 +30,8 @@ app.use(
     credentials: true, // allow cookies/authorization headers
   })
 );
+
+app.use(morgan("dev"));
 app.get("/", (req, res) => {
   res.send("Hello to JobFolio");
 });
