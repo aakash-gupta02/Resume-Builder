@@ -14,17 +14,21 @@ const Classic = () => {
     (sec) => sec.type === "summary"
   );
 
+  const skillsSection = resume.sections.find(
+    (sec) => sec.type === "skills"
+  );
+
   const profile = profileSection?.content || {};
   const summary = summarySection?.content || {};
+  const skills = skillsSection?.items || {};
   const links = profile.links || {};
   console.log("Profile: ", profile);
-  
+
 
   const {
     education = [],
     experience = [],
     projects = [],
-    skills = {},
     certifications = [],
     hobbies = [],
     achievements = [],
@@ -199,43 +203,26 @@ const Classic = () => {
           </div>
         )}
 
-        {/* Skills */}
-        {(skills.technical?.length ||
-          skills.soft?.length ||
-          skills.tools?.length ||
-          skills.languages?.length) > 0 && (
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-                SKILLS
-              </h2>
-              <div className="grid grid-cols-2 gap-2">
-                {skills.technical?.length > 0 && (
-                  <div>
-                    <strong>Technical:</strong>
-                    <p className="text-xs">{skills.technical.join(", ")}</p>
-                  </div>
-                )}
-                {skills.soft?.length > 0 && (
-                  <div>
-                    <strong>Soft Skills:</strong>
-                    <p className="text-xs">{skills.soft.join(", ")}</p>
-                  </div>
-                )}
-                {skills.tools?.length > 0 && (
-                  <div>
-                    <strong>Tools:</strong>
-                    <p className="text-xs">{skills.tools.join(", ")}</p>
-                  </div>
-                )}
-                {skills.languages?.length > 0 && (
-                  <div>
-                    <strong>Languages:</strong>
-                    <p className="text-xs">{skills.languages.join(", ")}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+        {/* skills */}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">
+            SKILLS
+          </h2>
+
+          <div className="grid grid-cols-2 gap-2">
+            {skills.map((item, index) => {
+              const { category, skills } = item.values || {};
+              if (!skills?.length) return null;
+
+              return (
+                <div key={index}>
+                  <strong>{category}:</strong>
+                  <p className="text-xs">{skills.join(", ")}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Certifications */}
         {certifications.some((c) => c.name?.trim()) && (

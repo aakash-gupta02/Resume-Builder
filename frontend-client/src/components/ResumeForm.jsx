@@ -17,9 +17,9 @@ const ResumeForm = () => {
     <>
       <ProfileInfoSection />
       <SummarySection />
-      {/* <ContactLinksSection />
+      {/* <ContactLinksSection /> */}
       <SkillsSection />
-      <ProjectsSection />
+      {/* <ProjectsSection />
       <ExperienceSection />
       <EducationSection />
       <CertificationsSection />

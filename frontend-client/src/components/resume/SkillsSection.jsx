@@ -1,117 +1,151 @@
 import { useResume } from "../../context/ResumeContext";
-import React, { useState, useEffect } from "react";
 import CollapsibleSection from "../CollapsibleSection";
 
 const SkillsSection = () => {
-  const { resumeData, setResumeData } = useResume();
+  const { resume, setResume } = useResume();
 
-  const skills = resumeData.skills || {
-    technical: [],
-    soft: [],
-    tools: [],
-    languages: [],
+  const skillsSection = resume.sections.find(
+    (sec) => sec.type === "skills"
+  );
+
+  if (!skillsSection) return null;
+
+  const items = skillsSection.items || [];
+
+  /* ---------- HELPERS ---------- */
+
+  const updateCategory = (index, field, value) => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "skills"
+          ? {
+            ...sec,
+            items: sec.items.map((item, i) =>
+              i === index
+                ? {
+                  ...item,
+                  values: {
+                    ...item.values,
+                    [field]: value,
+                  },
+                }
+                : item
+            ),
+          }
+          : sec
+      ),
+    }));
   };
 
-  const [technicalInput, setTechnicalInput] = useState(skills.technical.join(", "));
-  const [softInput, setSoftInput] = useState(skills.soft.join(", "));
-  const [toolsInput, setToolsInput] = useState(skills.tools.join(", "));
-  const [languagesInput, setLanguagesInput] = useState(skills.languages.join(", "));
+  const updateSkills = (index, text) => {
+    updateCategory(
+      index,
+      "skills",
+      text
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    );
+  };
 
-  useEffect(() => {
-    setTechnicalInput(skills.technical.join(", "));
-  }, [skills.technical]);
-  useEffect(() => {
-    setSoftInput(skills.soft.join(", "));
-  }, [skills.soft]);
-  useEffect(() => {
-    setToolsInput(skills.tools.join(", "));
-  }, [skills.tools]);
-  useEffect(() => {
-    setLanguagesInput(skills.languages.join(", "));
-  }, [skills.languages]);
+  const addCategory = () => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "skills"
+          ? {
+            ...sec,
+            items: [
+              ...sec.items,
+              {
+                order: sec.items.length + 1,
+                values: {
+                  category: "",
+                  skills: [],
+                },
+              },
+            ],
+          }
+          : sec
+      ),
+    }));
+  };
 
-  const handleBlur = (type, value) => {
-    setResumeData({
-      ...resumeData,
-      skills: {
-        ...skills,
-        [type]: value.split(",").map((skill) => skill.trim()).filter(Boolean),
-      },
-    });
+  const removeCategory = (index) => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "skills"
+          ? {
+            ...sec,
+            items: sec.items.filter((_, i) => i !== index),
+          }
+          : sec
+      ),
+    }));
   };
 
   return (
     <CollapsibleSection title="Skills" defaultOpen={false}>
-    <div className="space-y-4">
+      <div className="space-y-6">
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Technical Skills
-        </label>
-        <textarea
-          value={technicalInput}
-          onChange={(e) => setTechnicalInput(e.target.value)}
-          onBlur={() => handleBlur("technical", technicalInput)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="JavaScript, React, Node.js, etc. (comma separated)"
-          rows="2"
-        ></textarea>
-        <p className="mt-1 text-xs text-gray-500">
-          Separate each skill with a comma
-        </p>
-      </div>
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="border rounded-md p-4 relative bg-gray-50"
+          >
+            {/* REMOVE */}
+            <button
+              type="button"
+              onClick={() => removeCategory(index)}
+              className="absolute top-2 right-2 text-red-500 text-sm"
+            >
+              ✕
+            </button>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Soft Skills
-        </label>
-        <textarea
-          value={softInput}
-          onChange={(e) => setSoftInput(e.target.value)}
-          onBlur={() => handleBlur("soft", softInput)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Communication, Leadership, Teamwork, etc. (comma separated)"
-          rows="2"
-        ></textarea>
-        <p className="mt-1 text-xs text-gray-500">
-          Separate each skill with a comma
-        </p>
-      </div>
+            {/* CATEGORY */}
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Category
+              </label>
+              <input
+                type="text"
+                value={item.values.category || ""}
+                onChange={(e) =>
+                  updateCategory(index, "category", e.target.value)
+                }
+                placeholder="Frontend / Backend / Tools"
+                className="w-full p-2 border rounded"
+              />
+            </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Tools & Platforms
-        </label>
-        <textarea
-          value={toolsInput}
-          onChange={(e) => setToolsInput(e.target.value)}
-          onBlur={() => handleBlur("tools", toolsInput)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Git, Docker, AWS, VS Code, etc. (comma separated)"
-          rows="2"
-        ></textarea>
-        <p className="mt-1 text-xs text-gray-500">
-          Separate each tool with a comma
-        </p>
-      </div>
+            {/* SKILLS */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Skills (comma separated)
+              </label>
+              <textarea
+                rows={2}
+                defaultValue={(item.values.skills || []).join(", ")}
+                onBlur={(e) => updateSkills(index, e.target.value)}
+                className="w-full p-2 border rounded"
+                placeholder="React, Tailwind, Redux"
+              />
+            </div>
+          </div>
+        ))}
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Languages (Programming & Human)
-        </label>
-        <textarea
-          value={languagesInput}
-          onChange={(e) => setLanguagesInput(e.target.value)}
-          onBlur={() => handleBlur("languages", languagesInput)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="English (Native), Spanish (Intermediate), Python, Java, etc. (comma separated)"
-          rows="2"
-        ></textarea>
-        <p className="mt-1 text-xs text-gray-500">
-          Separate each language with a comma
-        </p>
+        {/* ADD */}
+        <button
+          type="button"
+          onClick={addCategory}
+          className="px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded border"
+        >
+          + Add Skill Category
+        </button>
+
       </div>
-    </div>
     </CollapsibleSection>
   );
 };

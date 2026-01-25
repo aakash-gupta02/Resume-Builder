@@ -45,7 +45,7 @@ const ResumeEditor = () => {
     return () => {
       setResume({});
     };
-  }, [id, isEditMode]);
+  }, [id, isEditMode, setResume]);
 
   const handleSubmit = async () => {
     const payload = {
