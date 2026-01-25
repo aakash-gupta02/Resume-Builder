@@ -79,7 +79,7 @@ const ResumeEditor = () => {
     navigate(`/resume/preview/${id}`);
   };
 
-  console.log(resume);
+  // console.log(resume);
   
 
   if (loading) return <div className="p-10 text-center">Loading...</div>;
