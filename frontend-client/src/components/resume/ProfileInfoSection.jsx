@@ -122,19 +122,6 @@ const ProfileInfoSection = () => {
           </div>
         </div>
 
-        {/* SUMMARY */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Professional Summary
-          </label>
-          <textarea
-            value={profile.summary || ""}
-            onChange={(e) => handleChange("summary", e.target.value)}
-            className="w-full p-2 border rounded min-h-[120px]"
-            placeholder="Brief professional summary..."
-          />
-        </div>
-
       </div>
     </CollapsibleSection>
   );

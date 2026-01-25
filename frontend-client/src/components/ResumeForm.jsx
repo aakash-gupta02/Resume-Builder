@@ -9,12 +9,14 @@ import CertificationsSection from "./resume/CertificationsSection";
 import AchievementsSection from "./resume/AchievementsSection";
 import LanguagesSection from "./resume/LanguagesSection";
 import HobbiesSection from "./resume/HobbiesSection";
+import SummarySection from "./resume/SummarySection";
 
 
 const ResumeForm = () => {
   return (
     <>
       <ProfileInfoSection />
+      <SummarySection />
       {/* <ContactLinksSection />
       <SkillsSection />
       <ProjectsSection />

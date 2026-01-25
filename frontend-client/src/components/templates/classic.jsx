@@ -10,13 +10,17 @@ const Classic = () => {
     (sec) => sec.type === "profile"
   );
 
+  const summarySection = resume.sections.find(
+    (sec) => sec.type === "summary"
+  );
+
   const profile = profileSection?.content || {};
+  const summary = summarySection?.content || {};
   const links = profile.links || {};
   console.log("Profile: ", profile);
   
 
   const {
-    profileInfo = {},
     education = [],
     experience = [],
     projects = [],
@@ -26,10 +30,6 @@ const Classic = () => {
     achievements = [],
     languages = [],
   } = resume || {};
-
-  const {
-    summary = "",
-  } = profileInfo;
 
   // Format date to "Month YYYY"
   const formatDate = (date) => {
@@ -100,12 +100,12 @@ const Classic = () => {
         </div>
 
         {/* Summary */}
-        {summary && (
+        {summary.text && (
           <div className="mb-4">
             <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
               SUMMARY
             </h2>
-            <p className="text-justify">{summary}</p>
+            <p className="text-justify">{summary.text}</p>
           </div>
         )}
 
