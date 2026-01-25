@@ -2,12 +2,21 @@ import { useRef } from "react";
 import { useResume } from "../../context/ResumeContext";
 
 const Classic = () => {
-  const { resumeData } = useResume();
+  const { resume } = useResume();
   const printRef = useRef(null);
+
+
+  const profileSection = resume.sections.find(
+    (sec) => sec.type === "profile"
+  );
+
+  const profile = profileSection?.content || {};
+  const links = profile.links || {};
+  console.log("Profile: ", profile);
+  
 
   const {
     profileInfo = {},
-    contactLinks = {},
     education = [],
     experience = [],
     projects = [],
@@ -16,24 +25,11 @@ const Classic = () => {
     hobbies = [],
     achievements = [],
     languages = [],
-  } = resumeData || {};
+  } = resume || {};
 
   const {
-    fullName = "Your Name",
-    title = "Your Title",
-    email = "",
-    phone = "",
-    address = "",
     summary = "",
-    profileImage = "",
   } = profileInfo;
-
-  const {
-    website = "",
-    linkedIn = "",
-    github = "",
-    leetcode = "",
-  } = contactLinks;
 
   // Format date to "Month YYYY"
   const formatDate = (date) => {
@@ -49,53 +45,53 @@ const Classic = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white font-sans text-black text-sm leading-snug">
       <div ref={printRef} className="p-4">
-        {/* Header Section */}
+        {/* Profile */}
         <div className="flex justify-between items-start mb-4 border-b pb-4">
           <div className="flex items-start gap-4">
-            {profileImage && (
+            {profile.profileImage && (
               <img
                 crossOrigin="anonymous"
-                src={profileImage}
+                src={profile.profileImage}
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover border"
               />
             )}
             <div>
-              {fullName && <h1 className="text-2xl font-bold">{fullName}</h1>}
-              {title && <p className="text-base text-gray-700">{title}</p>}
+              {profile.fullName && <h1 className="text-2xl font-bold">{profile.fullName}</h1>}
+              {profile.jobTitle && <p className="text-base text-gray-700">{profile.jobTitle}</p>}
               <div className="flex flex-wrap gap-x-2 mt-1 text-xs">
-                {email && <span>{email}</span>}
-                {phone && <span>• {phone}</span>}
-                {address && <span>• {address}</span>}
+                {profile.email && <span>{profile.email}</span>}
+                {profile.phone && <span>• {profile.phone}</span>}
+                {profile.location && <span>• {profile.location}</span>}
               </div>
             </div>
           </div>
 
           <div className="text-right space-y-0.5 text-xs">
-            {website && (
+            {links.website && (
               <div>
-                <a href={website} className="text-black hover:underline">
+                <a href={links.website} className="text-black hover:underline">
                   Website
                 </a>
               </div>
             )}
-            {linkedIn && (
+            {links.linkedin && (
               <div>
-                <a href={linkedIn} className="text-black hover:underline">
+                <a href={links.linkedin} className="text-black hover:underline">
                   LinkedIn
                 </a>
               </div>
             )}
-            {github && (
+            {links.github && (
               <div>
-                <a href={github} className="text-black hover:underline">
+                <a href={links.github} className="text-black hover:underline">
                   GitHub
                 </a>
               </div>
             )}
-            {leetcode && (
+            {links.leetcode && (
               <div>
-                <a href={leetcode} className="text-black hover:underline">
+                <a href={links.leetcode} className="text-black hover:underline">
                   LeetCode
                 </a>
               </div>
@@ -208,38 +204,38 @@ const Classic = () => {
           skills.soft?.length ||
           skills.tools?.length ||
           skills.languages?.length) > 0 && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              SKILLS
-            </h2>
-            <div className="grid grid-cols-2 gap-2">
-              {skills.technical?.length > 0 && (
-                <div>
-                  <strong>Technical:</strong>
-                  <p className="text-xs">{skills.technical.join(", ")}</p>
-                </div>
-              )}
-              {skills.soft?.length > 0 && (
-                <div>
-                  <strong>Soft Skills:</strong>
-                  <p className="text-xs">{skills.soft.join(", ")}</p>
-                </div>
-              )}
-              {skills.tools?.length > 0 && (
-                <div>
-                  <strong>Tools:</strong>
-                  <p className="text-xs">{skills.tools.join(", ")}</p>
-                </div>
-              )}
-              {skills.languages?.length > 0 && (
-                <div>
-                  <strong>Languages:</strong>
-                  <p className="text-xs">{skills.languages.join(", ")}</p>
-                </div>
-              )}
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
+                SKILLS
+              </h2>
+              <div className="grid grid-cols-2 gap-2">
+                {skills.technical?.length > 0 && (
+                  <div>
+                    <strong>Technical:</strong>
+                    <p className="text-xs">{skills.technical.join(", ")}</p>
+                  </div>
+                )}
+                {skills.soft?.length > 0 && (
+                  <div>
+                    <strong>Soft Skills:</strong>
+                    <p className="text-xs">{skills.soft.join(", ")}</p>
+                  </div>
+                )}
+                {skills.tools?.length > 0 && (
+                  <div>
+                    <strong>Tools:</strong>
+                    <p className="text-xs">{skills.tools.join(", ")}</p>
+                  </div>
+                )}
+                {skills.languages?.length > 0 && (
+                  <div>
+                    <strong>Languages:</strong>
+                    <p className="text-xs">{skills.languages.join(", ")}</p>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Certifications */}
         {certifications.some((c) => c.name?.trim()) && (

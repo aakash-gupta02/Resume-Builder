@@ -70,9 +70,9 @@ const ProfileInfoSection = () => {
 
             <Input
               label="Address"
-              value={profile.address || ""}
+              value={profile.location || ""}
               placeholder="City, Country"
-              onChange={(v) => handleChange("address", v)}
+              onChange={(v) => handleChange("location", v)}
               className="mt-4"
             />
           </div>
