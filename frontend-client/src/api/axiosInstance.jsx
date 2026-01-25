@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "https://resume-builder-xa7u.onrender.com",
   // baseURL: "http://localhost:3000",
   baseURL: "https://resume-builder-docker.onrender.com",
 
