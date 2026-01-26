@@ -2,168 +2,237 @@ import { useResume } from "../../context/ResumeContext";
 import CollapsibleSection from "../CollapsibleSection";
 
 const ExperienceSection = () => {
-  const { resumeData, setResumeData } = useResume();
+  const { resume, setResume } = useResume();
+
+  const experienceSection = resume.sections.find(
+    (sec) => sec.type === "experience"
+  );
+
+  if (!experienceSection) return null;
+
+  const items = experienceSection.items || [];
+
+  /* ---------- HELPERS ---------- */
+
+  const updateField = (index, field, value) => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "experience"
+          ? {
+            ...sec,
+            items: sec.items.map((item, i) =>
+              i === index
+                ? {
+                  ...item,
+                  values: {
+                    ...item.values,
+                    [field]: value,
+                  },
+                }
+                : item
+            ),
+          }
+          : sec
+      ),
+    }));
+  };
+
+  const updateArrayFromText = (index, field, text) => {
+    updateField(
+      index,
+      field,
+      text
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    );
+  };
 
   const addExperience = () => {
-    setResumeData({
-      ...resumeData,
-      experience: [
-        ...resumeData.experience,
-        {
-          company: '',
-          role: '',
-          startDate: '',
-          endDate: '',
-          location: '',
-          description: '',
-        },
-      ],
-    });
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "experience"
+          ? {
+            ...sec,
+            items: [
+              ...sec.items,
+              {
+                order: sec.items.length + 1,
+                values: {
+                  company: "",
+                  role: "",
+                  employmentType: "",
+                  startDate: "",
+                  endDate: "",
+                  location: "",
+                  responsibilities: [],
+                },
+              },
+            ],
+          }
+          : sec
+      ),
+    }));
   };
 
   const removeExperience = (index) => {
-    const newExperience = resumeData.experience.filter((_, i) => i !== index);
-    setResumeData({ ...resumeData, experience: newExperience });
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "experience"
+          ? {
+            ...sec,
+            items: sec.items.filter((_, i) => i !== index),
+          }
+          : sec
+      ),
+    }));
   };
-
-  const updateExperience = (index, field, value) => {
-    const newExperience = [...resumeData.experience];
-    newExperience[index] = {
-      ...newExperience[index],
-      [field]: value,
-    };
-    setResumeData({ ...resumeData, experience: newExperience });
-  };
-
-  const experience = resumeData.experience || [];
 
   return (
-        <CollapsibleSection title="Experience" defaultOpen={false}>
+    <CollapsibleSection title="Experience" defaultOpen={false}>
+      <div className="space-y-4">
 
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
         <button
           type="button"
           onClick={addExperience}
-          className="px-3 py-1 bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 flex items-center text-sm"
+          className="px-3 py-1 bg-blue-50 text-blue-600 rounded border text-sm"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Add Experience
+          + Add Experience
         </button>
-      </div>
 
-      {experience.length === 0 ? (
-        <div className="text-center py-4 text-gray-500">
-          No work experience entries. Click "Add Experience" to add your work history.
-        </div>
-      ) : (
-        experience.map((exp, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-md p-4 mb-4 bg-gray-50"
-          >
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="font-medium">Experience #{index + 1}</h3>
-              <button
-                type="button"
-                onClick={() => removeExperience(index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Company
-                </label>
-                <input
-                  type="text"
-                  value={exp.company}
-                  onChange={(e) => updateExperience(index, 'company', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Company Name"
+        {items.map((item, index) => {
+          const exp = item.values;
+
+          return (
+            <div
+              key={index}
+              className="border rounded-md p-4 bg-gray-50"
+            >
+              <div className="flex justify-between mb-3">
+                <h3 className="font-medium">
+                  Experience #{index + 1}
+                </h3>
+                <button
+                  onClick={() => removeExperience(index)}
+                  className="text-red-500"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  label="Company"
+                  value={exp.company || ""}
+                  onChange={(v) =>
+                    updateField(index, "company", v)
+                  }
+                />
+
+                <Input
+                  label="Role"
+                  value={exp.role || ""}
+                  onChange={(v) =>
+                    updateField(index, "role", v)
+                  }
+                />
+
+                <Input
+                  label="Employment Type"
+                  value={exp.employmentType || ""}
+                  onChange={(v) =>
+                    updateField(index, "employmentType", v)
+                  }
+                  placeholder="Internship / Full-time / Contract"
+                />
+
+                <Input
+                  label="Location"
+                  value={exp.location || ""}
+                  onChange={(v) =>
+                    updateField(index, "location", v)
+                  }
+                />
+
+                <Input
+                  label="Start Date"
+                  type="month"
+                  value={exp.startDate || ""}
+                  onChange={(v) =>
+                    updateField(index, "startDate", v)
+                  }
+                />
+
+                <Input
+                  label="End Date"
+                  type="month"
+                  value={exp.endDate || ""}
+                  onChange={(v) =>
+                    updateField(index, "endDate", v)
+                  }
                 />
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Role/Position
-                </label>
-                <input
-                  type="text"
-                  value={exp.role}
-                  onChange={(e) => updateExperience(index, 'role', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Software Developer, Project Manager, etc."
-                />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Start Date
-                  </label>
-                  <input
-                    type="date"
-                    value={exp.startDate ? new Date(exp.startDate).toISOString().slice(0, 10) : ''}
-                    onChange={(e) => updateExperience(index, 'startDate', e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    End Date
-                  </label>
-                  <div className="flex items-center">
-                    <input
-                      type="date"
-                      value={exp.endDate ? new Date(exp.endDate).toISOString().slice(0, 10) : ''}
-                      onChange={(e) => updateExperience(index, 'endDate', e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  value={exp.location}
-                  onChange={(e) => updateExperience(index, 'location', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="City, Country or Remote"
-                />
-              </div>
+
+              <Textarea
+                label="Responsibilities / Achievements (comma separated)"
+                defaultValue={(exp.responsibilities || []).join(", ")}
+                onBlur={(v) =>
+                  updateArrayFromText(
+                    index,
+                    "responsibilities",
+                    v
+                  )
+                }
+                placeholder="Improved X, Led Y, Increased Z by 20%"
+              />
             </div>
-            
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description
-              </label>
-              <textarea
-                value={exp.description}
-                onChange={(e) => updateExperience(index, 'description', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Describe your responsibilities, achievements, and technologies used..."
-                rows="3"
-              ></textarea>
-            </div>
-          </div>
-        ))
-      )}
-    </div>
+          );
+        })}
+      </div>
     </CollapsibleSection>
   );
 };
 
 export default ExperienceSection;
+
+/* ---------- SMALL INPUTS ---------- */
+
+const Input = ({
+  label,
+  value,
+  onChange,
+  type = "text",
+  placeholder,
+}) => (
+  <div>
+    <label className="block text-sm font-medium mb-1">{label}</label>
+    <input
+      type={type}
+      value={value}
+      placeholder={placeholder}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full p-2 border rounded"
+    />
+  </div>
+);
+
+const Textarea = ({
+  label,
+  defaultValue,
+  onBlur,
+  placeholder,
+}) => (
+  <div className="mt-4">
+    <label className="block text-sm font-medium mb-1">{label}</label>
+    <textarea
+      rows={3}
+      defaultValue={defaultValue}
+      onBlur={(e) => onBlur(e.target.value)}
+      placeholder={placeholder}
+      className="w-full p-2 border rounded"
+    />
+  </div>
+);

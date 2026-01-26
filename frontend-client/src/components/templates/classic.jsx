@@ -22,20 +22,25 @@ const Classic = () => {
     (sec) => sec.type === "projects"
   );
 
+  const experienceSection = resume.sections.find(
+    (sec) => sec.type === "experience"
+  );
+
   const profile = profileSection?.content || {};
   const summary = summarySection?.content || {};
   const skills = skillsSection?.items || {};
   const projects2 = projectSectioin?.items || {};
+  const experience = experienceSection?.items || {};
 
   const links = profile.links || {};
 
-  console.log("Projects2: ", projects2);
+  console.log(experience);
 
 
 
   const {
     education = [],
-    experience = [],
+    // experience = [],
     certifications = [],
     hobbies = [],
     achievements = [],
@@ -144,29 +149,55 @@ const Classic = () => {
         )}
 
         {/* Experience */}
-        {experience.some((exp) => exp.company?.trim() || exp.role?.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              EXPERIENCE
-            </h2>
-            {experience.map((exp, idx) => (
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">
+            EXPERIENCE
+          </h2>
+
+          {experience.map((item, idx) => {
+            const exp = item.values;
+
+            return (
               <div key={idx} className="mb-3">
-                <div className="flex justify-between">
+                {/* ROLE + COMPANY + DATE */}
+                <div className="flex justify-between items-start">
                   <p className="font-semibold">
-                    {exp.role} {exp.company && `@ ${exp.company}`}
+                    {exp.role}
+                    {exp.company && ` @ ${exp.company}`}
+                    {exp.employmentType && (
+                      <span className="text-xs font-normal">
+                        {" "}({exp.employmentType})
+                      </span>
+                    )}
                   </p>
+
                   <p className="text-xs whitespace-nowrap">
-                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    {formatDate(exp.startDate)} – {formatDate(exp.endDate)}
                   </p>
                 </div>
-                {exp.location && <p className="text-xs">{exp.location}</p>}
-                {exp.description && (
-                  <p className="mt-1 text-justify">{exp.description}</p>
+
+                {/* LOCATION */}
+                {exp.location && (
+                  <p className="text-xs text-gray-600">
+                    {exp.location}
+                  </p>
                 )}
+
+                {/* RESPONSIBILITIES / ACHIEVEMENTS */}
+                {Array.isArray(exp.responsibilities) &&
+                  exp.responsibilities.length > 0 && (
+                    <ul className="list-disc pl-5 mt-1 space-y-1">
+                      {exp.responsibilities.map((point, i) => (
+                        <li key={i} className="text-sm text-justify">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
         {/* Projects */}
         <div className="mb-4">
@@ -205,7 +236,7 @@ const Classic = () => {
                     Tech: {project.techStack.join(", ")}
                   </p>
                 )}
-                
+
                 {/* Description */}
                 {project.description && (
                   <p className="text-justify">{project.description}</p>
