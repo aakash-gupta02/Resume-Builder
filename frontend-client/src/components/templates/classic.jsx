@@ -29,23 +29,34 @@ const Classic = () => {
     (sec) => sec.type === "education"
   );
 
+  const langUageSection = resume.sections.find(
+    (sec) => sec.type === "languages"
+  );
+
+  const achievementSection = resume.sections.find(
+    (sec) => sec.type === "achievements"
+  );
+
+  const certificationsSection = resume.sections.find(
+    (sec) => sec.type === "certifications"
+  );
+
+  const hobbiesSection = resume.sections.find(
+    (sec) => sec.type === "hobbies"
+  );
+
   const profile = profileSection?.content || {};
   const summary = summarySection?.content || {};
   const skills = skillsSection?.items || {};
   const projects2 = projectSectioin?.items || {};
   const experience = experienceSection?.items || {};
   const education = educationSection?.items || {};
+  const languages = langUageSection?.items || [];
+  const achievements = achievementSection?.items || [];
+  const certifications = certificationsSection?.items || [];
+  const hobbies = hobbiesSection?.items || [];
 
   const links = profile.links || {};
-
-  console.log(education)
-
-  const {
-    certifications = [],
-    hobbies = [],
-    achievements = [],
-    languages = [],
-  } = resume || {};
 
   // Format date to "Month YYYY"
   const formatDate = (date) => {
@@ -293,83 +304,80 @@ const Classic = () => {
         </div>
 
         {/* Certifications */}
-        {certifications.some((c) => c.name?.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              CERTIFICATIONS
-            </h2>
-            {certifications.map((cert, idx) => (
-              <div key={idx} className="flex justify-between mb-1">
-                <div>
-                  <p className="font-semibold">{cert.name}</p>
-                  <p className="text-xs">{cert.issuer}</p>
-                  {cert.credentialUrl && (
-                    <a
-                      href={cert.credentialUrl}
-                      className="text-xs text-black hover:underline"
-                    >
-                      View Credential
-                    </a>
-                  )}
-                </div>
-                <p className="text-xs whitespace-nowrap">
-                  {formatDate(cert.date)}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b pb-1 mb-2">
+            CERTIFICATIONS
+          </h2>
+          <ul className="list-disc pl-5 space-y-1">
+            {certifications.map((item, idx) =>
+              item.values.name?.trim() ? (
+                <li key={idx} className="text-sm">
+                  <span className="font-medium">
+                    {item.values.name}
+                  </span>
+                  {item.values.issuer &&
+                    ` – ${item.values.issuer}`}
+                </li>
+              ) : null
+            )}
+          </ul>
+        </div>
 
         {/* Achievements */}
-        {achievements.some((a) => a.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              ACHIEVEMENTS
-            </h2>
-            <ul className="list-disc pl-5">
-              {achievements.map(
-                (item, idx) =>
-                  item && (
-                    <li key={idx} className="text-xs">
-                      {item}
-                    </li>
-                  )
-              )}
-            </ul>
-          </div>
-        )}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
+            ACHIEVEMENTS
+          </h2>
+
+          <ul className="list-disc pl-5">
+            {achievements.map((item, idx) =>
+              item.values.text?.trim() ? (
+                <li key={idx} className="text-xs">
+                  {item.values.text}
+                </li>
+              ) : null
+            )}
+          </ul>
+        </div>
 
         {/* Languages */}
-        {languages.some((lang) => lang.name?.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              LANGUAGES
-            </h2>
-            <div className="flex flex-wrap gap-x-4">
-              {languages
-                .filter((lang) => lang.name?.trim())
-                .map((lang, idx) => (
-                  <div key={idx} className="text-xs">
-                    {lang.name} ({lang.progress || 0}%)
-                  </div>
-                ))}
-            </div>
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
+            LANGUAGES
+          </h2>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            {languages.map((lang, idx) => {
+              const { name, proficiency } = lang.values || {};
+              if (!name?.trim()) return null;
+
+              return (
+                <div key={idx} className="text-xs">
+                  {name}
+                  {proficiency && ` (${proficiency})`}
+                </div>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* Hobbies */}
-        {hobbies.some((h) => h.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              HOBBIES
-            </h2>
-            <div className="flex flex-wrap gap-x-2 text-xs">
-              {hobbies.map(
-                (item, idx) => item && <span key={idx}>{item}</span>
-              )}
-            </div>
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b pb-1 mb-1">
+            HOBBIES & INTERESTS
+          </h2>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            {hobbies.map((item, idx) =>
+              item.values.text?.trim() ? (
+                <span key={idx} className="text-xs">
+                  {item.values.text}
+                </span>
+              ) : null
+            )}
           </div>
-        )}
+        </div>
+
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import ProfileInfoSection from "./resume/ProfileInfoSection";
-import ContactLinksSection from "./resume/ContactLinkSection";
 import SkillsSection from "./resume/SkillsSection";
 import ProjectsSection from "./resume/ProjectsSection";
 import ExperienceSection from "./resume/ExperienceSection";
@@ -17,15 +16,14 @@ const ResumeForm = () => {
     <>
       <ProfileInfoSection />
       <SummarySection />
-      {/* <ContactLinksSection /> */}
       <SkillsSection />
       <ProjectsSection />
       <ExperienceSection />
       <EducationSection />
-      {/* <CertificationsSection />
-      <AchievementsSection />
       <LanguagesSection />
-      <HobbiesSection /> */}
+      <AchievementsSection />
+      <CertificationsSection />
+      <HobbiesSection />
     </>
   );
 };

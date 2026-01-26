@@ -1,94 +1,138 @@
+import { useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
-
-import React, { useState, useEffect } from "react";
 import CollapsibleSection from "../CollapsibleSection";
 
 const AchievementsSection = () => {
-  const { resumeData, setResumeData } = useResume();
-
-  const achievements = resumeData.achievements || [];
-  const [inputValue, setInputValue] = useState(achievements.join(", "));
+  const { resume, setResume } = useResume();
 
   useEffect(() => {
-    setInputValue(achievements.join(", "));
-  }, [achievements]);
+    if (!resume.sections.some((s) => s.type === "achievements")) {
+      setResume((prev) => ({
+        ...prev,
+        sections: [
+          ...prev.sections,
+          {
+            type: "achievements",
+            title: "Achievements",
+            order: prev.sections.length + 1,
+            visible: true,
+            items: [],
+          },
+        ],
+      }));
+    }
+  }, []);
 
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
+
+  const achievementsSection = resume.sections.find(
+    (sec) => sec.type === "achievements"
+  );
+
+  if (!achievementsSection) return null;
+
+  const items = achievementsSection.items || [];
+
+  /* ---------- HELPERS ---------- */
+
+  const updateAchievement = (index, value) => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "achievements"
+          ? {
+            ...sec,
+            items: sec.items.map((item, i) =>
+              i === index
+                ? {
+                  ...item,
+                  values: { text: value },
+                }
+                : item
+            ),
+          }
+          : sec
+      ),
+    }));
   };
 
-  const handleBlur = () => {
-    setResumeData({
-      ...resumeData,
-      achievements: inputValue
-        .split(",")
-        .map((a) => a.trim())
-        .filter(Boolean),
-    });
+  const addAchievement = () => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "achievements"
+          ? {
+            ...sec,
+            items: [
+              ...sec.items,
+              {
+                order: sec.items.length + 1,
+                values: { text: "" },
+              },
+            ],
+          }
+          : sec
+      ),
+    }));
+  };
+
+  const removeAchievement = (index) => {
+    setResume((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.type === "achievements"
+          ? {
+            ...sec,
+            items: sec.items.filter((_, i) => i !== index),
+          }
+          : sec
+      ),
+    }));
   };
 
   return (
     <CollapsibleSection title="Achievements" defaultOpen={false}>
-      <div>
-        <textarea
-          value={inputValue}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Hackathon Winner, Published Paper, etc. (comma separated)"
-          rows="2"
-        ></textarea>
-        <p className="mt-1 text-xs text-gray-500">
-          Separate each achievement with a comma
-        </p>
+      <div className="space-y-3">
+
+        <button
+          type="button"
+          onClick={addAchievement}
+          className="px-3 py-1 bg-blue-50 text-blue-600 rounded border text-sm"
+        >
+          + Add Achievement
+        </button>
+
+        {items.length === 0 && (
+          <p className="text-xs text-gray-500">
+            Add notable achievements like awards, recognitions, publications.
+          </p>
+        )}
+
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="flex gap-2 items-start"
+          >
+            <textarea
+              value={item.values.text || ""}
+              onChange={(e) =>
+                updateAchievement(index, e.target.value)
+              }
+              placeholder="Hackathon Winner, Published Paper, etc."
+              rows={2}
+              className="flex-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <button
+              onClick={() => removeAchievement(index)}
+              className="text-red-500 text-sm mt-1"
+            >
+              ✕
+            </button>
+          </div>
+        ))}
       </div>
     </CollapsibleSection>
   );
 };
 
 export default AchievementsSection;
-
-
-
-// import { useResume } from "../../context/ResumeContext";
-// import React from "react";
-// import CollapsibleSection from "../CollapsibleSection";
-// import QuillEditor from "../QuillEditor";
-
-// const AchievementsSection = () => {
-//   const { resumeData, setResumeData } = useResume();
-
-//   const handleChange = (htmlContent) => {
-//     // Convert HTML list items to array
-//     const tempDiv = document.createElement('div');
-//     tempDiv.innerHTML = htmlContent;
-//     const achievements = Array.from(tempDiv.querySelectorAll('li'))
-//       .map(li => li.textContent.trim())
-//       .filter(Boolean);
-    
-//     setResumeData({
-//       ...resumeData,
-//       achievements
-//     });
-//   };
-
-//   // Convert achievements array to HTML list
-//   const achievementsHtml = resumeData.achievements?.length > 0
-//     ? `<ul>${resumeData.achievements.map(a => `<li>${a}</li>`).join('')}</ul>`
-//     : '';
-
-//   return (
-//     <CollapsibleSection title="Achievements" defaultOpen={false}>
-//       <QuillEditor
-//         value={achievementsHtml}
-//         onChange={handleChange}
-//         placeholder="List your achievements (press Enter for new bullet points)..."
-//       />
-//       <p className="mt-2 text-xs text-gray-500">
-//         Use bullet points for your achievements (press Enter for new points)
-//       </p>
-//     </CollapsibleSection>
-//   );
-// };
-
-// export default AchievementsSection;

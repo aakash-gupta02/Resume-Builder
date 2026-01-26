@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import {
   HomeIcon,
   PrinterIcon,
@@ -19,7 +18,7 @@ import API from "../api/axiosInstance";
 const Preview = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { setResumeData, resumeData } = useResume();
+  const { setResume, resume } = useResume();
   const { token, user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [showPromo, setShowPromo] = useState(false);
@@ -37,7 +36,7 @@ const Preview = () => {
         },
       });
 
-      setResumeData(res.data.resume);
+      setResume(res.data.resume);
     } catch (err) {
       if (err.response?.status === 401) {
         setUnauthorized(true);
@@ -67,15 +66,15 @@ const Preview = () => {
     fetchData();
 
     return () => {
-      setResumeData({});
+      setResume({});
     };
-  }, [id, setResumeData, token, navigate, user, promoShown]);
+  }, [id, setResume, token, navigate, user, promoShown]);
 
-  const handleDownload = async (resumeData) => {
+  const handleDownload = async (resume) => {
     setPdfGenerating(true);
     try {
       const response = await API.post(
-        `/puppeteer/generate-pdf/${resumeData._id}`,
+        `/puppeteer/generate-pdf/${resume._id}`,
         {}, // no body
         {
           responseType: "blob", // 👈 important
@@ -87,7 +86,7 @@ const Preview = () => {
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = `resume-${resumeData.title}.pdf`;
+      a.download = `resume-${resume.title}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
       setPdfGenerating(false);
@@ -204,7 +203,7 @@ const Preview = () => {
                   </Link>
                 )}
                 <button
-                  onClick={() => handleDownload(resumeData)}
+                  onClick={() => handleDownload(resume)}
                   className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:scale-105 hover:shadow-md hover:bg-blue-700 transition-all"
                 >
                   <ArrowDownTrayIcon className="h-5 w-5" />
@@ -217,7 +216,7 @@ const Preview = () => {
 
         <div id="no-print" className="text-center mt-30 mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {resumeData?.title || "My Resume"}
+            {resume?.title || "My Resume"}
           </h1>
           <p className="text-gray-600">
             {user

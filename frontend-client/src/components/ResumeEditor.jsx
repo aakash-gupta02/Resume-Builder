@@ -55,9 +55,7 @@ const ResumeEditor = () => {
 
     try {
       if (isEditMode) {
-        await API.put(`/resume/update/${id}`, payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await API.patch(`/resume/update/${id}`, payload);
 
         console.log("Resume updated!");
         toast.success("Resume updated successfully!");
