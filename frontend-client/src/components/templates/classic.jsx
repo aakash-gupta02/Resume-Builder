@@ -18,17 +18,24 @@ const Classic = () => {
     (sec) => sec.type === "skills"
   );
 
+  const projectSectioin = resume.sections.find(
+    (sec) => sec.type === "projects"
+  );
+
   const profile = profileSection?.content || {};
   const summary = summarySection?.content || {};
   const skills = skillsSection?.items || {};
+  const projects2 = projectSectioin?.items || {};
+
   const links = profile.links || {};
-  console.log("Profile: ", profile);
+
+  console.log("Projects2: ", projects2);
+
 
 
   const {
     education = [],
     experience = [],
-    projects = [],
     certifications = [],
     hobbies = [],
     achievements = [],
@@ -162,12 +169,13 @@ const Classic = () => {
         )}
 
         {/* Projects */}
-        {projects.some((p) => p.name?.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              PROJECTS
-            </h2>
-            {projects.map((project, idx) => (
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
+            PROJECTS
+          </h2>
+          {projects2.map((item, idx) => {
+            const project = item.values || {};
+            return (
               <div key={idx} className="mb-2">
                 <div className="flex justify-between">
                   <p className="font-semibold">{project.name}</p>
@@ -190,18 +198,35 @@ const Classic = () => {
                     )}
                   </div>
                 </div>
-                {project.description && (
-                  <p className="text-justify">{project.description}</p>
-                )}
+
+                {/* Tech Stack */}
                 {project.techStack?.length > 0 && (
                   <p className="text-xs mt-0.5">
                     Tech: {project.techStack.join(", ")}
                   </p>
                 )}
+                
+                {/* Description */}
+                {project.description && (
+                  <p className="text-justify">{project.description}</p>
+                )}
+
+                {/* Highlights */}
+                {Array.isArray(project.highlights) && project.highlights.length > 0 && (
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    {project.highlights.map((point, idx) => (
+                      <li key={idx} className="text-sm text-justify">
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
         {/* skills */}
         <div className="mb-4">
