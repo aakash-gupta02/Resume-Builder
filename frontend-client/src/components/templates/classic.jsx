@@ -25,22 +25,22 @@ const Classic = () => {
   const experienceSection = resume.sections.find(
     (sec) => sec.type === "experience"
   );
+  const educationSection = resume.sections.find(
+    (sec) => sec.type === "education"
+  );
 
   const profile = profileSection?.content || {};
   const summary = summarySection?.content || {};
   const skills = skillsSection?.items || {};
   const projects2 = projectSectioin?.items || {};
   const experience = experienceSection?.items || {};
+  const education = educationSection?.items || {};
 
   const links = profile.links || {};
 
-  console.log(experience);
-
-
+  console.log(education)
 
   const {
-    education = [],
-    // experience = [],
     certifications = [],
     hobbies = [],
     achievements = [],
@@ -126,27 +126,39 @@ const Classic = () => {
         )}
 
         {/* Education */}
-        {education.some((e) => e.institute?.trim()) && (
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-1">
-              EDUCATION
-            </h2>
-            {education.map((edu, idx) => (
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">
+            EDUCATION
+          </h2>
+
+          {education.map((item, idx) => {
+            const edu = item.values;
+
+            return (
               <div key={idx} className="flex justify-between mb-2">
                 <div>
                   <p className="font-semibold">
-                    {edu.degree} {edu.fieldOfStudy && `in ${edu.fieldOfStudy}`}
+                    {edu.degree}
                   </p>
-                  <p>{edu.institute}</p>
-                  {edu.grade && <p className="text-xs">Grade: {edu.grade}</p>}
+
+                  <p>{edu.institution}</p>
+
+                  {edu.cgpi && (
+                    <p className="text-xs">
+                      CGPI / GPA: {edu.cgpi}
+                    </p>
+                  )}
                 </div>
-                <p className="text-xs whitespace-nowrap">
-                  {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
-                </p>
+
+                {(edu.startYear || edu.endYear) && (
+                  <p className="text-xs whitespace-nowrap">
+                    {edu.startYear} – {edu.endYear}
+                  </p>
+                )}
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
         {/* Experience */}
         <div className="mb-4">

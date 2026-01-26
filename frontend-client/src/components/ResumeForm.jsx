@@ -21,8 +21,8 @@ const ResumeForm = () => {
       <SkillsSection />
       <ProjectsSection />
       <ExperienceSection />
-      {/* <EducationSection />
-      <CertificationsSection />
+      <EducationSection />
+      {/* <CertificationsSection />
       <AchievementsSection />
       <LanguagesSection />
       <HobbiesSection /> */}
