@@ -3,8 +3,8 @@ import { config } from "./env.config.js";
 import logger from "./logger.config.js";
 
 export const connectDB = async () => {
-    try {
-        await mongoose.connect("mongodb://localhost:27017/resume_builder");
+    try {        
+        await mongoose.connect(config.dbUri);
         logger.info("✔ Database connected");
 
     } catch (error) {
