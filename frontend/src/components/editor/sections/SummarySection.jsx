@@ -20,7 +20,7 @@ export default function SummarySection({ section }) {
   };
 
   return (
-    <Accordion type="single" collapsible defaultValue="summary">
+    <Accordion type="single" collapsible>
       <AccordionItem value="summary" className="border rounded-lg px-4">
         <AccordionTrigger className="hover:no-underline">
           <div className="flex items-center gap-2">

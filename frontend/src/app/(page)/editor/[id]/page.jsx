@@ -170,7 +170,7 @@ export default function EditorPage() {
       {/* Main Editor Area */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Form/Customization */}
-        <div className="w-[620px] bg-white border-r flex flex-col shrink-0 overflow-hidden">
+        <div className="w-[750px] bg-white border-r flex flex-col shrink-0 overflow-hidden">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}

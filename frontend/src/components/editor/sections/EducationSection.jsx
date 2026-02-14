@@ -34,7 +34,7 @@ export default function EducationSection({ section }) {
   };
 
   return (
-    <Accordion type="single" collapsible defaultValue="education">
+    <Accordion type="single" collapsible>
       <AccordionItem value="education" className="border rounded-lg px-4">
         <AccordionTrigger className="hover:no-underline">
           <div className="flex items-center gap-2">

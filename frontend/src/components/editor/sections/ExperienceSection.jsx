@@ -36,7 +36,7 @@ export default function ExperienceSection({ section }) {
   };
 
   return (
-    <Accordion type="single" collapsible defaultValue="experience">
+    <Accordion type="single" collapsible>
       <AccordionItem value="experience" className="border rounded-lg px-4">
         <AccordionTrigger className="hover:no-underline">
           <div className="flex items-center gap-2">
