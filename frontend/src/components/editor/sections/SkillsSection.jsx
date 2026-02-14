@@ -90,7 +90,7 @@ export default function SkillsSection({ section }) {
 
                 <div className="space-y-2">
                   <Label>Skills</Label>
-                  <div className="flex flex-wrap gap-2 min-h-[32px]">
+                  <div className="flex flex-wrap gap-2 min-h-8">
                     {(item.values?.skills || []).map((skill, skillIndex) => (
                       <span
                         key={skillIndex}

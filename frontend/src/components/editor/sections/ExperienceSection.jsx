@@ -160,7 +160,7 @@ export default function ExperienceSection({ section }) {
                       handleChange(index, "description", e.target.value)
                     }
                     placeholder="Describe your role and key responsibilities..."
-                    className="min-h-[100px]"
+                    className="min-h-25"
                   />
                   <p className="text-xs text-muted-foreground">
                     Tip: Use bullet points by starting lines with •

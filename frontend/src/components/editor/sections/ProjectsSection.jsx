@@ -82,7 +82,7 @@ export default function ProjectsSection({ section }) {
                       handleChange(index, "description", e.target.value)
                     }
                     placeholder="A full-stack e-commerce platform with..."
-                    className="min-h-[80px]"
+                    className="min-h-20"
                   />
                 </div>
 

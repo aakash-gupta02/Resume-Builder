@@ -39,7 +39,7 @@ export default function SummarySection({ section }) {
               value={content.text || ""}
               onChange={(e) => handleChange(e.target.value)}
               placeholder="A results-driven professional with X years of experience in..."
-              className="min-h-[120px]"
+              className="min-h-30"
             />
             <p className="text-xs text-muted-foreground">
               {(content.text?.length || 0)}/500 characters
