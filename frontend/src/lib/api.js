@@ -49,6 +49,8 @@ export const authAPI = {
 export const resumeAPI = {
   getAll: () => api.get("/resume"),
   getById: (id) => api.get(`/resume/${id}`),
+  // Get resume without auth - for public/shared resumes
+  getPublicById: (id) => axios.get(`${API_BASE_URL}/resume/${id}`),
   create: (data) => api.post("/resume", data),
   update: (id, data) => api.patch(`/resume/${id}`, data),
   delete: (id) => api.delete(`/resume/${id}`),
