@@ -169,9 +169,9 @@ export default function EditorPage() {
       </header>
 
       {/* Main Editor Area */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden p-4 ">
         {/* Left Panel - Form/Customization */}
-        <div className="w-[750px] bg-white border-r flex flex-col shrink-0 overflow-hidden">
+        <div className="w-[550px] bg-white border-r flex flex-col shrink-0 overflow-hidden">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
@@ -218,7 +218,7 @@ export default function EditorPage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 bg-gray-200 overflow-auto p-8">
+        <div className="flex-1 overflow-auto py-8">
           <div className="max-w-[850px] mx-auto">
             <ResumeTemplate resume={resume} customization={customization} />
           </div>

@@ -2,13 +2,13 @@
 
 import { useMemo } from 'react';
 import { defaultCustomization } from '@/context/ResumeContext';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Globe, 
-  Linkedin, 
-  Github, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Linkedin,
+  Github,
   Twitter,
   ExternalLink,
   Calendar,
@@ -101,16 +101,16 @@ export default function ResumeTemplate({ resume, customization: customizationPro
   const isMultiColumn = layoutType !== 'single';
 
   return (
-    <div 
+    <div
       className="resume-preview w-full h-full overflow-auto"
       style={styles.page}
     >
       {/* Header / Profile Section */}
       {profile?.visible && (
-        <Header 
-          profile={profile} 
-          customization={customization} 
-          styles={styles} 
+        <Header
+          profile={profile}
+          customization={customization}
+          styles={styles}
         />
       )}
 
@@ -123,15 +123,15 @@ export default function ResumeTemplate({ resume, customization: customizationPro
 
       {/* Main Content */}
       {isMultiColumn ? (
-        <MultiColumnLayout 
-          sections={visibleSections} 
-          customization={customization} 
-          styles={styles} 
+        <MultiColumnLayout
+          sections={visibleSections}
+          customization={customization}
+          styles={styles}
         />
       ) : (
-        <SingleColumnLayout 
-          sections={visibleSections} 
-          styles={styles} 
+        <SingleColumnLayout
+          sections={visibleSections}
+          styles={styles}
           customization={customization}
         />
       )}
@@ -199,25 +199,25 @@ function Header({ profile, customization, styles }) {
   const headerBg = headerStyle === 'banner' ? { backgroundColor: styles.sectionBg } : {};
 
   return (
-    <div 
+    <div
       className={`mb-6 ${headerClasses[headerStyle]}`}
       style={{ ...headerBg, borderRadius: styles.borderRadius }}
     >
       <div className={`flex items-center gap-6 ${headerStyle === 'classic' ? 'flex-col' : 'flex-row'}`}>
         {/* Photo */}
         {showPhoto && content.profileImage && (
-          <div 
+          <div
             className="shrink-0 overflow-hidden bg-gray-200"
-            style={{ 
-              width: photoSize, 
-              height: photoSize, 
+            style={{
+              width: photoSize,
+              height: photoSize,
               borderRadius: photoRadius,
               border: `2px solid ${styles.primary}`
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={content.profileImage} 
+            <img
+              src={content.profileImage}
               alt={content.fullName || 'Profile'}
               className="w-full h-full object-cover"
               crossOrigin="anonymous"
@@ -227,14 +227,14 @@ function Header({ profile, customization, styles }) {
 
         {/* Name and Title */}
         <div className={headerStyle === 'classic' ? '' : 'flex-1'}>
-          <h1 
+          <h1
             className="text-2xl font-bold mb-1"
             style={{ ...styles.heading, fontSize: `${(customization.typography?.baseFontSize || 14) * 2}px` }}
           >
             {content.fullName || 'Your Name'}
           </h1>
           {content.jobTitle && (
-            <p 
+            <p
               className="text-lg font-medium mb-3"
               style={{ color: styles.primary }}
             >
@@ -243,9 +243,9 @@ function Header({ profile, customization, styles }) {
           )}
 
           {/* Contact Info */}
-          <ContactInfo 
-            items={contactItems} 
-            style={contactStyle} 
+          <ContactInfo
+            items={contactItems}
+            style={contactStyle}
             showIcons={options.showIcons ?? true}
             accentColor={styles.primary}
           />
@@ -289,9 +289,9 @@ function ContactInfo({ items, style, showIcons, accentColor }) {
       return (
         <div className="flex gap-3">
           {items.map((item, index) => (
-            <a 
+            <a
               key={index}
-              href={item.link || '#'} 
+              href={item.link || '#'}
               className="p-2 rounded-full hover:bg-gray-100 transition-colors"
               style={{ color: accentColor }}
               title={item.text}
@@ -328,15 +328,15 @@ function Section({ title, children, styles, icon }) {
         </div>
       )}
       <div style={{ paddingLeft: styles.contentPadding }}>{children}</div>
-      
+
       {styles.showDividers && (
-        <hr 
-          className="mt-4" 
-          style={{ 
+        <hr
+          className="mt-4"
+          style={{
             borderStyle: styles.dividerStyle,
             borderColor: styles.border,
             borderWidth: '1px 0 0 0'
-          }} 
+          }}
         />
       )}
     </div>
@@ -348,9 +348,9 @@ function SingleColumnLayout({ sections, styles, customization }) {
   return (
     <div>
       {sections.map((section) => (
-        <SectionRenderer 
-          key={section.type} 
-          section={section} 
+        <SectionRenderer
+          key={section.type}
+          section={section}
           styles={styles}
           customization={customization}
         />
@@ -366,7 +366,7 @@ function MultiColumnLayout({ sections, customization, styles }) {
   const sidebarWidth = layout.sidebarWidth || 35;
 
   const sidebarSections = ['skills', 'languages', 'certifications', 'hobbies'];
-  
+
   const sidebar = sections.filter(s => sidebarSections.includes(s.type) && s.type !== 'profile' && s.type !== 'summary');
   const main = sections.filter(s => !sidebarSections.includes(s.type) && s.type !== 'profile' && s.type !== 'summary');
 
@@ -471,9 +471,9 @@ function ExperienceContent({ items = [], styles, options }) {
               </span>
             </div>
             {exp.description && (
-              <div 
+              <div
                 className="mt-2 text-sm whitespace-pre-wrap"
-                style={{ 
+                style={{
                   paddingLeft: options?.accentBullets ? '1rem' : 0,
                   borderLeft: options?.accentBullets ? `2px solid ${styles.accent}` : 'none'
                 }}
@@ -499,20 +499,20 @@ function EducationContent({ items = [], styles, options }) {
         const startDate = edu.startYear || edu.startDate;
         const endDate = edu.endYear || edu.endDate;
         const degreeText = edu.field ? `${edu.degree} in ${edu.field}` : edu.degree;
-        
+
         return (
           <div key={index}>
             <div className="flex justify-between items-start mb-1">
-              <div>
+              <div className="flex">
                 <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{degreeText}</h3>
-                <p style={{ color: styles.primary }}>{school}{edu.location && ` • ${edu.location}`}</p>
+                <p style={{ color: styles.primary, fontStyle: 'italic' }}>{school && `, ${school}`}</p>
               </div>
               <span className="text-sm text-gray-500 flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 {startDate} - {edu.current ? 'Present' : endDate}
               </span>
             </div>
-            {edu.gpa && <p className="text-sm">GPA: {edu.gpa}</p>}
+            {/* {edu.gpa && <p className="text-sm">GPA: {edu.gpa}</p>} */}
             {edu.description && (
               <p className="mt-1 text-sm whitespace-pre-wrap">{edu.description}</p>
             )}
@@ -534,9 +534,9 @@ function SkillsContent({ items = [], styles, options, compact }) {
       {categories.map((cat, catIndex) => {
         const categoryName = cat.category || 'General';
         const skillsList = cat.skills || [];
-        
+
         if (!skillsList.length) return null;
-        
+
         return (
           <div key={catIndex}>
             {categories.length > 1 && categoryName && (
@@ -544,10 +544,10 @@ function SkillsContent({ items = [], styles, options, compact }) {
             )}
             <div className="flex flex-wrap gap-2">
               {skillsList.map((skillName, index) => (
-                <span 
+                <span
                   key={index}
                   className="px-2 py-1 text-sm rounded"
-                  style={{ 
+                  style={{
                     backgroundColor: `${styles.primary}15`,
                     color: styles.primary,
                     border: `1px solid ${styles.primary}30`
@@ -590,7 +590,7 @@ function ProjectsContent({ items = [], styles, options }) {
               </div>
             </div>
             {project.description && (
-              <div 
+              <div
                 className="text-sm mb-2"
                 dangerouslySetInnerHTML={{ __html: project.description }}
               />
@@ -619,7 +619,7 @@ function CertificationsContent({ items = [], styles, options }) {
         const cert = item.values || item;
         const certDate = cert.date || cert.issueDate;
         const certUrl = cert.url || cert.credentialUrl;
-        
+
         return (
           <div key={index} className="flex justify-between items-start">
             <div>
@@ -657,7 +657,7 @@ function LanguagesContent({ items = [], styles, options, compact }) {
         const lang = item.values || item;
         const languageName = lang.language || lang.name;
         const proficiency = lang.proficiency || lang.level;
-        
+
         return (
           <div key={index}>
             <div className="flex justify-between text-sm mb-1">
@@ -666,9 +666,9 @@ function LanguagesContent({ items = [], styles, options, compact }) {
             </div>
             {options?.showLanguageBars && (
               <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full rounded-full"
-                  style={{ 
+                  style={{
                     width: `${proficiencyLevels[proficiency] || 50}%`,
                     backgroundColor: styles.primary
                   }}
@@ -715,10 +715,10 @@ function HobbiesContent({ items = [], styles }) {
       {items.map((item, index) => {
         const hobby = item.values || item;
         return (
-          <span 
+          <span
             key={index}
             className="px-3 py-1.5 text-sm rounded-full"
-            style={{ 
+            style={{
               backgroundColor: `${styles.primary}10`,
               color: styles.primary,
               border: `1px solid ${styles.primary}25`
