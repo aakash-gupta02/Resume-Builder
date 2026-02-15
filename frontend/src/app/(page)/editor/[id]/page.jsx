@@ -22,7 +22,7 @@ import {
 import toast from "react-hot-toast";
 import ResumeForm from "@/components/editor/ResumeForm";
 import CustomizationPanel from "@/components/editor/CustomizationPanel";
-import ResumePreview from "@/components/editor/ResumePreview";
+import ResumeTemplate from "@/components/resume/ResumeTemplate";
 
 export default function EditorPage() {
   const { id } = useParams();
@@ -30,6 +30,7 @@ export default function EditorPage() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const {
     resume,
+    customization,
     loadResume,
     prepareForSave,
     hasUnsavedChanges,
@@ -219,7 +220,7 @@ export default function EditorPage() {
         {/* Right Panel - Preview */}
         <div className="flex-1 bg-gray-200 overflow-auto p-8">
           <div className="max-w-[850px] mx-auto">
-            <ResumePreview />
+            <ResumeTemplate resume={resume} customization={customization} />
           </div>
         </div>
       </div>

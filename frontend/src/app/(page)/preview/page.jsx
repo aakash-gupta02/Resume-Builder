@@ -1,10 +1,15 @@
-import ResumePreview from '@/components/editor/ResumePreview'
-import React from 'react'
+'use client';
 
-const page = () => {
+import React from 'react';
+import ResumeTemplate from '@/components/resume/ResumeTemplate';
+import { useResume } from '@/context/ResumeContext';
+
+const PreviewPage = () => {
+  const { resume, customization } = useResume();
+  
   return (
-    <ResumePreview />
-  )
-}
+    <ResumeTemplate resume={resume} customization={customization} />
+  );
+};
 
-export default page
+export default PreviewPage;
