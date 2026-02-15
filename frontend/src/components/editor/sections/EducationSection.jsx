@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { GraduationCap, Plus, Trash2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function EducationSection({ section }) {
   const { updateItem, addItem, removeItem } = useResume();
@@ -71,30 +72,19 @@ export default function EducationSection({ section }) {
                       onChange={(e) =>
                         handleChange(index, "degree", e.target.value)
                       }
-                      placeholder="Bachelor of Science"
+                      placeholder="Bachelor of Science/CBSE Board"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Field of Study</Label>
+                    <Label>Institution</Label>
                     <Input
-                      value={item.values?.field || ""}
+                      value={item.values?.institution || ""}
                       onChange={(e) =>
-                        handleChange(index, "field", e.target.value)
+                        handleChange(index, "institution", e.target.value)
                       }
-                      placeholder="Computer Science"
+                      placeholder="University/School Name"
                     />
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Institution</Label>
-                  <Input
-                    value={item.values?.institution || ""}
-                    onChange={(e) =>
-                      handleChange(index, "institution", e.target.value)
-                    }
-                    placeholder="Stanford University"
-                  />
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
@@ -129,6 +119,21 @@ export default function EducationSection({ section }) {
                     />
                   </div>
                 </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="description">
+                              Description (optional)
+                            </Label>
+                            <Textarea
+                              id="description"
+                              value={item.values?.description || ""}
+                              onChange={(e) => handleChange(index, "description", e.target.value)}
+                              placeholder="Include relevant coursework, honors, or activities related to this education entry"
+                              className="min-h-30"
+                            />
+                            <p className="text-xs text-muted-foreground">
+                              {(item.values?.description?.length || 0)}/500 characters
+                            </p>
+                          </div>
               </div>
             ))}
 

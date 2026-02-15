@@ -90,7 +90,7 @@ export default function EditorPage() {
 
   const handlePreview = () => {
     if (id) {
-      window.open(`/preview/${id}`, "_blank");
+      router.push(`/preview/${id}`);
     } else {
       toast.error("Please save the resume first");
     }
