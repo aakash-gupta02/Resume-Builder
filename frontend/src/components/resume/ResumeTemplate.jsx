@@ -539,7 +539,7 @@ function SkillsContent({ items = [], styles, options, compact }) {
 
         return (
           <div key={catIndex}>
-            {categories.length > 1 && categoryName && (
+            {categoryName && (
               <h4 className="text-sm font-medium mb-2" style={{ color: styles.primary }}>{categoryName}</h4>
             )}
             <div className="flex flex-wrap gap-2">
