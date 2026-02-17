@@ -25,21 +25,40 @@ const PDF_CONFIG = {
 const getPuppeteerOptions = () => {
   const isProduction = config.nodeEnv === "production";
 
+  const args = [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-accelerated-2d-canvas",
+    "--no-first-run",
+    "--no-zygote",
+    "--disable-gpu",
+    "--disable-software-rasterizer",
+    "--disable-extensions",
+    "--disable-background-networking",
+    "--disable-default-apps",
+    "--disable-sync",
+    "--disable-translate",
+    "--hide-scrollbars",
+    "--metrics-recording-only",
+    "--mute-audio",
+    "--no-first-run",
+    "--safebrowsing-disable-auto-update",
+  ];
+
+  // Only use single-process in specific environments (can cause crashes)
+  if (process.env.PUPPETEER_SINGLE_PROCESS === "true") {
+    args.push("--single-process");
+  }
+
   return {
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-accelerated-2d-canvas",
-      "--no-first-run",
-      "--no-zygote",
-      "--single-process",
-      "--disable-gpu",
-    ],
+    args,
     executablePath: isProduction
-      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      ? process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable"
       : puppeteer.executablePath(),
     headless: "new",
+    // Increase timeout for slow environments
+    timeout: 60000,
   };
 };
 
@@ -55,7 +74,10 @@ export const generateResumePDF = async (resumeId, token = null) => {
   try {
     logger.info(`Starting PDF generation for resume: ${resumeId}`);
 
-    browser = await puppeteer.launch(getPuppeteerOptions());
+    const puppeteerOptions = getPuppeteerOptions();
+    logger.info(`Puppeteer options: ${JSON.stringify(puppeteerOptions)}`);
+
+    browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
 
     // Set authorization header if token provided
@@ -65,9 +87,9 @@ export const generateResumePDF = async (resumeId, token = null) => {
       });
     }
 
-    // Construct preview URL
-    const baseUrl = "http://localhost:3000";
-    const previewUrl = `${baseUrl}/resume/puppeteer/${resumeId}`;
+    // Construct preview URL - use frontend URL from config for deployment
+    const baseUrl = config.frontendUrl || "http://localhost:3000";
+    const previewUrl = `${baseUrl}/puppeteer/${resumeId}`;
 
     logger.info(`Navigating to: ${previewUrl}`);
 
@@ -92,11 +114,26 @@ export const generateResumePDF = async (resumeId, token = null) => {
 
     return pdfBuffer;
   } catch (error) {
-    logger.error(`Error: ${error}`);
-    logger.error(`PDF generation failed for resume ${resumeId}: ${error.message}`);
+    logger.error(`PDF Generation Error: ${error.message}`);
+    logger.error(`Stack trace: ${error.stack}`);
+    
+    // Provide more specific error messages for common Puppeteer issues
+    let errorMessage = "Failed to generate PDF. Please try again later.";
+    
+    if (error.message.includes("Failed to launch the browser process")) {
+      logger.error("Browser launch failed - check Puppeteer executable path and Chrome dependencies");
+      errorMessage = "PDF service temporarily unavailable. Browser initialization failed.";
+    } else if (error.message.includes("Navigation timeout")) {
+      logger.error("Page navigation timeout - frontend may be unreachable");
+      errorMessage = "PDF generation timed out. Please try again.";
+    } else if (error.message.includes("net::ERR_CONNECTION_REFUSED")) {
+      logger.error("Connection refused - check FRONTEND_URL configuration");
+      errorMessage = "PDF service configuration error.";
+    }
+    
     throw new ApiError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      "Failed to generate PDF. Please try again later."
+      errorMessage
     );
   } finally {
     if (browser) {
