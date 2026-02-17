@@ -23,7 +23,7 @@
     "http-status-codes": "^2.3.0",
     "joi": "^18.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^^8.1.1",
+    "mongoose": "^8.1.1",
     "morgan": "^1.10.1",
     "puppeteer": "^23.0.0",
     "winston": "^3.18.3"
