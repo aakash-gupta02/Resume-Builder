@@ -1,6 +1,7 @@
 import express from "express";
 import puppeteer from "puppeteer";
 import { conditionalAuth } from "../middleware/auth.middleware.js";
+import { config } from "../config/env.config.js";
 
 const router = express.Router();
 
@@ -32,7 +33,8 @@ router.post("/generate/:id", conditionalAuth, async (req, res) => {
       });
     }
 
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = config.frontendUrl || "http://localhost:3000";
+    
     const previewUrl = `${baseUrl}/puppeteer/${id}`;
     console.log(`Generating PDF from: ${previewUrl}`);
 

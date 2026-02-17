@@ -20,14 +20,10 @@ import pdfRoutes from './routes/pdf.route.js';
 // instance 
 const app = express();
 
-// middlewares
-app.use(cors());
-
-
-// app.use(cors({
-//     origin: config.allowedOrigins,
-//     // { credentials: true } // uncomment this if you need to work with cookies
-// }));
+app.use(cors({
+    origin: config.allowedOrigins,
+    // { credentials: true } // uncomment this if you need to work with cookies
+}));
 
 
 app.use(express.json({ limit: '10mb' }));
