@@ -66,27 +66,33 @@ export const generateResumePDF = async (resumeId, token = null) => {
     }
 
     // Construct preview URL
-    const baseUrl = config.frontendUrl || "http://localhost:5173";
+    const baseUrl = "http://localhost:3000";
     const previewUrl = `${baseUrl}/resume/puppeteer/${resumeId}`;
 
     logger.info(`Navigating to: ${previewUrl}`);
 
     // Navigate to the preview page
     await page.goto(previewUrl, {
-      waitUntil: "networkidle0",
+      waitUntil: "networkidle2",
       timeout: 60000,
     });
 
     // Wait for content to be ready (optional: wait for specific selector)
     await page.waitForSelector("body", { timeout: 30000 });
 
+    // Wait for any remaining network activity
+    await page.waitForNavigation({ waitUntil: "networkidle2" }).catch(() => {});
+
     // Generate PDF
     const pdfBuffer = await page.pdf(PDF_CONFIG);
+
+    await page.close();
 
     logger.info(`PDF generated successfully for resume: ${resumeId}`);
 
     return pdfBuffer;
   } catch (error) {
+    logger.error(`Error: ${error}`);
     logger.error(`PDF generation failed for resume ${resumeId}: ${error.message}`);
     throw new ApiError(
       StatusCodes.INTERNAL_SERVER_ERROR,
