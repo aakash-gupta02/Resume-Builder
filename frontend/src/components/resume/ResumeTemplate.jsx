@@ -542,21 +542,14 @@ function SkillsContent({ items = [], styles, options, compact }) {
             {categoryName && (
               <h4 className="text-sm font-medium mb-2" style={{ color: styles.primary }}>{categoryName}</h4>
             )}
-            <div className="flex flex-wrap gap-2">
+            <p className="text-sm">
               {skillsList.map((skillName, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 text-sm rounded"
-                  style={{
-                    backgroundColor: `${styles.primary}15`,
-                    color: styles.primary,
-                    border: `1px solid ${styles.primary}30`
-                  }}
-                >
+                <span key={index}>
                   {typeof skillName === 'string' ? skillName : skillName.name || skillName}
+                  {index < skillsList.length - 1 && ', '}
                 </span>
               ))}
-            </div>
+            </p>
           </div>
         );
       })}
