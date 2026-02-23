@@ -577,8 +577,8 @@ function ProjectsContent({ items = [], styles, options }) {
             <div className="flex justify-between items-start mb-1">
               <div className="flex" >
 
-              <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{project.name || project.title} </h3>
-              <p style={{ color: styles.primary, fontStyle: 'italic' }}>{project.subHeading && `, ${project.subHeading}`}</p>
+                <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{project.name || project.title} </h3>
+                <p style={{ color: styles.primary, fontStyle: 'italic' }}>{project.subHeading && `, ${project.subHeading}`}</p>
               </div>
 
               <div className="flex gap-2">
@@ -599,7 +599,7 @@ function ProjectsContent({ items = [], styles, options }) {
                 className="text-sm mb-2 whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ __html: project.description }}
               />
-              
+
             )}
           </div>
         );
@@ -622,13 +622,20 @@ function CertificationsContent({ items = [], styles, options }) {
         return (
           <div key={index} className="flex justify-between items-start">
             <div>
-              <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{cert.name}</h3>
-              <p className="text-sm" style={{ color: styles.primary }}>{cert.issuer}</p>
+              <div className="flex" >
+                <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{cert.name}</h3>
+                <p style={{ color: styles.primary, fontStyle: 'italic' }}>{cert.issuer && `, ${cert.issuer}`}</p>
+              </div>
+
               {certUrl && (
                 <a href={certUrl} target="_blank" rel="noopener noreferrer" className="text-xs flex items-center gap-1 mt-1" style={{ color: styles.accent }}>
                   <ExternalLink className="w-3 h-3" /> View Credential
                 </a>
               )}
+              <div
+                className="mt-2 text-sm whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: cert.description }}
+              />
             </div>
             <span className="text-sm text-gray-500">{certDate}</span>
           </div>

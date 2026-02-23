@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Award, Plus, Trash2, ExternalLink } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function CertificationsSection({ section }) {
   const { updateItem, addItem, removeItem } = useResume();
@@ -23,6 +24,7 @@ export default function CertificationsSection({ section }) {
       date: "",
       expiryDate: "",
       credentialId: "",
+      description: "",
       url: "",
     });
   };
@@ -120,6 +122,22 @@ export default function CertificationsSection({ section }) {
                     placeholder="https://www.credly.com/badges/..."
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <Label>Description / Responsibilities</Label>
+                  <Textarea
+                    value={item.values?.description || ""}
+                    onChange={(e) =>
+                      handleChange(index, "description", e.target.value)
+                    }
+                    placeholder="Describe what this certification covers."
+                    className="min-h-25"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Tip: Use bullet points by starting lines with •
+                  </p>
+                </div>
+
               </div>
             ))}
 
