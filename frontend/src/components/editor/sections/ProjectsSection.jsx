@@ -20,8 +20,8 @@ export default function ProjectsSection({ section }) {
   const handleAddProject = () => {
     addItem("projects", {
       name: "",
+      subHeading: "",
       description: "",
-      technologies: [],
       liveUrl: "",
       githubUrl: "",
       startDate: "",
@@ -70,6 +70,17 @@ export default function ProjectsSection({ section }) {
                     onChange={(e) =>
                       handleChange(index, "name", e.target.value)
                     }
+                    placeholder="Cartify"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Project Sub-heading</Label>
+                  <Input
+                    value={item.values?.subHeading || ""}
+                    onChange={(e) =>
+                      handleChange(index, "subHeading", e.target.value)
+                    }
                     placeholder="E-commerce Platform"
                   />
                 </div>
@@ -83,25 +94,6 @@ export default function ProjectsSection({ section }) {
                     }
                     placeholder="A full-stack e-commerce platform with..."
                     className="min-h-20"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Technologies (comma separated)</Label>
-                  <Input
-                    value={
-                      Array.isArray(item.values?.technologies)
-                        ? item.values.technologies.join(", ")
-                        : item.values?.technologies || ""
-                    }
-                    onChange={(e) =>
-                      handleChange(
-                        index,
-                        "technologies",
-                        e.target.value.split(",").map((t) => t.trim())
-                      )
-                    }
-                    placeholder="React, Node.js, MongoDB, Stripe"
                   />
                 </div>
 

@@ -575,7 +575,12 @@ function ProjectsContent({ items = [], styles, options }) {
         return (
           <div key={index}>
             <div className="flex justify-between items-start mb-1">
-              <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{project.name || project.title}</h3>
+              <div className="flex" >
+
+              <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{project.name || project.title} </h3>
+              <p style={{ color: styles.primary, fontStyle: 'italic' }}>{project.subHeading && `, ${project.subHeading}`}</p>
+              </div>
+
               <div className="flex gap-2">
                 {project.liveUrl && (
                   <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-sm flex items-center gap-1" style={{ color: styles.primary }}>
@@ -591,16 +596,10 @@ function ProjectsContent({ items = [], styles, options }) {
             </div>
             {project.description && (
               <div
-                className="text-sm mb-2"
+                className="text-sm mb-2 whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ __html: project.description }}
               />
-            )}
-            {project.technologies?.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {project.technologies.map((tech, i) => (
-                  <span key={i} className="text-xs px-2 py-0.5 bg-gray-100 rounded">{tech}</span>
-                ))}
-              </div>
+              
             )}
           </div>
         );
