@@ -10,6 +10,7 @@ import ProjectsSection from "./sections/ProjectsSection";
 import CertificationsSection from "./sections/CertificationsSection";
 import LanguagesSection from "./sections/LanguagesSection";
 import AchievementsSection from "./sections/AchievementsSection";
+import HobbiesSection from "./sections/HobbiesSection";
 
 export default function ResumeForm() {
   const { getVisibleSections } = useResume();
@@ -24,7 +25,7 @@ export default function ResumeForm() {
     certifications: CertificationsSection,
     languages: LanguagesSection,
     achievements: AchievementsSection,
-    hobbies: AchievementsSection, // Reuse achievements for hobbies
+    hobbies: HobbiesSection,
   };
 
   const visibleSections = getVisibleSections();

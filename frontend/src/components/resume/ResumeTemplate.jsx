@@ -714,17 +714,14 @@ function HobbiesContent({ items = [], styles }) {
       {items.map((item, index) => {
         const hobby = item.values || item;
         return (
-          <span
-            key={index}
-            className="px-3 py-1.5 text-sm rounded-full"
-            style={{
-              backgroundColor: `${styles.primary}10`,
-              color: styles.primary,
-              border: `1px solid ${styles.primary}25`
-            }}
-          >
-            {hobby.title || hobby.name}
-          </span>
+          <div key={index}>
+            <div className="flex justify-between items-start">
+              <h3 className="font-semibold" style={{ color: styles.heading?.color }}>{hobby.title || hobby.name}</h3>
+            </div>
+            {hobby.description && (
+              <p className="text-sm mt-1">{hobby.description}</p>
+            )}
+          </div>
         );
       })}
     </div>
