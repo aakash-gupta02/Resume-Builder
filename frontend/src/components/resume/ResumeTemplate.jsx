@@ -423,6 +423,9 @@ function SectionRenderer({ section, styles, customization, compact = false }) {
 
   if (section.type === 'profile' || section.type === 'summary') return null;
 
+  // Don't render section if there's no data
+  if (!section.items || section.items.length === 0) return null;
+
   const sectionConfig = {
     experience: { title: 'Experience', icon: <Briefcase className="w-4 h-4" /> },
     education: { title: 'Education', icon: <GraduationCap className="w-4 h-4" /> },
@@ -452,7 +455,7 @@ function SectionRenderer({ section, styles, customization, compact = false }) {
 
 // Experience Content
 function ExperienceContent({ items = [], styles, options }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No experience added</p>;
+  if (!items?.length) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: styles.itemGap }}>
@@ -489,7 +492,7 @@ function ExperienceContent({ items = [], styles, options }) {
 
 // Education Content
 function EducationContent({ items = [], styles, options }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No education added</p>;
+  if (!items?.length) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: styles.itemGap }}>
@@ -525,7 +528,7 @@ function EducationContent({ items = [], styles, options }) {
 
 // Skills Content
 function SkillsContent({ items = [], styles, options, compact }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No skills added</p>;
+  if (!items?.length) return null;
 
   const categories = items.map(item => item.values || item);
 
@@ -559,7 +562,7 @@ function SkillsContent({ items = [], styles, options, compact }) {
 
 // Projects Content
 function ProjectsContent({ items = [], styles, options }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No projects added</p>;
+  if (!items?.length) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: styles.itemGap }}>
@@ -603,7 +606,7 @@ function ProjectsContent({ items = [], styles, options }) {
 
 // Certifications Content
 function CertificationsContent({ items = [], styles, options }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No certifications added</p>;
+  if (!items?.length) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: styles.itemGap }}>
@@ -640,7 +643,7 @@ function CertificationsContent({ items = [], styles, options }) {
 
 // Languages Content
 function LanguagesContent({ items = [], styles, options, compact }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No languages added</p>;
+  if (!items?.length) return null;
 
   const proficiencyLevels = {
     'Native': 100,
@@ -683,7 +686,7 @@ function LanguagesContent({ items = [], styles, options, compact }) {
 
 // Achievements Content
 function AchievementsContent({ items = [], styles, options }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No achievements added</p>;
+  if (!items?.length) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: styles.itemGap }}>
@@ -707,7 +710,7 @@ function AchievementsContent({ items = [], styles, options }) {
 
 // Hobbies Content
 function HobbiesContent({ items = [], styles }) {
-  if (!items?.length) return <p className="text-gray-400 italic">No hobbies added</p>;
+  if (!items?.length) return null;
 
   return (
     <div className="flex flex-wrap gap-2">
