@@ -238,9 +238,9 @@ function SettingsPanel() {
       <div>
         <h3 className="font-semibold mb-4">Section Visibility</h3>
         <div className="space-y-3">
-          {resume.sections.map((section) => (
+          {resume.sections.map((section, index) => (
             <div
-              key={section.id}
+              key={index}
               className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
             >
               <span className="text-sm font-medium">{section.title}</span>

@@ -43,46 +43,66 @@ export default function HobbiesSection({ section }) {
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-6">
           <div className="space-y-4">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className="relative p-4 bg-gray-50 rounded-lg space-y-3 group"
-              >
-                <div className="absolute right-2 top-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                    onClick={() => removeItem(sectionType, index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
+            <Accordion type="single" collapsible className="space-y-2">
+              {items.map((item, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`hobby-${index}`}
+                  className="border rounded-lg bg-gray-50"
+                >
+                  <AccordionTrigger className="hover:no-underline px-4 py-3">
+                    <div className="flex items-center justify-between w-full pr-2">
+                      <span className="font-medium">
+                        {item.values?.title || `Hobby ${index + 1}`}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          className="h-7 w-7 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeItem(sectionType, index);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.stopPropagation();
+                              removeItem(sectionType, index);
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4 space-y-3">
+                    <div className="space-y-2">
+                      <Label>Title</Label>
+                      <Input
+                        value={item.values?.title || ""}
+                        onChange={(e) =>
+                          handleChange(index, "title", e.target.value)
+                        }
+                        placeholder="Reading"
+                      />
+                    </div>
 
-                  <div className="col-span-2 space-y-2">
-                    <Label>Title</Label>
-                    <Input
-                      value={item.values?.title || ""}
-                      onChange={(e) =>
-                        handleChange(index, "title", e.target.value)
-                      }
-                      placeholder="Best Employee Award"
-                    />
-                  </div>
-
-                <div className="space-y-2">
-                  <Label>Description (optional)</Label>
-                  <Textarea
-                    value={item.values?.description || ""}
-                    onChange={(e) =>
-                      handleChange(index, "description", e.target.value)
-                    }
-                    placeholder="Brief description of the achievement..."
-                    className="min-h-[60px]"
-                  />
-                </div>
-              </div>
-            ))}
+                    <div className="space-y-2">
+                      <Label>Description (optional)</Label>
+                      <Textarea
+                        value={item.values?.description || ""}
+                        onChange={(e) =>
+                          handleChange(index, "description", e.target.value)
+                        }
+                        placeholder="Brief description of this hobby..."
+                        className="min-h-[60px]"
+                      />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
 
             <Button
               type="button"

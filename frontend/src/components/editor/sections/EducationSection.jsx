@@ -47,95 +47,117 @@ export default function EducationSection({ section }) {
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-6">
-          <div className="space-y-6">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className="relative p-4 bg-gray-50 rounded-lg space-y-4 group"
-              >
-                <div className="absolute right-2 top-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                    onClick={() => removeItem("education", index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
+          <div className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-2">
+              {items.map((item, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`education-${index}`}
+                  className="border rounded-lg bg-gray-50"
+                >
+                  <AccordionTrigger className="hover:no-underline px-4 py-3">
+                    <div className="flex items-center justify-between w-full pr-2">
+                      <span className="font-medium">
+                        {item.values?.degree || item.values?.institution || `Education ${index + 1}`}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">
+                          {item.values?.institution || "No institution"}
+                        </span>
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          className="h-7 w-7 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeItem("education", index);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.stopPropagation();
+                              removeItem("education", index);
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Degree</Label>
+                        <Input
+                          value={item.values?.degree || ""}
+                          onChange={(e) =>
+                            handleChange(index, "degree", e.target.value)
+                          }
+                          placeholder="Bachelor of Science/CBSE Board"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Institution</Label>
+                        <Input
+                          value={item.values?.institution || ""}
+                          onChange={(e) =>
+                            handleChange(index, "institution", e.target.value)
+                          }
+                          placeholder="University/School Name"
+                        />
+                      </div>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Degree</Label>
-                    <Input
-                      value={item.values?.degree || ""}
-                      onChange={(e) =>
-                        handleChange(index, "degree", e.target.value)
-                      }
-                      placeholder="Bachelor of Science/CBSE Board"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Institution</Label>
-                    <Input
-                      value={item.values?.institution || ""}
-                      onChange={(e) =>
-                        handleChange(index, "institution", e.target.value)
-                      }
-                      placeholder="University/School Name"
-                    />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label>Start Year</Label>
+                        <Input
+                          value={item.values?.startYear || ""}
+                          onChange={(e) =>
+                            handleChange(index, "startYear", e.target.value)
+                          }
+                          placeholder="2018"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>End Year</Label>
+                        <Input
+                          value={item.values?.endYear || ""}
+                          onChange={(e) =>
+                            handleChange(index, "endYear", e.target.value)
+                          }
+                          placeholder="2022"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>GPA (optional)</Label>
+                        <Input
+                          value={item.values?.gpa || ""}
+                          onChange={(e) =>
+                            handleChange(index, "gpa", e.target.value)
+                          }
+                          placeholder="3.8/4.0"
+                        />
+                      </div>
+                    </div>
 
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label>Start Year</Label>
-                    <Input
-                      value={item.values?.startYear || ""}
-                      onChange={(e) =>
-                        handleChange(index, "startYear", e.target.value)
-                      }
-                      placeholder="2018"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>End Year</Label>
-                    <Input
-                      value={item.values?.endYear || ""}
-                      onChange={(e) =>
-                        handleChange(index, "endYear", e.target.value)
-                      }
-                      placeholder="2022"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>GPA (optional)</Label>
-                    <Input
-                      value={item.values?.gpa || ""}
-                      onChange={(e) =>
-                        handleChange(index, "gpa", e.target.value)
-                      }
-                      placeholder="3.8/4.0"
-                    />
-                  </div>
-                </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="description">
-                              Description (optional)
-                            </Label>
-                            <Textarea
-                              id="description"
-                              value={item.values?.description || ""}
-                              onChange={(e) => handleChange(index, "description", e.target.value)}
-                              placeholder="Include relevant coursework, honors, or activities related to this education entry"
-                              className="min-h-30"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                              {(item.values?.description?.length || 0)}/500 characters
-                            </p>
-                          </div>
-              </div>
-            ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="description">Description (optional)</Label>
+                      <Textarea
+                        id="description"
+                        value={item.values?.description || ""}
+                        onChange={(e) => handleChange(index, "description", e.target.value)}
+                        placeholder="Include relevant coursework, honors, or activities related to this education entry"
+                        className="min-h-30"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {(item.values?.description?.length || 0)}/500 characters
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
 
             <Button
               type="button"

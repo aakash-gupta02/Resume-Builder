@@ -49,50 +49,75 @@ export default function LanguagesSection({ section }) {
         </AccordionTrigger>
         <AccordionContent className="pt-4 pb-6">
           <div className="space-y-4">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className="relative flex items-center gap-4 p-3 bg-gray-50 rounded-lg group"
-              >
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <Label className="text-xs">Language</Label>
-                    <Input
-                      value={item.values?.language || ""}
-                      onChange={(e) =>
-                        handleChange(index, "language", e.target.value)
-                      }
-                      placeholder="English"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs">Proficiency</Label>
-                    <select
-                      value={item.values?.proficiency || "Intermediate"}
-                      onChange={(e) =>
-                        handleChange(index, "proficiency", e.target.value)
-                      }
-                      className="w-full h-9 px-3 rounded-md border border-input bg-transparent text-sm"
-                    >
-                      {proficiencyLevels.map((level) => (
-                        <option key={level} value={level}>
-                          {level}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => removeItem("languages", index)}
+            <Accordion type="single" collapsible className="space-y-2">
+              {items.map((item, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`language-${index}`}
+                  className="border rounded-lg bg-gray-50"
                 >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+                  <AccordionTrigger className="hover:no-underline px-4 py-3">
+                    <div className="flex items-center justify-between w-full pr-2">
+                      <span className="font-medium">
+                        {item.values?.language || `Language ${index + 1}`}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">
+                          {item.values?.proficiency || "Intermediate"}
+                        </span>
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          className="h-7 w-7 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-accent"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeItem("languages", index);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.stopPropagation();
+                              removeItem("languages", index);
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <Label className="text-xs">Language</Label>
+                        <Input
+                          value={item.values?.language || ""}
+                          onChange={(e) =>
+                            handleChange(index, "language", e.target.value)
+                          }
+                          placeholder="English"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Proficiency</Label>
+                        <select
+                          value={item.values?.proficiency || "Intermediate"}
+                          onChange={(e) =>
+                            handleChange(index, "proficiency", e.target.value)
+                          }
+                          className="w-full h-9 px-3 rounded-md border border-input bg-transparent text-sm"
+                        >
+                          {proficiencyLevels.map((level) => (
+                            <option key={level} value={level}>
+                              {level}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
 
             <Button
               type="button"
