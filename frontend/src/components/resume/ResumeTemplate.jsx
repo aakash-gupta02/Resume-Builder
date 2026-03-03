@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { defaultCustomization } from '@/context/ResumeContext';
+import GoogleFontsLoader, { getFontFamily } from './GoogleFontsLoader';
 import {
   Mail,
   Phone,
@@ -56,7 +57,7 @@ export default function ResumeTemplate({ resume, customization: customizationPro
       page: {
         backgroundColor: colors.background || '#ffffff',
         color: colors.text || '#1f2937',
-        fontFamily: typography.bodyFont || 'Inter',
+        fontFamily: getFontFamily(typography.bodyFont || 'Inter'),
         fontSize: `${typography.baseFontSize || 14}px`,
         lineHeight: typography.lineHeight || 1.5,
         letterSpacing: `${typography.letterSpacing || 0}em`,
@@ -64,7 +65,7 @@ export default function ResumeTemplate({ resume, customization: customizationPro
         minHeight: '100%',
       },
       heading: {
-        fontFamily: typography.headingFont || 'Inter',
+        fontFamily: getFontFamily(typography.headingFont || 'Inter'),
         color: colors.heading || '#111827',
         fontSize: `${(typography.baseFontSize || 14) * (typography.headingSizeScale || 1.2)}px`,
         textTransform: options.capitalizeHeadings ? 'uppercase' : 'none',
@@ -100,11 +101,21 @@ export default function ResumeTemplate({ resume, customization: customizationPro
   const layoutType = customization.layout?.columns || 'single';
   const isMultiColumn = layoutType !== 'single';
 
+  // Collect fonts to load
+  const fontsToLoad = useMemo(() => {
+    const fonts = new Set();
+    if (customization.typography?.bodyFont) fonts.add(customization.typography.bodyFont);
+    if (customization.typography?.headingFont) fonts.add(customization.typography.headingFont);
+    return Array.from(fonts);
+  }, [customization.typography?.bodyFont, customization.typography?.headingFont]);
+
   return (
     <div
       className="resume-preview w-full h-full overflow-auto"
       style={styles.page}
     >
+      {/* Load Google Fonts dynamically */}
+      <GoogleFontsLoader fonts={fontsToLoad} />
       {/* Header / Profile Section */}
       {profile?.visible && (
         <Header
