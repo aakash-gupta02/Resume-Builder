@@ -307,9 +307,9 @@ function ContactInfo({ items, style, showIcons, accentColor }) {
           {items.map((item, index) => (
             <span key={index}>
               {renderItem(item, index)}
-              {index < items.length - 1 && style === 'inline' && (
+              {/* {index < items.length - 1 && style === 'inline' && (
                 <span className="ml-4 text-gray-300">|</span>
-              )}
+              )} */}
             </span>
           ))}
         </div>
