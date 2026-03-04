@@ -4,11 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Loader2, Eye, EyeOff, Check } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Check, X } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -77,147 +73,169 @@ export default function RegisterPage() {
   const passwordStrength = getPasswordStrength(formData.password);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <Link href="/" className="inline-flex items-center justify-center gap-2 mb-4">
-            <div className="p-2 bg-primary rounded-lg">
-              <FileText className="h-6 w-6 text-white" />
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-sm shadow-xl p-8 rounded-2xl border border-white/20">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800">Create account</h2>
+          <p className="text-gray-500 mt-2">Start building your resume</p>
+        </div>
+
+        {error && (
+          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+            <div className="flex-1">
+              <p className="font-medium">{error}</p>
             </div>
-            <span className="text-xl font-bold">ResumeBuilder</span>
-          </Link>
-          <CardTitle className="text-2xl">Create an account</CardTitle>
-          <CardDescription>Start building your professional resume today</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
-                {error}
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => setError('')}
+              className="text-red-400 hover:text-red-600"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        )}
 
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="John Doe"
-                value={formData.name}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  disabled={loading}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              {formData.password && (
-                <div className="space-y-1">
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <div
-                        key={i}
-                        className={`h-1 flex-1 rounded-full ${
-                          i <= passwordStrength.strength ? passwordStrength.color : 'bg-gray-200'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{passwordStrength.label}</p>
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  disabled={loading}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              {formData.confirmPassword && formData.password === formData.confirmPassword && (
-                <p className="text-xs text-green-600 flex items-center gap-1">
-                  <Check className="h-3 w-3" /> Passwords match
-                </p>
-              )}
-            </div>
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                'Create account'
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">Already have an account? </span>
-            <Link href="/login" className="text-primary hover:underline font-medium">
-              Sign in
-            </Link>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Full name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="John Doe"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:opacity-60"
+              disabled={loading}
+              required
+            />
           </div>
 
-          <p className="mt-4 text-xs text-center text-muted-foreground">
-            By creating an account, you agree to our{' '}
-            <Link href="/terms" className="underline hover:text-primary">Terms of Service</Link>
-            {' '}and{' '}
-            <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
-          </p>
-        </CardContent>
-      </Card>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:opacity-60"
+              disabled={loading}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10 disabled:opacity-60"
+                disabled={loading}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            {formData.password && (
+              <div className="space-y-1 mt-2">
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div
+                      key={i}
+                      className={`h-1 flex-1 rounded-full ${
+                        i <= passwordStrength.strength ? passwordStrength.color : 'bg-gray-200'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-gray-500">{passwordStrength.label}</p>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm password
+            </label>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10 disabled:opacity-60"
+                disabled={loading}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            {formData.confirmPassword && formData.password === formData.confirmPassword && (
+              <p className="text-xs text-green-600 flex items-center gap-1 mt-2">
+                <Check className="h-3 w-3" /> Passwords match
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              'Create account'
+            )}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          Already have an account?{' '}
+          <Link href="/login" className="text-blue-500 hover:underline">
+            Sign in
+          </Link>
+        </div>
+
+        <p className="mt-4 text-xs text-center text-gray-500">
+          By creating an account, you agree to our{' '}
+          <Link href="/terms" className="underline hover:text-blue-600">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link href="/privacy" className="underline hover:text-blue-600">
+            Privacy Policy
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

@@ -4,11 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Loader2, X } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,95 +39,102 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <Link href="/" className="inline-flex items-center justify-center gap-2 mb-4">
-            <div className="p-2 bg-primary rounded-lg">
-              <FileText className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold">ResumeBuilder</span>
-          </Link>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to your account to continue</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
-                {error}
-              </div>
-            )}
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-sm shadow-xl p-8 rounded-2xl border border-white/20">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-800">Welcome back</h2>
+          <p className="text-gray-500 mt-2">Sign in to your account</p>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                value={formData.email}
+        {error && (
+          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+            <div className="flex-1">
+              <p className="font-medium">{error}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setError('')}
+              className="text-red-400 hover:text-red-600"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:opacity-60"
+              placeholder="you@example.com"
+              disabled={loading}
+              required
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <Link href="/forgot-password" className="text-sm text-blue-500 hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10 disabled:opacity-60"
+                placeholder="••••••••"
                 disabled={loading}
                 required
               />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  disabled={loading}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              'Sign in'
+            )}
+          </button>
+        </form>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                'Sign in'
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
-            <Link href="/register" className="text-primary hover:underline font-medium">
-              Sign up
+        <div className="mt-6">
+          <p className="text-center text-sm text-gray-600 mt-4">
+            Don't have an account?{' '}
+            <Link href="/register" className="text-blue-500 hover:underline">
+              Register
             </Link>
-          </div>
-
-          {/* Demo credentials hint */}
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-xs text-blue-700 text-center">
-              <strong>Demo:</strong> Use any email and password to test
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
