@@ -1,7 +1,21 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { ArrowLeft, Eye, FileText, Loader2, Save, Share2 } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import {
+    ArrowLeft,
+    Eye,
+    FileText,
+    Loader2,
+    MoreVertical,
+    Save,
+    Share2,
+} from "lucide-react";
 
 const Navbar = ({
     title,
@@ -13,9 +27,9 @@ const Navbar = ({
     onSave,
 }) => {
     return (
-        <header className="bg-white border-b px-3 sm:px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0">
-            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-                <Button variant="ghost" size="sm" onClick={onBack}>
+        <header className="bg-white border-b px-3 sm:px-4 py-2 flex items-center justify-between gap-2 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                <Button variant="ghost" size="sm" onClick={onBack} className="hidden sm:inline-flex">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back
                 </Button>
@@ -31,16 +45,48 @@ const Navbar = ({
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                <Button variant="outline" size="sm" onClick={onPreview} className="gap-1 sm:gap-2 px-2 sm:px-3">
+            <div className="flex items-center gap-2 shrink-0">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onPreview}
+                    className="hidden sm:inline-flex gap-1 sm:gap-2 px-2 sm:px-3"
+                >
                     <Eye className="h-4 w-4" />
                     Preview
                 </Button>
 
-                <Button variant="outline" size="sm" onClick={onShare} className="gap-1 sm:gap-2 px-2 sm:px-3">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onShare}
+                    className="hidden sm:inline-flex gap-1 sm:gap-2 px-2 sm:px-3"
+                >
                     <Share2 className="h-4 w-4" />
-                    <span className="hidden sm:inline">Share</span>
+                    <span>Share</span>
                 </Button>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon" className="sm:hidden">
+                            <MoreVertical className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-40">
+                        <DropdownMenuItem onClick={onBack} className="gap-2">
+                            <ArrowLeft className="h-4 w-4" />
+                            Back
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={onPreview} className="gap-2">
+                            <Eye className="h-4 w-4" />
+                            Preview
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={onShare} className="gap-2">
+                            <Share2 className="h-4 w-4" />
+                            Share
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
                 <Button onClick={onSave} disabled={isSaving} size="sm" className="gap-1 sm:gap-2 px-2 sm:px-3">
                     {isSaving ? (

@@ -4,19 +4,40 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ResumeTemplate from '@/components/resume/ResumeTemplate';
 import { resumeAPI, pdfAPI } from '@/lib/api';
-import { ArrowLeft, Download, Printer, Loader2, Home, Lock } from 'lucide-react';
+import PreviewNavbar from '@/components/preview/PreviewNavbar';
+import { Loader2, Home, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 
 export default function PreviewPage() {
   const params = useParams();
   const router = useRouter();
   const { id } = params;
+  const { user, isAuthenticated } = useAuth();
 
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [unauthorized, setUnauthorized] = useState(false);
   const [pdfGenerating, setPdfGenerating] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+
+  const getUserId = (userData) =>
+    userData?._id || userData?.id || userData?.userId || null;
+
+  const getResumeOwnerId = (resumeData) => {
+    const owner = resumeData?.user || resumeData?.owner;
+
+    if (typeof owner === 'string') return owner;
+
+    return (
+      owner?._id ||
+      owner?.id ||
+      resumeData?.userId ||
+      resumeData?.ownerId ||
+      null
+    );
+  };
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -26,12 +47,43 @@ export default function PreviewPage() {
         setLoading(true);
         setError(null);
         setUnauthorized(false);
-        
-        const response = await resumeAPI.getById(id);
-        setResume(response.data.resume || response.data);
+        setIsOwner(false);
+
+        let resumeData = null;
+
+        try {
+          if (isAuthenticated) {
+            const response = await resumeAPI.getById(id);
+            resumeData = response.data.resume || response.data;
+          } else {
+            const response = await resumeAPI.getPublicById(id);
+            resumeData = response.data.resume || response.data;
+          }
+        } catch (primaryError) {
+          const publicResponse = await resumeAPI.getPublicById(id);
+          resumeData = publicResponse.data.resume || publicResponse.data;
+        }
+
+        if (!resumeData) {
+          setError('Resume not found');
+          return;
+        }
+
+        setResume(resumeData);
+
+        const currentUserId = getUserId(user);
+        const resumeOwnerId = getResumeOwnerId(resumeData);
+        setIsOwner(
+          Boolean(
+            isAuthenticated &&
+              currentUserId &&
+              resumeOwnerId &&
+              String(currentUserId) === String(resumeOwnerId)
+          )
+        );
       } catch (err) {
         console.error('Error loading resume:', err);
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           setUnauthorized(true);
         } else if (err.response?.status === 404) {
           setError('Resume not found');
@@ -44,11 +96,7 @@ export default function PreviewPage() {
     };
 
     fetchResume();
-  }, [id]);
-
-  const handlePrint = () => {
-    window.print();
-  };
+  }, [id, isAuthenticated, user]);
 
   const handleDownload = async () => {
     if (!resume?._id) return;
@@ -142,44 +190,13 @@ export default function PreviewPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Header - Hidden when printing */}
-      <div className="print:hidden bg-white border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.back()}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back
-            </button>
-            <span className="text-gray-300">|</span>
-            <h1 className="font-semibold text-gray-900">{resume.title || 'Resume Preview'}</h1>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handlePrint}
-              className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <Printer className="w-4 h-4" />
-              Print
-            </button>
-            <button
-              onClick={handleDownload}
-              disabled={pdfGenerating}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-              {pdfGenerating ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4" />
-              )}
-              {pdfGenerating ? 'Generating...' : 'Download PDF'}
-            </button>
-          </div>
-        </div>
-      </div>
+      <PreviewNavbar
+        title={resume.title}
+        showBackButton={isOwner}
+        onBack={() => router.back()}
+        onDownload={handleDownload}
+        pdfGenerating={pdfGenerating}
+      />
 
       {/* Resume Content */}
       <div className="max-w-4xl mx-auto py-8 px-4 print:p-0 print:max-w-none">
