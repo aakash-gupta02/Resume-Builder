@@ -5,8 +5,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useResume } from "@/context/ResumeContext";
 import { resumeAPI } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/editor/Navbar";
 import {
@@ -115,7 +113,7 @@ export default function EditorPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen lg:h-screen flex flex-col">
       {/* Top Navbar */}
       <Navbar
         title={resume.title}
@@ -128,32 +126,32 @@ export default function EditorPage() {
       />
 
       {/* Main Editor Area */}
-      <div className="flex-1 flex overflow-hidden p-4 ">
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden p-3 sm:p-4 gap-3 lg:gap-4">
         {/* Left Panel - Form/Customization */}
-        <div className="w-[550px] bg-white border-r flex flex-col shrink-0 overflow-hidden">
+        <div className="w-full lg:w-[520px] xl:w-[560px] bg-white border lg:border-r flex flex-col rounded-xl shrink-0 overflow-hidden min-h-[55vh] lg:min-h-0 lg:h-full">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
             className="flex-1 flex flex-col overflow-hidden"
           >
-            <TabsList className="w-full rounded-none border-b h-12 bg-transparent px-2 shrink-0">
+            <TabsList className="w-full rounded-none border-b h-auto min-h-12 bg-transparent px-2 py-1 shrink-0 grid grid-cols-3">
               <TabsTrigger
                 value="content"
-                className="flex-1 gap-2 data-[state=active]:bg-primary/10"
+                className="gap-1 sm:gap-2 data-[state=active]:bg-primary/10 text-xs sm:text-sm"
               >
                 <FileText className="h-4 w-4" />
                 Content
               </TabsTrigger>
               <TabsTrigger
                 value="customize"
-                className="flex-1 gap-2 data-[state=active]:bg-primary/10"
+                className="gap-1 sm:gap-2 data-[state=active]:bg-primary/10 text-xs sm:text-sm"
               >
                 <Palette className="h-4 w-4" />
                 Customize
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="flex-1 gap-2 data-[state=active]:bg-primary/10"
+                className="gap-1 sm:gap-2 data-[state=active]:bg-primary/10 text-xs sm:text-sm"
               >
                 <Settings className="h-4 w-4" />
                 Settings
@@ -161,15 +159,15 @@ export default function EditorPage() {
             </TabsList>
 
             <div className="flex-1 overflow-auto">
-              <TabsContent value="content" className="mt-0 p-4">
+              <TabsContent value="content" className="mt-0 p-3 sm:p-4">
                 <ResumeForm />
               </TabsContent>
 
-              <TabsContent value="customize" className="mt-0 p-4">
+              <TabsContent value="customize" className="mt-0 p-3 sm:p-4">
                 <CustomizationPanel />
               </TabsContent>
 
-              <TabsContent value="settings" className="mt-0 p-4">
+              <TabsContent value="settings" className="mt-0 p-3 sm:p-4">
                 <SettingsPanel />
               </TabsContent>
             </div>
@@ -177,8 +175,8 @@ export default function EditorPage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 overflow-auto py-8">
-          <div className="max-w-[850px] mx-auto">
+        <div className="flex-1 overflow-auto bg-white rounded-xl border px-2 sm:px-4 py-4 sm:py-6 lg:py-8 min-h-[55vh] lg:min-h-0">
+          <div className="max-w-[850px] mx-auto scale-[0.94] sm:scale-100 origin-top">
             <ResumeTemplate resume={resume} customization={customization} />
           </div>
         </div>
