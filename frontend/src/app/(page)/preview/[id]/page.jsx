@@ -141,7 +141,7 @@ export default function PreviewPage() {
   const customization = resume.template?.styles || {};
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       {/* Header - Hidden when printing */}
       <div className="print:hidden bg-white border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">

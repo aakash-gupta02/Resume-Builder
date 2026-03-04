@@ -115,7 +115,7 @@ export default function EditorPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="h-screen flex flex-col">
       {/* Top Navbar */}
       <header className="bg-white border-b px-4 py-2 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
