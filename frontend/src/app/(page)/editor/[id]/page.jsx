@@ -8,16 +8,12 @@ import { resumeAPI } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Navbar from "@/components/editor/Navbar";
 import {
-  ArrowLeft,
-  Save,
-  Download,
-  Eye,
   Palette,
   FileText,
   Settings,
   Loader2,
-  Share2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import ResumeForm from "@/components/editor/ResumeForm";
@@ -106,6 +102,10 @@ export default function EditorPage() {
     }
   };
 
+  const handleShare = () => {
+    toast.success("Share coming soon");
+  };
+
   if (authLoading || !isAuthenticated || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -117,56 +117,15 @@ export default function EditorPage() {
   return (
     <div className="h-screen flex flex-col">
       {/* Top Navbar */}
-      <header className="bg-white border-b px-4 py-2 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push("/dashboard")}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-
-          <div className="h-6 w-px bg-border" />
-
-          <div className="flex items-center gap-2">
-            <FileText className="h-5 w-5 text-primary" />
-            <span className="font-semibold">
-              {resume.title || "Untitled Resume"}
-            </span>
-            {hasUnsavedChanges && (
-              <span className="text-xs text-muted-foreground">(unsaved)</span>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handlePreview}>
-            <Eye className="h-4 w-4 mr-2" />
-            Preview
-          </Button>
-
-          <Button variant="outline" size="sm" onClick={handleDownload}>
-            <Download className="h-4 w-4 mr-2" />
-            Download
-          </Button>
-
-          <Button variant="outline" size="sm">
-            <Share2 className="h-4 w-4 mr-2" />
-            Share
-          </Button>
-
-          <Button onClick={handleSave} disabled={isSaving} size="sm">
-            {isSaving ? (
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4 mr-2" />
-            )}
-            Save
-          </Button>
-        </div>
-      </header>
+      <Navbar
+        title={resume.title}
+        hasUnsavedChanges={hasUnsavedChanges}
+        isSaving={isSaving}
+        onBack={() => router.push("/dashboard")}
+        onPreview={handlePreview}
+        onShare={handleShare}
+        onSave={handleSave}
+      />
 
       {/* Main Editor Area */}
       <div className="flex-1 flex overflow-hidden p-4 ">
