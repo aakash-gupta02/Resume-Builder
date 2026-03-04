@@ -7,6 +7,7 @@ import { resumeAPI } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import {
   Dialog,
   DialogContent,
@@ -24,8 +25,6 @@ import {
   Download,
   Eye,
   Share2,
-  LogOut,
-  User,
   Loader2,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -125,27 +124,11 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen">
       {/* Navbar */}
-      <nav className="bg-white border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <FileText className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold">ResumeBuilder</span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <User className="h-4 w-4" />
-                <span>{user?.name || user?.email}</span>
-              </div>
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <DashboardNavbar
+        user={user}
+        onLogout={handleLogout}
+        onOpenProfile={() => setActiveMenu(null)}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
