@@ -6,11 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Privacy", href: "#privacy" },
-    { name: "Terms", href: "#terms" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/about" },
+    { name: "Portfolio", href: "https://aakashgupta02.is-a.dev/", external: true },
+    { name: "GitHub", href: "https://github.com/aakash-gupta02", external: true },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -25,11 +24,11 @@ const Footer = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-4">
-                About This Project
+                About JobFolio
               </h3>
               <p className="text-[15px] leading-relaxed text-gray-600 max-w-md">
-                This resume builder was created to help developers showcase their skills and
-                experience in a professional format. Built with React and modern web technologies.
+                JobFolio is a personal learning project by Aakash Gupta. It helps developers
+                build structured resumes with live preview and clean export-ready layouts.
               </p>
             </div>
 
@@ -55,10 +54,10 @@ const Footer = () => {
 
           {/* Connect section */}
           <div className="flex flex-col md:items-end justify-center">
-            <div className="w-full md:max-w-sm p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Let's Connect</h3>
+            <div id="contact" className="w-full md:max-w-sm p-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Let&apos;s Connect</h3>
               <p className="text-sm text-gray-500 mb-6">
-                I'm always interested in new opportunities and collaborations.
+                I&apos;m always open to collaboration, backend-focused projects, and developer tooling ideas.
               </p>
 
               <Link
@@ -75,20 +74,32 @@ const Footer = () => {
         {/* Navigation & Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-200/50 gap-6">
           <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors">
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.external ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <a key={link.name} href={link.href} className="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors">
+                  {link.name}
+                </a>
+              )
+            )}
           </nav>
           <p className="text-xs font-medium text-gray-400">
-            © {currentYear} Made with ❤️ by <span className="text-gray-900 font-bold">Aakash</span>
+            © {currentYear} Built by <span className="text-gray-900 font-bold">Aakash Gupta</span>
           </p>
         </div>
       </div>
 
       {/* Big Background Branding */}
-      <div className="absolute bottom-[-40px] left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden">
+      <div className="absolute -bottom-10 left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden">
         <h1
           className="text-[16vw] font-extrabold tracking-tight leading-none"
           style={{

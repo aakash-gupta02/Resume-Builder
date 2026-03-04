@@ -9,24 +9,20 @@ import {
   X,
   User,
   LayoutDashboard,
-  Star,
-  Info,
   LogOut,
 } from "lucide-react";
 
 // Navigation items array
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Our Work", href: "/our-work" },
-  { label: "Contact Us", href: "/contact" },
+  { label: "Features", href: "/#features" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/#contact" },
+  { label: "Portfolio", href: "https://aakashgupta02.is-a.dev/", external: true },
 ];
 
 // Profile dropdown menu items
 const profileMenuItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Reviews", href: "/reviews", icon: Star },
-  { label: "About Us", href: "/about", icon: Info },
 ];
 
 const Navbar = () => {
@@ -87,10 +83,23 @@ const Navbar = () => {
         {/* Desktop Menu - mapped from navItems */}
         <div className="hidden sm:flex sm:items-center gap-6 text-gray-700 sm:text-sm">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="relative group">
-              {item.label}
-              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
-            </Link>
+            item.external ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative group"
+              >
+                {item.label}
+                <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </a>
+            ) : (
+              <Link key={item.href} href={item.href} className="relative group">
+                {item.label}
+                <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
+            )
           ))}
         </div>
 
@@ -197,14 +206,27 @@ const Navbar = () => {
         {/* Mobile Menu Items - mapped from navItems */}
         <div className="flex flex-col gap-4">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="hover:text-blue-600 transition-colors"
-            >
-              {item.label}
-            </Link>
+            item.external ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="hover:text-blue-600 transition-colors"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="hover:text-blue-600 transition-colors"
+              >
+                {item.label}
+              </Link>
+            )
           ))}
         </div>
 
@@ -232,23 +254,6 @@ const Navbar = () => {
                   {user?.email || ""}
                 </div>
               </div>
-            </div>
-
-            {/* Mobile profile menu - mapped from profileMenuItems (excluding Dashboard) */}
-            <div className="flex flex-col gap-2">
-              {profileMenuItems
-                .filter((item) => item.href !== "/dashboard")
-                .map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <item.icon size={18} className="text-blue-500" />
-                    {item.label}
-                  </Link>
-                ))}
             </div>
 
             <button
