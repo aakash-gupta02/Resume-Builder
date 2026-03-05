@@ -8,7 +8,11 @@ const PreviewPage = () => {
   const { resume, customization } = useResume();
   
   return (
-    <ResumeTemplate resume={resume} customization={customization} />
+    <div className="py-8 px-4 overflow-auto">
+      <div className="w-fit mx-auto shadow-lg">
+        <ResumeTemplate resume={resume} customization={customization} />
+      </div>
+    </div>
   );
 };
 

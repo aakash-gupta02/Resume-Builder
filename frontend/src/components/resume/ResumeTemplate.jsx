@@ -62,7 +62,9 @@ export default function ResumeTemplate({ resume, customization: customizationPro
         lineHeight: typography.lineHeight || 1.5,
         letterSpacing: `${typography.letterSpacing || 0}em`,
         padding: `${spacing.pageMargin || 40}px`,
-        minHeight: '100%',
+        width: '794px',
+        minHeight: '1123px',
+        boxSizing: 'border-box',
       },
       heading: {
         fontFamily: getFontFamily(typography.headingFont || 'Inter'),
@@ -111,7 +113,7 @@ export default function ResumeTemplate({ resume, customization: customizationPro
 
   return (
     <div
-      className="resume-preview w-full h-full overflow-auto"
+      className="resume-preview"
       style={styles.page}
     >
       {/* Load Google Fonts dynamically */}

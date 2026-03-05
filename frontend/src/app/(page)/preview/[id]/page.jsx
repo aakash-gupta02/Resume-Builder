@@ -199,8 +199,8 @@ export default function PreviewPage() {
       />
 
       {/* Resume Content */}
-      <div className="max-w-4xl mx-auto py-8 px-4 print:p-0 print:max-w-none">
-        <div className="bg-white shadow-lg print:shadow-none">
+      <div className="py-8 px-4 print:p-0 overflow-auto">
+        <div className="w-fit mx-auto shadow-lg print:shadow-none">
           <ResumeTemplate 
             resume={resume} 
             customization={customization} 

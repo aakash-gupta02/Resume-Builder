@@ -175,8 +175,8 @@ export default function EditorPage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 overflow-auto bg-white rounded-xl border px-2 sm:px-4 py-4 sm:py-6 lg:py-8 min-h-[55vh] lg:min-h-0">
-          <div className="max-w-[850px] mx-auto scale-[0.94] sm:scale-100 origin-top">
+        <div className="flex-1 overflow-auto bg-white rounded-xl border p-4 sm:p-6 lg:p-8 min-h-[55vh] lg:min-h-0">
+          <div className="w-fit mx-auto">
             <ResumeTemplate resume={resume} customization={customization} />
           </div>
         </div>
