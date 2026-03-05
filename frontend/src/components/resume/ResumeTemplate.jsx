@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { defaultCustomization } from '@/context/ResumeContext';
-import GoogleFontsLoader, { getFontFamily } from './GoogleFontsLoader';
+import { getFontClassName, getFontFamily } from './GoogleFontsLoader';
 import {
   Mail,
   Phone,
@@ -52,12 +52,14 @@ export default function ResumeTemplate({ resume, customization: customizationPro
     const spacing = customization.spacing || {};
     const sectionStyles = customization.sectionStyles || {};
     const options = customization.options || {};
+    const bodyFont = typography.bodyFont || 'Inter';
+    const headingFont = typography.headingFont || 'Inter';
 
     return {
       page: {
         backgroundColor: colors.background || '#ffffff',
         color: colors.text || '#1f2937',
-        fontFamily: getFontFamily(typography.bodyFont || 'Inter'),
+        fontFamily: getFontFamily(bodyFont),
         fontSize: `${typography.baseFontSize || 14}px`,
         lineHeight: typography.lineHeight || 1.5,
         letterSpacing: `${typography.letterSpacing || 0}em`,
@@ -67,12 +69,14 @@ export default function ResumeTemplate({ resume, customization: customizationPro
         boxSizing: 'border-box',
       },
       heading: {
-        fontFamily: getFontFamily(typography.headingFont || 'Inter'),
+        fontFamily: getFontFamily(headingFont),
         color: colors.heading || '#111827',
         fontSize: `${(typography.baseFontSize || 14) * (typography.headingSizeScale || 1.2)}px`,
         textTransform: options.capitalizeHeadings ? 'uppercase' : 'none',
         letterSpacing: options.capitalizeHeadings ? '0.05em' : 'inherit',
       },
+      bodyFontClassName: getFontClassName(bodyFont),
+      headingFontClassName: getFontClassName(headingFont),
       sectionHeading: getSectionHeadingStyle(sectionStyles, colors),
       primary: colors.primary || '#2563eb',
       accent: colors.accent || '#3b82f6',
@@ -103,17 +107,11 @@ export default function ResumeTemplate({ resume, customization: customizationPro
   const layoutType = customization.layout?.columns || 'single';
   const isMultiColumn = layoutType !== 'single';
 
-  const fontsToLoad = [
-    customization.typography?.bodyFont,
-    customization.typography?.headingFont,
-  ].filter((font, index, arr) => font && arr.indexOf(font) === index);
-
   return (
     <div
-      className="resume-preview"
+      className={`resume-preview ${styles.bodyFontClassName}`}
       style={styles.page}
     >
-      <GoogleFontsLoader fonts={fontsToLoad} />
       {/* Header / Profile Section */}
       {profile?.visible && (
         <Header
@@ -237,14 +235,14 @@ function Header({ profile, customization, styles }) {
         {/* Name and Title */}
         <div className={headerStyle === 'classic' ? '' : 'flex-1'}>
           <h1
-            className="text-2xl font-bold mb-1"
+            className={`text-2xl font-bold mb-1 ${styles.headingFontClassName}`}
             style={{ ...styles.heading, fontSize: `${(customization.typography?.baseFontSize || 14) * 2}px` }}
           >
             {content.fullName || 'Your Name'}
           </h1>
           {content.jobTitle && (
             <p
-              className="text-lg font-medium mb-3"
+              className={`text-lg font-medium mb-3 ${styles.headingFontClassName}`}
               style={{ color: styles.primary }}
             >
               {content.jobTitle}
@@ -333,7 +331,7 @@ function Section({ title, children, styles, icon }) {
       {title && (
         <div className="flex items-center gap-2" style={styles.sectionHeading}>
           {icon && <span style={{ color: styles.primary }}>{icon}</span>}
-          <h2 style={styles.heading}>{title}</h2>
+          <h2 className={styles.headingFontClassName} style={styles.heading}>{title}</h2>
         </div>
       )}
       <div style={{ paddingLeft: styles.contentPadding }}>{children}</div>

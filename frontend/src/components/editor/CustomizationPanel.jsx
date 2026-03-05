@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { getFontClassName, getFontFamily } from '@/components/resume/GoogleFontsLoader';
 import { 
   Palette, 
   Type, 
@@ -214,12 +215,23 @@ export default function CustomizationPanel() {
                   <SelectContent>
                     {fontOptions.map((font) => (
                       <SelectItem key={font.value} value={font.value}>
-                        <span style={{ fontFamily: font.value }}>{font.label}</span>
+                        <span
+                          className={getFontClassName(font.value)}
+                          style={{ fontFamily: getFontFamily(font.value) }}
+                        >
+                          {font.label}
+                        </span>
                         <span className="text-xs text-muted-foreground ml-2">({font.category})</span>
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                <p
+                  className={`text-xs text-muted-foreground mt-1.5 ${getFontClassName(customization.typography?.headingFont || 'Inter')}`}
+                  style={{ fontFamily: getFontFamily(customization.typography?.headingFont || 'Inter') }}
+                >
+                  Preview: The quick brown fox jumps over the lazy dog
+                </p>
               </div>
 
               <div>
@@ -234,12 +246,23 @@ export default function CustomizationPanel() {
                   <SelectContent>
                     {fontOptions.map((font) => (
                       <SelectItem key={font.value} value={font.value}>
-                        <span style={{ fontFamily: font.value }}>{font.label}</span>
+                        <span
+                          className={getFontClassName(font.value)}
+                          style={{ fontFamily: getFontFamily(font.value) }}
+                        >
+                          {font.label}
+                        </span>
                         <span className="text-xs text-muted-foreground ml-2">({font.category})</span>
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                <p
+                  className={`text-xs text-muted-foreground mt-1.5 ${getFontClassName(customization.typography?.bodyFont || 'Inter')}`}
+                  style={{ fontFamily: getFontFamily(customization.typography?.bodyFont || 'Inter') }}
+                >
+                  Preview: The quick brown fox jumps over the lazy dog
+                </p>
               </div>
 
               <div>

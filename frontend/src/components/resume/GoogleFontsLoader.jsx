@@ -1,23 +1,54 @@
-import { useEffect } from 'react';
+import {
+  Fira_Code,
+  Inter,
+  JetBrains_Mono,
+  Lato,
+  Lora,
+  Merriweather,
+  Montserrat,
+  Nunito,
+  Open_Sans,
+  Playfair_Display,
+  Poppins,
+  Raleway,
+  Roboto,
+  Source_Sans_3,
+  Ubuntu,
+} from 'next/font/google';
 
-// Map of font names to their Google Fonts family parameter
-const googleFontsMap = {
-  'Inter': 'Inter:wght@300;400;500;600;700',
-  'Roboto': 'Roboto:wght@300;400;500;700',
-  'Open Sans': 'Open+Sans:wght@300;400;500;600;700',
-  'Lato': 'Lato:wght@300;400;700',
-  'Poppins': 'Poppins:wght@300;400;500;600;700',
-  'Montserrat': 'Montserrat:wght@300;400;500;600;700',
-  'Source Sans Pro': 'Source+Sans+3:wght@300;400;500;600;700',
-  'Source Sans 3': 'Source+Sans+3:wght@300;400;500;600;700',
-  'Nunito': 'Nunito:wght@300;400;500;600;700',
-  'Raleway': 'Raleway:wght@300;400;500;600;700',
-  'Playfair Display': 'Playfair+Display:wght@400;500;600;700',
-  'Merriweather': 'Merriweather:wght@300;400;700',
-  'Lora': 'Lora:wght@400;500;600;700',
-  'Fira Code': 'Fira+Code:wght@300;400;500;600;700',
-  'JetBrains Mono': 'JetBrains+Mono:wght@300;400;500;600;700',
-  'Ubuntu': 'Ubuntu:wght@300;400;500;700',
+const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'], display: 'swap' });
+const openSans = Open_Sans({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const lato = Lato({ subsets: ['latin'], weight: ['300', '400', '700'], display: 'swap' });
+const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const sourceSans3 = Source_Sans_3({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const nunito = Nunito({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const raleway = Raleway({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const playfairDisplay = Playfair_Display({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
+const merriweather = Merriweather({ subsets: ['latin'], weight: ['300', '400', '700'], display: 'swap' });
+const lora = Lora({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
+const firaCode = Fira_Code({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], display: 'swap' });
+const ubuntu = Ubuntu({ subsets: ['latin'], weight: ['300', '400', '500', '700'], display: 'swap' });
+
+const nextGoogleFontsMap = {
+  Inter: inter,
+  Roboto: roboto,
+  'Open Sans': openSans,
+  Lato: lato,
+  Poppins: poppins,
+  Montserrat: montserrat,
+  'Source Sans Pro': sourceSans3,
+  'Source Sans 3': sourceSans3,
+  Nunito: nunito,
+  Raleway: raleway,
+  'Playfair Display': playfairDisplay,
+  Merriweather: merriweather,
+  Lora: lora,
+  'Fira Code': firaCode,
+  'JetBrains Mono': jetBrainsMono,
+  Ubuntu: ubuntu,
 };
 
 // CSS font-family values with proper fallbacks
@@ -43,31 +74,14 @@ export const fontFamilyMap = {
 };
 
 /**
- * Component to dynamically load Google Fonts
- * @param {Object} props
- * @param {string[]} props.fonts - Array of font names to load
+ * Kept for backwards compatibility after switching to next/font/google.
  */
-export default function GoogleFontsLoader({ fonts = [] }) {
-  useEffect(() => {
-    if (!fonts || fonts.length === 0) return;
-
-    const googleFonts = [...new Set(fonts.filter((font) => googleFontsMap[font]))];
-    if (googleFonts.length === 0) return;
-
-    const fontFamilies = googleFonts.map((font) => googleFontsMap[font]).join('&family=');
-    const fontsUrl = `https://fonts.googleapis.com/css2?family=${fontFamilies}&display=swap`;
-
-    const existingLink = document.querySelector(`link[href="${fontsUrl}"]`);
-    if (existingLink) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = fontsUrl;
-    link.setAttribute('data-google-fonts', 'true');
-    document.head.appendChild(link);
-  }, [fonts]);
-
+export default function GoogleFontsLoader() {
   return null;
+}
+
+export function getFontClassName(fontName) {
+  return nextGoogleFontsMap[fontName]?.className || '';
 }
 
 /**
@@ -76,5 +90,14 @@ export default function GoogleFontsLoader({ fonts = [] }) {
  * @returns {string} - CSS font-family value with fallbacks
  */
 export function getFontFamily(fontName) {
+  const nextFont = nextGoogleFontsMap[fontName];
+  if (nextFont?.style?.fontFamily) {
+    return `${nextFont.style.fontFamily}, ${fontFamilyMap[fontName] || 'system-ui, sans-serif'}`;
+  }
+
   return fontFamilyMap[fontName] || `"${fontName}", system-ui, sans-serif`;
+}
+
+export function getFontStyle(fontName) {
+  return { fontFamily: getFontFamily(fontName) };
 }
