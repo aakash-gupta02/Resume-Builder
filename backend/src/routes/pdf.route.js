@@ -36,12 +36,24 @@ router.post("/generate/:id", conditionalAuth, async (req, res) => {
     const baseUrl = config.frontendUrl || "http://localhost:3000";
     
     const previewUrl = `${baseUrl}/puppeteer/${id}`;
-    console.log(`Generating PDF from: ${previewUrl}`);
 
     await page.goto(previewUrl, {
       waitUntil: "networkidle0",
       timeout: 60000,
     });
+
+    await page.waitForSelector(".resume-preview", { timeout: 30000 });
+
+    await page.evaluate(async () => {
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+    });
+
+    await page.waitForFunction(() => {
+      if (!document.fonts) return true;
+      return document.fonts.status === "loaded";
+    }, { timeout: 30000 });
 
     const pdfBuffer = await page.pdf({
       format: "A4",
@@ -56,8 +68,6 @@ router.post("/generate/:id", conditionalAuth, async (req, res) => {
       `attachment; filename="resume-${id}.pdf"`
     );
     res.send(pdfBuffer);
-
-    console.log("✅ Resume PDF generated");
   } catch (error) {
     console.error("PDF Generation Error:", error.message);
     if (browser) await browser.close();

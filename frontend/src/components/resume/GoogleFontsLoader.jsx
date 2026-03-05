@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect } from 'react';
 
 // Map of font names to their Google Fonts family parameter
@@ -10,7 +8,8 @@ const googleFontsMap = {
   'Lato': 'Lato:wght@300;400;700',
   'Poppins': 'Poppins:wght@300;400;500;600;700',
   'Montserrat': 'Montserrat:wght@300;400;500;600;700',
-  'Source Sans Pro': 'Source+Sans+3:wght@300;400;500;600;700', // Updated to Source Sans 3
+  'Source Sans Pro': 'Source+Sans+3:wght@300;400;500;600;700',
+  'Source Sans 3': 'Source+Sans+3:wght@300;400;500;600;700',
   'Nunito': 'Nunito:wght@300;400;500;600;700',
   'Raleway': 'Raleway:wght@300;400;500;600;700',
   'Playfair Display': 'Playfair+Display:wght@400;500;600;700',
@@ -18,6 +17,7 @@ const googleFontsMap = {
   'Lora': 'Lora:wght@400;500;600;700',
   'Fira Code': 'Fira+Code:wght@300;400;500;600;700',
   'JetBrains Mono': 'JetBrains+Mono:wght@300;400;500;600;700',
+  'Ubuntu': 'Ubuntu:wght@300;400;500;700',
 };
 
 // CSS font-family values with proper fallbacks
@@ -29,6 +29,7 @@ export const fontFamilyMap = {
   'Poppins': '"Poppins", system-ui, sans-serif',
   'Montserrat': '"Montserrat", system-ui, sans-serif',
   'Source Sans Pro': '"Source Sans 3", "Source Sans Pro", system-ui, sans-serif',
+  'Source Sans 3': '"Source Sans 3", "Source Sans Pro", system-ui, sans-serif',
   'Nunito': '"Nunito", system-ui, sans-serif',
   'Raleway': '"Raleway", system-ui, sans-serif',
   'Playfair Display': '"Playfair Display", Georgia, serif',
@@ -38,6 +39,7 @@ export const fontFamilyMap = {
   'Times New Roman': '"Times New Roman", Times, serif',
   'Fira Code': '"Fira Code", "Courier New", monospace',
   'JetBrains Mono': '"JetBrains Mono", "Courier New", monospace',
+  'Ubuntu': '"Ubuntu", system-ui, sans-serif',
 };
 
 /**
@@ -49,29 +51,20 @@ export default function GoogleFontsLoader({ fonts = [] }) {
   useEffect(() => {
     if (!fonts || fonts.length === 0) return;
 
-    // Filter to only Google Fonts (exclude system fonts like Georgia, Times New Roman)
-    const googleFonts = fonts.filter(font => googleFontsMap[font]);
-    
+    const googleFonts = [...new Set(fonts.filter((font) => googleFontsMap[font]))];
     if (googleFonts.length === 0) return;
 
-    // Build the Google Fonts URL
-    const fontFamilies = googleFonts.map(font => googleFontsMap[font]).join('&family=');
+    const fontFamilies = googleFonts.map((font) => googleFontsMap[font]).join('&family=');
     const fontsUrl = `https://fonts.googleapis.com/css2?family=${fontFamilies}&display=swap`;
 
-    // Check if this link already exists
     const existingLink = document.querySelector(`link[href="${fontsUrl}"]`);
     if (existingLink) return;
 
-    // Create and append the link element
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = fontsUrl;
     link.setAttribute('data-google-fonts', 'true');
     document.head.appendChild(link);
-
-    return () => {
-      // Cleanup on unmount (optional - fonts are cached anyway)
-    };
   }, [fonts]);
 
   return null;

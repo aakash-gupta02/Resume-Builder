@@ -103,20 +103,16 @@ export default function ResumeTemplate({ resume, customization: customizationPro
   const layoutType = customization.layout?.columns || 'single';
   const isMultiColumn = layoutType !== 'single';
 
-  // Collect fonts to load
-  const fontsToLoad = useMemo(() => {
-    const fonts = new Set();
-    if (customization.typography?.bodyFont) fonts.add(customization.typography.bodyFont);
-    if (customization.typography?.headingFont) fonts.add(customization.typography.headingFont);
-    return Array.from(fonts);
-  }, [customization.typography?.bodyFont, customization.typography?.headingFont]);
+  const fontsToLoad = [
+    customization.typography?.bodyFont,
+    customization.typography?.headingFont,
+  ].filter((font, index, arr) => font && arr.indexOf(font) === index);
 
   return (
     <div
       className="resume-preview"
       style={styles.page}
     >
-      {/* Load Google Fonts dynamically */}
       <GoogleFontsLoader fonts={fontsToLoad} />
       {/* Header / Profile Section */}
       {profile?.visible && (
