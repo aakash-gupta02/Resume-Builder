@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import ResumeTemplate from '@/components/resume/ResumeTemplate';
 import { resumeAPI, pdfAPI } from '@/lib/api';
 import PreviewNavbar from '@/components/preview/PreviewNavbar';
+import ResumeViewport from '@/components/resume/ResumeViewport';
 import { Loader2, Home, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
@@ -200,12 +201,14 @@ export default function PreviewPage() {
 
       {/* Resume Content */}
       <div className="py-8 px-4 print:p-0 overflow-auto">
-        <div className="w-fit mx-auto shadow-lg print:shadow-none">
-          <ResumeTemplate 
-            resume={resume} 
-            customization={customization} 
-          />
-        </div>
+        <ResumeViewport className="print:w-auto">
+          <div className="shadow-lg print:shadow-none">
+            <ResumeTemplate 
+              resume={resume} 
+              customization={customization} 
+            />
+          </div>
+        </ResumeViewport>
       </div>
     </div>
   );

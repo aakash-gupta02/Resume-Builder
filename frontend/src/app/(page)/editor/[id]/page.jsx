@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import ResumeForm from "@/components/editor/ResumeForm";
 import CustomizationPanel from "@/components/editor/CustomizationPanel";
 import ResumeTemplate from "@/components/resume/ResumeTemplate";
+import ResumeViewport from "@/components/resume/ResumeViewport";
 
 export default function EditorPage() {
   const { id } = useParams();
@@ -128,7 +129,7 @@ export default function EditorPage() {
       {/* Main Editor Area */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden p-3 sm:p-4 gap-3 lg:gap-4">
         {/* Left Panel - Form/Customization */}
-        <div className="w-full lg:w-[520px] xl:w-[560px] bg-white border lg:border-r flex flex-col rounded-xl shrink-0 overflow-hidden min-h-[55vh] lg:min-h-0 lg:h-full">
+        <div className="w-full lg:w-[460px] xl:w-[700px] bg-white border lg:border-r flex flex-col rounded-xl shrink-0 overflow-hidden min-h-[55vh] lg:min-h-0 lg:h-full">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
@@ -175,10 +176,10 @@ export default function EditorPage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 overflow-auto bg-white rounded-xl border p-4 sm:p-6 lg:p-8 min-h-[55vh] lg:min-h-0">
-          <div className="w-fit mx-auto">
+        <div className="flex-1 overflow-auto rounded-xl border p-4 sm:p-6 lg:p-8 min-h-[55vh] lg:min-h-0">
+          <ResumeViewport>
             <ResumeTemplate resume={resume} customization={customization} />
-          </div>
+          </ResumeViewport>
         </div>
       </div>
     </div>
