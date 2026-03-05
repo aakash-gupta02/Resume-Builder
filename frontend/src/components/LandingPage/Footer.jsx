@@ -61,7 +61,7 @@ const Footer = () => {
               </p>
 
               <Link
-                href="/resume/preview/689a1c11bbb7bab568b7e203"
+                href="preview/69a91c90d85011436afff1b2"
                 className="group relative inline-flex items-center justify-center w-full text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98]"
               >
                 <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
