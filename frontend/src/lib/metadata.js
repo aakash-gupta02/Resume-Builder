@@ -119,13 +119,13 @@ export const pageMetadata = {
     title: "Shared Resume Preview | JobFolio",
     description: "View a resume preview generated with JobFolio.",
     keywords: ["shared resume", "resume link", "resume preview"],
-    ogImage: "/meta/preview-shared-og.png",
+    ogImage: "/meta/preview-og.png",
   },
   "/puppeteer/[id]": {
     title: "Resume Render | JobFolio",
     description: "Internal page used to render resumes for PDF generation.",
     keywords: ["puppeteer", "pdf", "resume render"],
-    ogImage: "/meta/pdf-render-og.png",
+    ogImage: "/meta/preview-og.png",
   },
 };
 
