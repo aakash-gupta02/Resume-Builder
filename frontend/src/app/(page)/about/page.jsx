@@ -2,10 +2,6 @@ import BackgroundComponent from "@/components/LandingPage/BackgroundComponent";
 import Navbar from "@/components/LandingPage/Navbar";
 import Link from "next/link";
 
-export const metadata = {
-    title: "About | JobFolio",
-};
-
 const highlights = [
     "Full Stack Developer based in Mumbai, India",
     "Focused on scalable backend architecture and system design",

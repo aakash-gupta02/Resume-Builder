@@ -2,6 +2,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
+import {
+  generateMetadata as getMetadata,
+  generateViewport,
+} from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,10 +17,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Resume Builder - Create Professional Resumes",
-  description: "Build stunning, customizable resumes with our modern resume builder",
-};
+export const metadata = getMetadata("/");
+
+export const viewport = generateViewport();
 
 export default function RootLayout({ children }) {
   return (
