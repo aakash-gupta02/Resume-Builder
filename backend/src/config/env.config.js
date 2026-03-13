@@ -17,6 +17,8 @@ export const config = {
     "http://localhost:3000",
     "https://jobfolio-customfont.vercel.app",
     "https://jobfolio-another.vercel.app",
+    "https://jobfolioo.vercel.app",
+    "https://jobfolio.d3labs.tech"
   ].filter(Boolean),
 
   frontendUrl: process.env.FRONTEND_URL,
