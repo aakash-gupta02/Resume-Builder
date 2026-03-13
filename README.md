@@ -20,16 +20,16 @@ A full-stack web application for creating, editing, and sharing professional res
 ## Screenshots
 
 ### Landing Page
-[![Screenshot-2025-08-17-163104.png](https://i.postimg.cc/50j2mfKw/Screenshot-2025-08-17-163104.png)](https://postimg.cc/zbZNzYrB)
+<img width="1440" height="780" alt="Image" src="https://github.com/user-attachments/assets/36df1a57-21f0-4261-9fd8-a3e13882abf9" />
 
 ### Resume Editor
-[![Screenshot-2025-08-26-225232.png](https://i.postimg.cc/R0JSYvz9/Screenshot-2025-08-26-225232.png)](https://postimg.cc/mcRWzfD6)
+<img width="1440" height="774" alt="Image" src="https://github.com/user-attachments/assets/1e0583a5-973f-4256-8666-896c1e81475e" />
 
 ### PDF Preview
-[![Screenshot-2025-08-26-225306.png](https://i.postimg.cc/y8b6nktv/Screenshot-2025-08-26-225306.png)](https://postimg.cc/xXLS1T0z)
+<img width="1440" height="780" alt="Image" src="https://github.com/user-attachments/assets/22a5eaa0-873a-4c08-9655-95b547210cfb" />
 
 ### Full Landing Page
-[![screencapture-localhost-5173-2025-08-17-16-27-52.png](https://i.postimg.cc/SKkXcFpr/screencapture-localhost-5173-2025-08-17-16-27-52.png)](https://postimg.cc/pmcXtSrh)
+[<img width="800" alt="Full Landing Page Preview" src="https://github.com/user-attachments/assets/be603636-2899-4105-9a9a-46bb8bdcd9fa">](https://postimg.cc/pmcXtSrh)
 
 ---
 
